@@ -1,0 +1,25 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 41px;
+  border: 1px solid #5351a5;
+  background: #222844;
+  width: 100%;
+  height: 100%;
+}
+
+.avatar {
+  margin-bottom: 27px;
+}
+
+.description {
+  color: #fff;
+  text-align: center;
+  font-size: 32px;
+  font-weight: 500;
+
+  margin-bottom: 53px;
+}
