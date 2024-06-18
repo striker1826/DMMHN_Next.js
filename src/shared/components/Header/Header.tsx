@@ -16,7 +16,7 @@ const Header = () => {
       </nav>
       <div className={styles.menu}>
         {/* TODO: src를 user의 profile로 교체할 것 */}
-        <Image src="https://cdn-icons-png.flaticon.com/512/4715/4715330.png" width={39} height={39} alt="profile" />
+        <Image src="https://cdn-icons-png.flaticon.com/512/4715/4715330.png" width={32} height={32} alt="profile" />
         <button className={styles.hamburger}>
           <RxHamburgerMenu size={32} />
         </button>
