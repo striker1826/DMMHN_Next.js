@@ -5,9 +5,17 @@ import { useKakaoLogin } from '@/models/auth/queries/kakaoLogin';
 import { setCookie } from '@/shared/utils/cookies';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 
 const page = () => {
+  return (
+    <Suspense fallback={<div>...loading</div>}>
+      <KakaoRedirectComponent />
+    </Suspense>
+  );
+};
+
+const KakaoRedirectComponent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const code = searchParams.get('code');
@@ -27,6 +35,8 @@ const page = () => {
       router.push('/');
     }
   }, [isFetched, data?.data, router]);
+
+  return <div>redirect</div>;
 };
 
 export default page;
