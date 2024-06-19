@@ -9,6 +9,10 @@ const nextConfig = {
       },
     ],
   },
+  env: {
+    KAKAO_CLIENT_ID: process.env.KAKAO_CLIENT_ID,
+    KAKAO_REDIRECT_URI: process.env.REDIRECT_URI,
+  },
 };
 
 export default nextConfig;
