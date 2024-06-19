@@ -4,7 +4,6 @@ const page = () => {
   return (
     <>
       <div>dev-preview</div>
-      <Header />
     </>
   );
 };

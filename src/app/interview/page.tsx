@@ -4,12 +4,9 @@ import { Simulation } from "@/widgets/interview";
 
 const page = () => {
   return (
-    <>
-      <Header />
-      <main className={styles.layout}>
-        <Simulation />
-      </main>
-    </>
+    <main className={styles.layout}>
+      <Simulation />
+    </main>
   );
 };
 
