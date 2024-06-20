@@ -1,6 +1,5 @@
-import styles from "./page.module.scss";
-import Header from "@/shared/components/Header/Header";
-import { Simulation } from "@/widgets/interview";
+import styles from './page.module.scss';
+import { Simulation } from '@/widgets/interview';
 
 const page = () => {
   return (

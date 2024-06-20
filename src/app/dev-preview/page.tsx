@@ -1,4 +1,4 @@
-import Header from "@/shared/components/Header/Header";
+import Header from '@/widgets/Header/Header';
 
 const page = () => {
   return (

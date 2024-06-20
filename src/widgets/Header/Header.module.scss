@@ -24,7 +24,7 @@
 
   margin-right: 20px;
 
-  & p {
+  p {
     color: #000;
     font-size: 24px;
     font-weight: 800;
@@ -37,13 +37,45 @@
   gap: 31px;
 }
 
+.profile_img {
+  border-radius: 50%;
+}
+
 .hamburger {
   border: none;
   background-color: transparent;
 }
 
+.login {
+  padding: 12px 52px;
+  border-radius: 31px;
+  border: 1px solid #025729;
+
+  p {
+    color: #025729;
+    font-size: 20px;
+    font-weight: 400;
+  }
+}
+
 @media (max-width: 1280px) and (min-width: 781px) {
   .layout {
     padding: 0px 20px;
+  }
+}
+
+@media (max-width: 780px) {
+  .layout {
+    padding: 0px 20px;
+  }
+
+  .logo p {
+    display: none;
+  }
+
+  .nav {
+    :not(:first-child) {
+      display: none;
+    }
   }
 }

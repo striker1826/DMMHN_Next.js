@@ -7,5 +7,5 @@ export const setCookie = (key: string, data: string) => {
 };
 
 export const getCookie = (data: string) => {
-  cookies.get(data);
+  return cookies.get(data);
 };

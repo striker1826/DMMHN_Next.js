@@ -1,8 +1,10 @@
 'use client';
 
+import { authApi } from '@/api/auth/kakaoLogin';
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useKakaoLogin } from '@/models/auth/queries/kakaoLogin';
+
 import { setCookie } from '@/shared/utils/cookies';
+import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
@@ -25,16 +27,20 @@ const KakaoRedirectComponent = () => {
     return;
   }
 
-  const { data, isFetched } = useKakaoLogin(code);
+  const { data, isFetched } = useQuery(authApi.queryOptions({ code }));
 
   useEffect(() => {
-    if (isFetched) {
-      const access_token = data?.data.access_token;
-      setCookie('token', access_token);
-
-      router.push('/');
+    if (isFetched && data) {
+      if (data.access_token) {
+        const access_token = data?.access_token;
+        setCookie('token', access_token);
+        router.push('/');
+      } else {
+        alert('로그인 실패');
+        router.push('/signin');
+      }
     }
-  }, [isFetched, data?.data, router]);
+  }, [isFetched, data, router]);
 
   return <div>redirect</div>;
 };
