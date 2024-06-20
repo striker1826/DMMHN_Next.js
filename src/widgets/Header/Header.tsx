@@ -3,7 +3,6 @@
 import styles from './Header.module.scss';
 import logo from '../../../public/Logo.png';
 import Image from 'next/image';
-import { RxHamburgerMenu } from 'react-icons/rx';
 import { userApi } from '@/api/user/userApi';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';

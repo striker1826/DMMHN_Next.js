@@ -1,3 +1,4 @@
+import Header from '@/widgets/Header/Header';
 import '../globals.css';
 
 export const metadata = {
@@ -6,5 +7,10 @@ export const metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <body>{children}</body>;
+  return (
+    <body lang="ko">
+      <Header />
+      {children}
+    </body>
+  );
 }
