@@ -1,3 +1,3 @@
-export { Ready } from "@/components/interview/ui/Ready";
-export { Start } from "@/components/interview/ui/Start";
-export { End } from "@/components/interview/ui/End";
+export { Ready } from '@/components/interview/Ready';
+export { Start } from '@/components/interview/Start';
+export { End } from '@/components/interview/End';

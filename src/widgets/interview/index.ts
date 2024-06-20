@@ -1,1 +1,1 @@
-export { Simulation } from "@/widgets/interview/ui/Simulation";
+export { Simulation } from '@/widgets/interview/Simulation';
