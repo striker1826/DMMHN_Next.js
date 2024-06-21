@@ -1,8 +1,8 @@
-import React from "react";
-import styles from "./page.module.scss";
-import kakao_icon from "@/../public/KakaoTalk_logo.svg";
-import Image from "next/image";
-import Link from "next/link";
+import React from 'react';
+import styles from './page.module.scss';
+import kakao_icon from '@/../public/KakaoTalk_logo.svg';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const page = () => {
   return (
