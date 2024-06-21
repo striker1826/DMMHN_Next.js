@@ -28,6 +28,8 @@ const KakaoRedirectComponent = () => {
   }
 
   const { data, isFetched } = useQuery(authApi.queryOptions({ code }));
+  console.log(process.env.KAKAO_CLIENT_ID);
+  console.log(process.env.REDIRECT_URI);
 
   useEffect(() => {
     if (isFetched && data) {
