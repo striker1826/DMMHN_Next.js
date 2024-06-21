@@ -5,12 +5,13 @@ import Link from 'next/link';
 
 interface Props {
   userData: User;
+  isError: boolean;
 }
 
-export const UserProfile = ({ userData }: Props) => {
+export const UserProfile = ({ userData, isError }: Props) => {
   return (
     <>
-      {userData ? (
+      {userData || !isError ? (
         <>
           <Image
             className={styles.profile_img}

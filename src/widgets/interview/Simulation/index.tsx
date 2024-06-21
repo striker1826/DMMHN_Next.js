@@ -1,17 +1,25 @@
-"use client";
+'use client';
 
-import { End, Ready, Start } from "@/components/interview";
-import { useState } from "react";
-import styles from "./index.module.scss";
+import { End, Ready, Start } from '@/components/interview';
+import { useState } from 'react';
+import styles from './index.module.scss';
+import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { userApi } from '@/api/user/userApi';
 
 export const Simulation = () => {
-  const [status, setStatus] = useState<"ready" | "start" | "end">("ready");
+  const router = useRouter();
+  const [status, setStatus] = useState<'ready' | 'start' | 'end'>('ready');
+  const { data: isLogin } = useQuery(userApi.queryOptions());
+  if (!isLogin) {
+    router.push('/signin');
+  }
 
   let content = <Ready onChangeStatus={setStatus} />;
 
-  if (status === "start") {
+  if (status === 'start') {
     content = <Start onChangeStatus={setStatus} />;
-  } else if (status === "end") {
+  } else if (status === 'end') {
     content = <End />;
   }
 

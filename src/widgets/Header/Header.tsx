@@ -9,9 +9,13 @@ import Link from 'next/link';
 import { UserProfile } from '@/components/user';
 
 const Header = () => {
-  const { data: userData, isLoading } = useQuery(userApi.queryOptions());
+  const { data: userData, isLoading, isError } = useQuery(userApi.queryOptions());
 
-  const userContent = isLoading ? <div>...loading</div> : <UserProfile userData={userData!} />;
+  const userContent = isLoading ? (
+    <div>...loading</div>
+  ) : (
+    <UserProfile userData={userData!} isError={isError} />
+  );
 
   return (
     <header className={styles.layout}>
