@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getCookie } from './cookies';
+import { getCookie, removeCookie } from './cookies';
 
 export const apiInstance = axios.create({ baseURL: 'https://alstjq.shop' });
 

@@ -1,8 +1,8 @@
 import { apiInstance } from '@/shared/utils/axios';
-import { queryOptions } from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
 
 const key = {
-  user: () => ['user/info'],
+  user: () => ['/user/info'],
 };
 
 export const userApi = {
@@ -11,7 +11,7 @@ export const userApi = {
   queryOptions: (enabled?: boolean) =>
     queryOptions<User>({
       queryKey: userApi.queryKey(),
-      queryFn: () => apiInstance.get('user/info'),
+      queryFn: () => apiInstance.get('/user/info'),
       enabled,
     }),
 };

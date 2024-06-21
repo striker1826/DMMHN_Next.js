@@ -1,8 +1,7 @@
 .top_layout {
   width: 100%;
-  display: flex;
-
-  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 .question_information {
@@ -10,6 +9,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  grid-column: 2;
   gap: 8px;
 
   .question_type {
@@ -43,10 +43,12 @@
   border-radius: 5px;
   border: 1px solid #5351a5;
   background: #1b172f;
+  grid-column: 3;
+  width: 80%;
 
-  position: absolute;
-  top: -5px;
-  right: 80px;
+  justify-self: center; // 가운데 정렬
+  align-self: center; // 가운데 정렬
+  cursor: pointer;
 
   color: #fff;
   font-size: 24px;
@@ -54,17 +56,42 @@
 }
 
 .question {
-  margin-top: 31px;
+  margin-top: 20px;
   color: #fff;
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 700;
 }
 
 .recoding_display {
-  margin-bottom: 20px;
-  width: 40%;
+  width: 100%;
   height: 100%;
-  margin-top: 32px;
   border-radius: 28px;
-  background: gray;
+  transform: scaleX(-1);
+  margin: 12px 0;
+}
+
+.videoWrap {
+  overflow: hidden;
+  display: inline-block;
+}
+
+.next_btn {
+  margin-top: 24px;
+  padding: 12px 220px;
+  border-radius: 5px;
+  border: 1px solid #5351a5;
+  background: #1b172f;
+  grid-column: 3;
+
+  justify-self: center; // 가운데 정렬
+  align-self: center; // 가운데 정렬
+  cursor: pointer;
+
+  color: #fff;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.next_btn_none {
+  display: none;
 }
