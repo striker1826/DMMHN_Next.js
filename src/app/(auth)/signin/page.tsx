@@ -10,7 +10,7 @@ const page = () => {
       <div className={styles.login_container}>
         <h1 className={styles.title}>카카오로 로그인</h1>
         <Link
-          href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=https://dmmhn-next-js.vercel.app/kakao/redirect&response_type=code`}
+          href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code`}
         >
           <Image className={styles.kakao_icon} src={kakao_icon} alt="kakao_icon" />
         </Link>

@@ -31,6 +31,10 @@ export const Start = ({ onChangeStatus }: Props) => {
 
   const handleLoadQuestionSetting = () => {
     if (!questionList) return;
+    if (!questionList[0].question) {
+      alert('준비된 질문이 없습니다.');
+      onChangeStatus('end');
+    }
 
     setCurrentQuestion(prev => {
       return {
@@ -92,7 +96,7 @@ export const Start = ({ onChangeStatus }: Props) => {
       </div>
       <p className={styles.question}>{currentQuestion.question}</p>
       <div className={styles.videoWrap}>
-        <video className={styles.recoding_display} ref={videoRef} autoPlay />
+        <video className={styles.recoding_display} ref={videoRef} autoPlay muted />
       </div>
 
       <button
