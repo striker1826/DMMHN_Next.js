@@ -1,0 +1,16 @@
+.btn {
+  margin-top: 24px;
+  padding: 12px 220px;
+  border-radius: 5px;
+  border: 1px solid #5351a5;
+  background: #1b172f;
+  grid-column: 3;
+
+  justify-self: center; // 가운데 정렬
+  align-self: center; // 가운데 정렬
+  cursor: pointer;
+
+  color: #fff;
+  font-size: 24px;
+  font-weight: 500;
+}

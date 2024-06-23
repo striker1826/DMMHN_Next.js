@@ -4,6 +4,7 @@ import { useVideoHandler } from '@/models/simulation/video';
 import { useQuery } from '@tanstack/react-query';
 import { questionApi } from '@/api/question/questionApi';
 import { useHandleInterview } from '@/models/simulation/useHandleInterview';
+import SimulationBtn from '@/shared/components/Button/SimulationBtn/SimulationBtn';
 
 interface Props {
   handleInterviewStatus: (status: 'ready' | 'start' | 'end') => void;
@@ -43,36 +44,15 @@ export const Start = ({ handleInterviewStatus }: Props) => {
         <video className={styles.recoding_display} ref={videoRef} autoPlay muted />
       </div>
 
-      <button
-        className={interview.isStart ? styles.next_btn_none : styles.next_btn}
-        onClick={startInterview}
-      >
-        면접 시작하기
-      </button>
-      <button
-        className={
-          currentQuestion.currentNumber === currentQuestion.totalCount || !interview.isStart
-            ? styles.next_btn_none
-            : styles.next_btn
-        }
-        onClick={loadNextQuestion}
-      >
-        다음 질문으로 &gt;
-      </button>
+      {!interview.isStart && <SimulationBtn text="면접 시작하기" onClick={startInterview} />}
+      {!(currentQuestion.currentNumber === currentQuestion.totalCount || !interview.isStart) && (
+        <SimulationBtn text="다음 질문으로 &gt;" onClick={loadNextQuestion} />
+      )}
 
-      {currentQuestion.currentNumber === currentQuestion.totalCount && (
-        <button
-          className={interview.isEnd ? styles.next_btn_none : styles.next_btn}
-          onClick={endInterview}
-        >
-          녹화 중료하기
-        </button>
+      {currentQuestion.currentNumber === currentQuestion.totalCount && !interview.isEnd && (
+        <SimulationBtn text="녹화 종료하기" onClick={endInterview} />
       )}
-      {interview.isEnd && (
-        <button className={styles.next_btn} onClick={quitInterview}>
-          면접 종료하기
-        </button>
-      )}
+      {interview.isEnd && <SimulationBtn text="면접 종료하기" onClick={quitInterview} />}
     </>
   );
 };
