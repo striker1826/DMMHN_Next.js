@@ -18,7 +18,7 @@ export const Simulation = () => {
   let content = <Ready onChangeStatus={setStatus} />;
 
   if (status === 'start') {
-    content = <Start onChangeStatus={setStatus} />;
+    content = <Start handleInterviewStatus={setStatus} />;
   } else if (status === 'end') {
     content = <End />;
   }
