@@ -14,9 +14,4 @@ export const authApi = {
       queryFn: () => apiInstance.post('/auth/kakao', { code: data.code }),
       enabled: !!data.code,
     }),
-  // return useQuery({
-  //   queryKey: ['/auth/kakao'],
-  //   queryFn: () => apiInstance.post('/auth/kakao', { code }),
-  //   enabled: !!code,
-  // });
 };

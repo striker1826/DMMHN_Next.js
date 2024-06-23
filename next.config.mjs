@@ -15,6 +15,7 @@ const nextConfig = {
     ],
   },
   env: {
+    BASE_URL: process.env.BASE_URL,
     KAKAO_CLIENT_ID: process.env.KAKAO_CLIENT_ID,
     KAKAO_REDIRECT_URI: process.env.REDIRECT_URI,
   },
