@@ -21,7 +21,7 @@ export const useVideoHandler = (videoRef: React.RefObject<HTMLVideoElement>) => 
         videoRef.current.srcObject = mediaStream;
       }
     } catch (err) {
-      alert('video 연결에 실패했습니다.');
+      alert('카메라 정보를 가져오지 못했습니다. 권한 설정을 확인해주세요.');
     }
   }, [videoRef, setStream]);
 
@@ -61,7 +61,7 @@ export const useVideoHandler = (videoRef: React.RefObject<HTMLVideoElement>) => 
       mediaRecorderRef.current.start();
       setRecording(true);
     } catch (err) {
-      alert('화면 녹화 시작에 실패했습니다.');
+      alert('화면에 카메라가 켜질 때까지 기다려주세요.');
     }
   };
   const handleStopRecording = () => {
