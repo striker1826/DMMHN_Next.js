@@ -1,6 +1,6 @@
 import { Question } from '@/shared/types/question';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { useVideoHandler } from './video';
+import { useState } from 'react';
+import { getSpeech } from './getSpeech';
 
 interface Recording {
   handleStartRecording: () => void;
@@ -45,6 +45,8 @@ export const useHandleInterview = (
   };
 
   const startInterview = () => {
+    if (!questionList) return;
+
     questionSetting();
     handleStartRecording();
     setInterview(prev => {
@@ -53,6 +55,8 @@ export const useHandleInterview = (
         isStart: true,
       };
     });
+
+    getSpeech(questionList[currentQuestion.currentNumber].question);
   };
 
   const loadNextQuestion = () => {
@@ -65,6 +69,8 @@ export const useHandleInterview = (
         question: questionList[currentQuestion.currentNumber].question,
       };
     });
+
+    getSpeech(questionList[currentQuestion.currentNumber].question);
   };
 
   const endInterview = () => {
@@ -79,7 +85,6 @@ export const useHandleInterview = (
 
   const quitInterview = () => {
     handleDownload();
-    console.log(handleInterviewStatus);
     handleInterviewStatus('end');
   };
 

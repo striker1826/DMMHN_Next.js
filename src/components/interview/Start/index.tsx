@@ -1,10 +1,11 @@
 import styles from './Start.module.scss';
-import { useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useVideoHandler } from '@/models/simulation/video';
 import { useQuery } from '@tanstack/react-query';
 import { questionApi } from '@/api/question/questionApi';
 import { useHandleInterview } from '@/models/simulation/useHandleInterview';
 import SimulationBtn from '@/shared/components/Button/SimulationBtn/SimulationBtn';
+import { getSpeech } from '@/models/simulation/getSpeech';
 
 interface Props {
   handleInterviewStatus: (status: 'ready' | 'start' | 'end') => void;
