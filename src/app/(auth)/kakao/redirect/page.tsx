@@ -36,7 +36,7 @@ const KakaoRedirectComponent = () => {
     }
 
     if (data) {
-      localStorage.setItem('profileImg', data?.user.profileImg);
+      localStorage.setItem('profileImg', data?.data.user.profileImg);
     }
   }, [isLoading, data, isError, router]);
 
