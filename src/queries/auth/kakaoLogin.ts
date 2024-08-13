@@ -6,7 +6,7 @@ const key = {
 };
 
 export const useKakaoLogin = (data: { code: string }) => {
-  return useQuery<{ profileImg: string }>({
+  return useQuery<{ user: { profileImg: string } }>({
     queryKey: key.kakaoLogin(),
     queryFn: () => apiInstance.post('/auth/v2/kakao', { code: data.code }),
     enabled: !!data.code,
