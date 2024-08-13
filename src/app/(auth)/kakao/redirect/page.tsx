@@ -39,11 +39,11 @@ const KakaoRedirectComponent = () => {
 
     if (data) {
       const profileImg = data?.user.profileImg;
+      console.log(profileImg);
       setUserProfileImg(profileImg);
+      router.push('/');
     }
   }, [isLoading, data, isError, router, setUserProfileImg]);
-
-  router.push('/');
 
   return (
     <div className={styles.spinnerWrapper}>
