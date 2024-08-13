@@ -1,5 +1,6 @@
 'use client';
 
+import { useUserStore } from '@/shared/store/userStore';
 import styles from './page.module.scss';
 import { useKakaoLogin } from '@/queries/auth/kakaoLogin';
 import { useSearchParams } from 'next/navigation';
@@ -23,6 +24,7 @@ const page = () => {
 
 const KakaoRedirectComponent = () => {
   const router = useRouter();
+  const { setUserProfileImg } = useUserStore();
   const searchParams = useSearchParams();
   let code = searchParams.get('code');
 
@@ -36,9 +38,10 @@ const KakaoRedirectComponent = () => {
     }
 
     if (data) {
-      localStorage.setItem('profileImg', data?.data.user.profileImg);
+      const profileImg = data?.user.profileImg;
+      setUserProfileImg(profileImg);
     }
-  }, [isLoading, data, isError, router]);
+  }, [isLoading, data, isError, router, setUserProfileImg]);
 
   router.push('/');
 
