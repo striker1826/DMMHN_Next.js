@@ -1,6 +1,10 @@
+'use client';
+
+import 'regenerator-runtime/runtime';
 import { Question } from '@/shared/types/question';
-import { useState } from 'react';
-import { getSpeech } from './getSpeech';
+import { getSpeech } from '@striker1826/use-tts';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import { useEffect, useState } from 'react';
 
 interface Recording {
   handleStartRecording: () => void;
@@ -13,6 +17,23 @@ export const useHandleInterview = (
   { handleStartRecording, handleStopRecording, handleDownload }: Recording,
   questionList?: Question[],
 ) => {
+  const [answerText, setAnswerText] = useState<string[]>([]);
+
+  const { transcript, listening, resetTranscript } = useSpeechRecognition();
+
+  useEffect(() => {
+    console.log(listening);
+  }, [listening]);
+
+  const handleAnswerStart = () => {
+    SpeechRecognition.startListening({ continuous: true });
+  };
+
+  const handleAnswerStop = () => {
+    setAnswerText((prev: string[]) => [...prev, transcript]);
+    resetTranscript();
+  };
+
   const [interview, setInterview] = useState<{ isStart: boolean; isEnd: boolean }>({
     isStart: false,
     isEnd: false,
@@ -47,6 +68,7 @@ export const useHandleInterview = (
   const startInterview = () => {
     if (!questionList) return;
 
+    handleAnswerStart();
     questionSetting();
     handleStartRecording();
     setInterview(prev => {
@@ -61,6 +83,7 @@ export const useHandleInterview = (
 
   const loadNextQuestion = () => {
     if (!questionList) return;
+    handleAnswerStop();
 
     setCurrentQuestion(prev => {
       return {
@@ -70,11 +93,15 @@ export const useHandleInterview = (
       };
     });
 
+    handleAnswerStart();
     getSpeech(questionList[currentQuestion.currentNumber].question);
   };
 
   const endInterview = () => {
+    setAnswerText((prev: string[]) => [...prev, transcript]);
     handleStopRecording();
+    SpeechRecognition.abortListening();
+    console.log(answerText);
     setInterview(prev => {
       return {
         ...prev,

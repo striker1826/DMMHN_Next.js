@@ -1,11 +1,9 @@
 import styles from './Start.module.scss';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useVideoHandler } from '@/models/simulation/video';
-import { useQuery } from '@tanstack/react-query';
-import { questionApi } from '@/api/question/questionApi';
+import { useQuestion } from '@/queries/question/questionApi';
 import { useHandleInterview } from '@/models/simulation/useHandleInterview';
 import SimulationBtn from '@/shared/components/Button/SimulationBtn/SimulationBtn';
-import { getSpeech } from '@/models/simulation/getSpeech';
 
 interface Props {
   handleInterviewStatus: (status: 'ready' | 'start' | 'end') => void;
@@ -13,9 +11,9 @@ interface Props {
 
 export const Start = ({ handleInterviewStatus }: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const { handleStartRecording, handleStopRecording, recording, handleDownload } =
-    useVideoHandler(videoRef);
-  const { data: questionList } = useQuery(questionApi.queryOptions());
+  const { handleStartRecording, handleStopRecording, handleDownload } = useVideoHandler(videoRef);
+
+  const { data: questionList } = useQuestion();
 
   const {
     interview,

@@ -3,19 +3,23 @@
 import styles from './Header.module.scss';
 import logo from '../../../public/Logo.png';
 import Image from 'next/image';
-import { userApi } from '@/api/user/userApi';
-import { useQuery } from '@tanstack/react-query';
+import { useUserInfo } from '@/queries/user/userApi';
 import Link from 'next/link';
 import { UserProfile } from '@/components/user';
+import { FaRegUserCircle } from 'react-icons/fa';
+import { useEffect } from 'react';
 
 const Header = () => {
-  const { data: userData, isLoading, isError } = useQuery(userApi.queryOptions());
+  const { data: userData, isLoading, isError } = useUserInfo();
 
-  const userContent = isLoading ? (
-    <div>...loading</div>
-  ) : (
-    <UserProfile userData={userData!} isError={isError} />
-  );
+  useEffect(() => {
+    if (userData) {
+      localStorage.setItem('profileImg', userData?.profileImg);
+    }
+  }, [userData]);
+
+  const userContent =
+    isLoading && !userData ? <FaRegUserCircle size={32} /> : <UserProfile isError={isError} />;
 
   return (
     <header className={styles.layout}>

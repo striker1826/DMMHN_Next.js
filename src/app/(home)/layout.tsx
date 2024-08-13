@@ -6,7 +6,7 @@ import Header from '@/widgets/Header/Header';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: '떨면뭐하니에 오신 것을 환영합니다!',
+  title: '떨면뭐하니에 오신 것을 환영합니다! | 떨면뭐하니',
   description: '떨면뭐하니 랜딩페이지',
 };
 
