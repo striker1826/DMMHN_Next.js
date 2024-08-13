@@ -4,8 +4,16 @@ import styles from './Header.module.scss';
 import logo from '../../../public/Logo.png';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 const Header = () => {
+  let profileImg;
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    profileImg = localStorage.getItem('profileImg');
+  }, []);
+
   return (
     <header className={styles.layout}>
       <nav className={styles.nav}>
@@ -16,7 +24,7 @@ const Header = () => {
           </li>
         </Link>
       </nav>
-      <div className={styles.menu}>{localStorage.getItem('profileImg')}</div>
+      <div className={styles.menu}>{profileImg}</div>
     </header>
   );
 };
