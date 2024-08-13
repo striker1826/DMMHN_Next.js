@@ -5,10 +5,10 @@ const key = {
   kakaoLogin: () => ['/auth/v2/kakao'],
 };
 
-export const useKakaoLogin = ({ code }: { code: string }) => {
+export const useKakaoLogin = (data: { code: string }) => {
   return useQuery<{ profileImg: string }>({
     queryKey: key.kakaoLogin(),
-    queryFn: () => apiInstance.post('/auth/v2/kakao', { code: code }),
-    enabled: !!code,
+    queryFn: () => apiInstance.post('/auth/v2/kakao', { code: data.code }),
+    enabled: !!data.code,
   });
 };

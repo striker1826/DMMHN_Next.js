@@ -4,7 +4,7 @@ import styles from './page.module.scss';
 import { useKakaoLogin } from '@/queries/auth/kakaoLogin';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { MoonLoader } from 'react-spinners';
 
 const page = () => {
@@ -25,17 +25,20 @@ const KakaoRedirectComponent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   let code = searchParams.get('code');
-  if (!code) {
-    code = '';
-  }
 
-  const { isError } = useKakaoLogin({ code });
+  const { data, isLoading, isError } = useKakaoLogin({ code: code || '' });
 
-  if (isError) {
-    alert('로그인에 실패했습니다.');
-    router.push('/');
-    return;
-  }
+  useEffect(() => {
+    if (isError) {
+      alert('로그인에 실패했습니다.');
+      router.push('/');
+      return;
+    }
+
+    if (data) {
+      localStorage.setItem('profileImg', data?.profileImg);
+    }
+  }, [isLoading, data, isError, router]);
 
   router.push('/');
 
