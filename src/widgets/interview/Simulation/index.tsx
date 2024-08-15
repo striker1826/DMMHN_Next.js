@@ -4,7 +4,6 @@ import { End, Ready, Start } from '@/components/interview';
 import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
 import { useUserInfo } from '@/queries/user/userApi';
 
 export const Simulation = () => {

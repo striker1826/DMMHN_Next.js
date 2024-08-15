@@ -3,9 +3,11 @@ import { Simulation } from '@/widgets/interview';
 
 const page = () => {
   return (
-    <main className={styles.layout}>
-      <Simulation />
-    </main>
+    <div className={styles.wrap}>
+      <main className={styles.layout}>
+        <Simulation />
+      </main>
+    </div>
   );
 };
 

@@ -1,9 +1,50 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+}
+
+.description_wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.grading_container {
+  background-color: #0b627d;
+  padding: 24px 12px;
+  border-radius: 24px;
+}
+
+.grading_result {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.grading_list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .question {
+    color: #edf8fb;
+  }
+
+  .answer {
+    color: cornflowerblue;
+  }
+}
+
 .description {
   margin-top: 27px;
   color: #fff;
   text-align: center;
   font-size: 32px;
   font-weight: 500;
+  line-height: 1.2;
 }
 
 .end_btn {

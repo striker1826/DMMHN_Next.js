@@ -3,6 +3,7 @@ export interface Question {
   question: string;
   userId: string;
   subTypeId: string;
+  speechText: string;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -64,6 +64,7 @@ export const useVideoHandler = (videoRef: React.RefObject<HTMLVideoElement>) => 
       alert('화면에 카메라가 켜질 때까지 기다려주세요.');
     }
   };
+
   const handleStopRecording = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
