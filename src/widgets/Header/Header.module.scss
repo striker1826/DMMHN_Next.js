@@ -1,9 +1,11 @@
 .layout {
+  min-width: 661px;
   padding: 0px 80px;
   display: flex;
   justify-content: space-between;
   background: #fff;
   align-items: center;
+  width: 100%;
 }
 
 .nav {
