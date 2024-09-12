@@ -75,6 +75,12 @@ export const Stacks = () => {
     setCurrentType(e.currentTarget.name as stack);
   };
 
+  const isActive = (type: stack) => {
+    return (
+      currentType === type || (type === '공통' && (currentType === 'FE' || currentType === 'BE'))
+    );
+  };
+
   return (
     <div className={styles.layout}>
       <div className={styles.container}>
@@ -100,7 +106,7 @@ export const Stacks = () => {
                   type="button"
                   name={QuestionType.type}
                   className={`${styles.stack_name_btn} ${
-                    currentType === QuestionType.type ? styles.active : ''
+                    isActive(QuestionType.type as stack) ? styles.active : ''
                   }`}
                 >
                   {stack}
