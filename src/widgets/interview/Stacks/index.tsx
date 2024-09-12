@@ -62,39 +62,35 @@ const mock_stacks = [
   },
 ];
 
+type stack = '공통' | 'FE' | 'BE';
+
+const STACK_TYPE = [{ type: 'FE' }, { type: 'BE' }];
+
 export const Stacks = () => {
-  const [currentType, setCurrentType] = useState<string | null>(null);
+  const [currentType, setCurrentType] = useState<stack | null>(null);
 
   const handleClickType: MouseEventHandler<HTMLButtonElement> = e => {
     e.preventDefault();
 
-    setCurrentType(e.currentTarget.name);
+    setCurrentType(e.currentTarget.name as stack);
   };
 
   return (
     <div className={styles.layout}>
       <div className={styles.container}>
         <ul className={styles.stack_type}>
-          <li>
-            <button
-              type="button"
-              name="FE"
-              className={styles.stack_type_btn}
-              onClick={handleClickType}
-            >
-              FE
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-              name="BE"
-              className={styles.stack_type_btn}
-              onClick={handleClickType}
-            >
-              BE
-            </button>
-          </li>
+          {STACK_TYPE.map(({ type }) => (
+            <li key={type}>
+              <button
+                type="button"
+                name={type}
+                className={styles.stack_type_btn}
+                onClick={handleClickType}
+              >
+                {type}
+              </button>
+            </li>
+          ))}
         </ul>
         <form>
           <ul className={styles.stack_name_container}>
