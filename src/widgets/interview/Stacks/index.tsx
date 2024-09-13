@@ -1,81 +1,62 @@
 'use client';
 
-import { MouseEventHandler, useState } from 'react';
+import { MouseEventHandler, useCallback, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { StackTypeList } from '@/component_list/index';
+import Button from '@/shared/components/Button/Button';
+import { mock_stacks } from './mock_stacks';
 import styles from './index.module.scss';
 
-const mock_stacks = [
-  {
-    stackId: '1',
-    stack: 'React',
-    questionTypeId: '1',
-    QuestionType: {
-      type: 'FE',
-    },
-  },
-  {
-    stackId: '2',
-    stack: 'Next.js',
-    questionTypeId: '1',
-    QuestionType: {
-      type: 'FE',
-    },
-  },
-  {
-    stackId: '3',
-    stack: 'HTML',
-    questionTypeId: '1',
-    QuestionType: {
-      type: 'FE',
-    },
-  },
-  {
-    stackId: '4',
-    stack: 'CSS',
-    questionTypeId: '1',
-    QuestionType: {
-      type: 'FE',
-    },
-  },
-  {
-    stackId: '5',
-    stack: 'Express.js',
-    questionTypeId: '2',
-    QuestionType: {
-      type: 'BE',
-    },
-  },
-  {
-    stackId: '6',
-    stack: 'Nest.js',
-    questionTypeId: '2',
-    QuestionType: {
-      type: 'BE',
-    },
-  },
-  {
-    stackId: '7',
-    stack: 'Javascript',
-    questionTypeId: '3',
-    QuestionType: {
-      type: '공통',
-    },
-  },
-];
-
-type stack = '공통' | 'FE' | 'BE';
-
-const STACK_TYPE = [{ type: 'FE' }, { type: 'BE' }];
+export type stack_type = '공통' | 'FE' | 'BE';
 
 export const Stacks = () => {
-  const [currentType, setCurrentType] = useState<stack | null>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [currentType, setCurrentType] = useState<stack_type | null>(null);
+  const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams],
+  );
 
   const handleClickType: MouseEventHandler<HTMLButtonElement> = e => {
     e.preventDefault();
 
-    setCurrentType(e.currentTarget.name as stack);
+    const selectedType = e.currentTarget.name as stack_type;
+
+    if (currentType === selectedType) {
+      setCurrentType(null);
+    } else {
+      setCurrentType(selectedType);
+    }
   };
 
-  const isActive = (type: stack) => {
+  const handleClickSelectStack = (stack: string) => {
+    setSelectedStacks(prev => {
+      if (prev.includes(stack)) {
+        return prev.filter(item => item !== stack);
+      }
+      if (prev.length >= 3) {
+        alert('기술 스택은 최대 3개까지 선택 가능합니다!');
+        return prev;
+      }
+      return [...prev, stack];
+    });
+  };
+
+  const applySelectedStacks = () => {
+    const queryString = createQueryString('stacks', selectedStacks.join(','));
+    router.push(`${pathname}?${queryString}`);
+  };
+
+  const isActive = (type: stack_type) => {
     return (
       currentType === type || (type === '공통' && (currentType === 'FE' || currentType === 'BE'))
     );
@@ -84,29 +65,17 @@ export const Stacks = () => {
   return (
     <div className={styles.layout}>
       <div className={styles.container}>
-        <ul className={styles.stack_type}>
-          {STACK_TYPE.map(({ type }) => (
-            <li key={type}>
-              <button
-                type="button"
-                name={type}
-                className={styles.stack_type_btn}
-                onClick={handleClickType}
-              >
-                {type}
-              </button>
-            </li>
-          ))}
-        </ul>
-        <form>
-          <ul className={styles.stack_name_container}>
+        <StackTypeList handleClickType={handleClickType} currentType={currentType} />
+        <div className={styles.stack_name_container}>
+          <ul className={styles.stack_name_wrapper}>
             {mock_stacks.map(({ stack, stackId, QuestionType }) => (
               <li key={stackId}>
                 <button
                   type="button"
                   name={QuestionType.type}
+                  onClick={() => handleClickSelectStack(stack)}
                   className={`${styles.stack_name_btn} ${
-                    isActive(QuestionType.type as stack) ? styles.active : ''
+                    isActive(QuestionType.type as stack_type) ? styles.active : ''
                   }`}
                 >
                   {stack}
@@ -114,7 +83,13 @@ export const Stacks = () => {
               </li>
             ))}
           </ul>
-        </form>
+          <p>
+            {selectedStacks.length > 0
+              ? `지금 선택된 스택은 ${selectedStacks.join(',')} 입니다.`
+              : '위 태그를 토글해서 면접 볼 기술 스택을 최대 3개까지 선택해주세요!'}
+          </p>
+          <Button text="면접 시작!" onClick={applySelectedStacks} />
+        </div>
       </div>
     </div>
   );
