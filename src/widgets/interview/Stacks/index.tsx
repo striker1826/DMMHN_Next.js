@@ -1,11 +1,11 @@
 'use client';
 
-import { MouseEventHandler, useCallback, useState } from 'react';
+import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { StackTypeList } from '@/component_list/index';
 import Button from '@/shared/components/Button/Button';
-import { mock_stacks } from './mock_stacks';
 import styles from './index.module.scss';
+import { Stack } from '@/shared/types/stack';
 
 export type stack_type = '공통' | 'FE' | 'BE';
 
@@ -15,6 +15,7 @@ export const Stacks = () => {
   const searchParams = useSearchParams();
   const [currentType, setCurrentType] = useState<stack_type | null>(null);
   const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
+  const [stacks, setStacks] = useState<Stack[]>([]);
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -25,6 +26,24 @@ export const Stacks = () => {
     },
     [searchParams],
   );
+
+  const fetchStacks = useCallback(async () => {
+    try {
+      const response = await fetch(`${process.env.BASE_URL}/stack/list`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      const data = await response.json();
+
+      setStacks(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchStacks();
+  }, [fetchStacks]);
 
   const handleClickType: MouseEventHandler<HTMLButtonElement> = e => {
     e.preventDefault();
@@ -68,7 +87,7 @@ export const Stacks = () => {
         <StackTypeList handleClickType={handleClickType} currentType={currentType} />
         <div className={styles.stack_name_container}>
           <ul className={styles.stack_name_wrapper}>
-            {mock_stacks.map(({ stack, stackId, QuestionType }) => (
+            {stacks.map(({ stack, stackId, QuestionType }) => (
               <li key={stackId}>
                 <button
                   type="button"
