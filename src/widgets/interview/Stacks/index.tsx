@@ -4,13 +4,14 @@ import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { StackTypeList } from '@/component_list/index';
 import Button from '@/shared/components/Button/Button';
-import styles from './index.module.scss';
 import { Stack } from '@/shared/types/stack';
+import { InterviewStatus } from '@/app/interview/Simulation';
+import styles from './index.module.scss';
 
 export type stack_type = '공통' | 'FE' | 'BE';
 
 interface Props {
-  onChangeStatus: (status: 'stacks' | 'ready' | 'start' | 'end') => void;
+  onChangeStatus: (status: InterviewStatus) => void;
 }
 
 export const Stacks = ({ onChangeStatus }: Props) => {
@@ -95,45 +96,43 @@ export const Stacks = ({ onChangeStatus }: Props) => {
   };
 
   return (
-    <div className={styles.layout}>
-      <div className={styles.container}>
-        <StackTypeList handleClickType={handleClickType} currentType={currentType} />
-        <div className={styles.stack_name_container}>
-          <ul className={styles.stack_name_wrapper}>
-            {isError ? (
-              <div>
-                <p className={styles.error_btn}>데이터를 가져오는데 실패했습니다.</p>
-                <Button
-                  text="홈으로 돌아가기"
-                  onClick={() => {
-                    router.push('/');
-                  }}
-                />
-              </div>
-            ) : (
-              stacks.map(({ stack, stackId, QuestionType }) => (
-                <li key={stackId}>
-                  <button
-                    type="button"
-                    name={QuestionType.type}
-                    onClick={() => handleClickSelectStack(stack)}
-                    className={`${styles.stack_name_btn} ${
-                      isActive(QuestionType.type as stack_type) ? styles.active : ''
-                    }`}
-                  >
-                    {stack}
-                  </button>
-                </li>
-              ))
-            )}
-          </ul>
-          <p>
-            {selectedStacks.length > 0
-              ? `지금 선택된 스택은 ${selectedStacks.join(',')} 입니다.`
-              : '위 태그를 토글해서 면접 볼 기술 스택을 최대 3개까지 선택해주세요!'}
-          </p>
-          <Button text="면접 시작!" onClick={applySelectedStacks} />
-        </div>
+    <div className={styles.container}>
+      <StackTypeList handleClickType={handleClickType} currentType={currentType} />
+      <div className={styles.stack_name_container}>
+        <ul className={styles.stack_name_wrapper}>
+          {isError ? (
+            <div>
+              <p className={styles.error_btn}>데이터를 가져오는데 실패했습니다.</p>
+              <Button
+                text="홈으로 돌아가기"
+                onClick={() => {
+                  router.push('/');
+                }}
+              />
+            </div>
+          ) : (
+            stacks.map(({ stack, stackId, QuestionType }) => (
+              <li key={stackId}>
+                <button
+                  type="button"
+                  name={QuestionType.type}
+                  onClick={() => handleClickSelectStack(stack)}
+                  className={`${styles.stack_name_btn} ${
+                    isActive(QuestionType.type as stack_type) ? styles.active : ''
+                  }`}
+                >
+                  {stack}
+                </button>
+              </li>
+            ))
+          )}
+        </ul>
+        <p>
+          {selectedStacks.length > 0
+            ? `지금 선택된 스택은 ${selectedStacks.join(',')} 입니다.`
+            : '위 태그를 토글해서 면접 볼 기술 스택을 최대 3개까지 선택해주세요!'}
+        </p>
+        <Button text="면접 시작!" onClick={applySelectedStacks} />
       </div>
     </div>
   );

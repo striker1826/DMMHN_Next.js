@@ -4,11 +4,13 @@ import { useEffect, useState } from 'react';
 import styles from './page.module.scss';
 import { useRouter } from 'next/navigation';
 import { useUserInfo } from '@/queries/user/userApi';
-import { End, Ready, Start } from '@/widgets/interview';
+import { End, Ready, Stacks, Start } from '@/widgets/interview';
+
+export type InterviewStatus = 'stacks' | 'ready' | 'start' | 'end';
 
 const Simulation = ({}) => {
   const router = useRouter();
-  const [status, setStatus] = useState<'ready' | 'start' | 'end'>('ready');
+  const [status, setStatus] = useState<InterviewStatus>('stacks');
   const { data: isLogin, isFetched } = useUserInfo();
 
   useEffect(() => {
@@ -17,9 +19,11 @@ const Simulation = ({}) => {
     }
   }, [isFetched, isLogin, router]);
 
-  let content = <Ready onChangeStatus={setStatus} />;
+  let content = <Stacks onChangeStatus={setStatus} />;
 
-  if (status === 'start') {
+  if (status === 'ready') {
+    content = <Ready onChangeStatus={setStatus} />;
+  } else if (status === 'start') {
     content = <Start handleInterviewStatus={setStatus} />;
   } else if (status === 'end') {
     content = <End />;
