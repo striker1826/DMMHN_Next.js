@@ -1,12 +1,12 @@
 'use client';
 
-import { useUserStore } from '@/shared/store/userStore';
-import styles from './page.module.scss';
-import { useKakaoLogin } from '@/queries/auth/kakaoLogin';
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
 import { Suspense, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useUserStore } from '@/shared/store/userStore';
+import { useKakaoLogin } from '@/queries/auth/kakaoLogin';
 import { MoonLoader } from 'react-spinners';
+import { setCookie } from '@/shared/utils/cookies';
+import styles from './page.module.scss';
 
 const page = () => {
   return (
@@ -39,8 +39,8 @@ const KakaoRedirectComponent = () => {
 
     if (data) {
       const profileImg = data?.user.profileImg;
-      console.log(profileImg);
       setUserProfileImg(profileImg);
+      setCookie('accessToken', data.access_token);
       router.push('/');
     }
   }, [isLoading, data, isError, router, setUserProfileImg]);
