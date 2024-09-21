@@ -1,14 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import styles from './page.module.scss';
 import { useRouter } from 'next/navigation';
 import { useUserInfo } from '@/queries/user/userApi';
 import { End, Ready, Stacks, Start } from '@/widgets/interview';
+import { Stack } from '@/shared/types/stack';
+import styles from './page.module.scss';
 
 export type InterviewStatus = 'stacks' | 'ready' | 'start' | 'end';
 
-const Simulation = ({}) => {
+interface Props {
+  stacks: Stack[];
+}
+
+const Simulation = ({ stacks }: Props) => {
   const router = useRouter();
   const [status, setStatus] = useState<InterviewStatus>('stacks');
   const { data: isLogin, isFetched } = useUserInfo();
@@ -19,7 +24,7 @@ const Simulation = ({}) => {
     }
   }, [isFetched, isLogin, router]);
 
-  let content = <Stacks onChangeStatus={setStatus} />;
+  let content = <Stacks stacks={stacks} onChangeStatus={setStatus} />;
 
   if (status === 'ready') {
     content = <Ready onChangeStatus={setStatus} />;

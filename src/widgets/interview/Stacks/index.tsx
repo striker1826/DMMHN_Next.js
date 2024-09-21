@@ -12,16 +12,15 @@ export type stack_type = '공통' | 'FE' | 'BE';
 
 interface Props {
   onChangeStatus: (status: InterviewStatus) => void;
+  stacks: Stack[];
 }
 
-export const Stacks = ({ onChangeStatus }: Props) => {
+export const Stacks = ({ onChangeStatus, stacks }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [currentType, setCurrentType] = useState<stack_type | null>(null);
   const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
-  const [stacks, setStacks] = useState<Stack[]>([]);
-  const [isError, setIsError] = useState<boolean>(false);
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -32,31 +31,6 @@ export const Stacks = ({ onChangeStatus }: Props) => {
     },
     [searchParams],
   );
-
-  const fetchStacks = useCallback(async () => {
-    setIsError(false);
-    try {
-      const response = await fetch(`${process.env.BASE_URL}/stack/list`, {
-        method: 'GET',
-        credentials: 'include',
-      });
-
-      if (!response.ok) {
-        throw new Error(`${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json();
-
-      setStacks(data);
-    } catch (error) {
-      console.error(error);
-      setIsError(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchStacks();
-  }, [fetchStacks]);
 
   const handleClickType: MouseEventHandler<HTMLButtonElement> = e => {
     e.preventDefault();
@@ -100,32 +74,20 @@ export const Stacks = ({ onChangeStatus }: Props) => {
       <StackTypeList handleClickType={handleClickType} currentType={currentType} />
       <div className={styles.stack_name_container}>
         <ul className={styles.stack_name_wrapper}>
-          {isError ? (
-            <div>
-              <p className={styles.error_btn}>데이터를 가져오는데 실패했습니다.</p>
-              <Button
-                text="홈으로 돌아가기"
-                onClick={() => {
-                  router.push('/');
-                }}
-              />
-            </div>
-          ) : (
-            stacks.map(({ stack, stackId, QuestionType }) => (
-              <li key={stackId}>
-                <button
-                  type="button"
-                  name={QuestionType.type}
-                  onClick={() => handleClickSelectStack(stack)}
-                  className={`${styles.stack_name_btn} ${
-                    isActive(QuestionType.type as stack_type) ? styles.active : ''
-                  }`}
-                >
-                  {stack}
-                </button>
-              </li>
-            ))
-          )}
+          {stacks.map(({ stack, stackId, QuestionType }) => (
+            <li key={stackId}>
+              <button
+                type="button"
+                name={QuestionType.type}
+                onClick={() => handleClickSelectStack(stack)}
+                className={`${styles.stack_name_btn} ${
+                  isActive(QuestionType.type as stack_type) ? styles.active : ''
+                }`}
+              >
+                {stack}
+              </button>
+            </li>
+          ))}
         </ul>
         <p>
           {selectedStacks.length > 0
