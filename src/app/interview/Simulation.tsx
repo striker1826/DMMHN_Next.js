@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useUserInfo } from '@/queries/user/userApi';
 import { End, Ready, Stacks, Start } from '@/widgets/interview';
 import { Stack } from '@/shared/types/stack';
@@ -15,6 +15,7 @@ interface Props {
 
 const Simulation = ({ stacks }: Props) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [status, setStatus] = useState<InterviewStatus>('stacks');
   const { data: isLogin, isFetched } = useUserInfo();
 
@@ -22,7 +23,12 @@ const Simulation = ({ stacks }: Props) => {
     if (isFetched && !isLogin) {
       router.push('/signin');
     }
-  }, [isFetched, isLogin, router]);
+
+    if (!searchParams.has('stacks')) {
+      setStatus('stacks');
+      router.push('/interview');
+    }
+  }, [isFetched, isLogin, router, searchParams]);
 
   let content = <Stacks stacks={stacks} onChangeStatus={setStatus} />;
 

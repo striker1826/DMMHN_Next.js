@@ -1,6 +1,6 @@
 'use client';
 
-import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
+import { MouseEventHandler, useCallback, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { StackTypeList } from '@/component_list/index';
 import Button from '@/shared/components/Button/Button';
