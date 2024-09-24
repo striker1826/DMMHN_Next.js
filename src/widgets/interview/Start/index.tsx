@@ -9,9 +9,10 @@ import { useGradingStore } from '@/shared/store/gradingStore';
 
 interface Props {
   handleInterviewStatus: (status: 'ready' | 'start' | 'end') => void;
+  firstQuestion: string;
 }
 
-export const Start = ({ handleInterviewStatus }: Props) => {
+export const Start = ({ handleInterviewStatus, firstQuestion }: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const { setGradingResult } = useGradingStore();
   const { handleStartRecording, handleStopRecording, handleDownload } = useVideoHandler(videoRef);

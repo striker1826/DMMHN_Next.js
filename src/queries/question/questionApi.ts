@@ -12,3 +12,25 @@ export const useQuestion = () => {
     queryFn: () => apiInstance.get('/question/all/2'),
   });
 };
+
+export const getFirstQuestionForGPT = async ({
+  stacks,
+  accessToken,
+}: {
+  stacks?: string;
+  accessToken?: string;
+}) => {
+  const response = await fetch(`${process.env.BASE_URL}/question/ai/first?stacks=${stacks}`, {
+    headers: {
+      Cookie: `accessToken=${accessToken};`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`${response.status} ${response.statusText}`);
+  }
+
+  const data = await response.json();
+
+  return data;
+};
