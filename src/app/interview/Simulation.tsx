@@ -12,9 +12,10 @@ export type InterviewStatus = 'stacks' | 'ready' | 'start' | 'end';
 interface Props {
   stacks: Stack[];
   firstQuestion: string;
+  accessToken?: string;
 }
 
-const Simulation = ({ stacks, firstQuestion }: Props) => {
+const Simulation = ({ stacks, firstQuestion, accessToken }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<InterviewStatus>('stacks');
@@ -36,7 +37,13 @@ const Simulation = ({ stacks, firstQuestion }: Props) => {
   if (status === 'ready') {
     content = <Ready onChangeStatus={setStatus} />;
   } else if (status === 'start') {
-    content = <Start firstQuestion={firstQuestion} handleInterviewStatus={setStatus} />;
+    content = (
+      <Start
+        firstQuestion={firstQuestion}
+        accessToken={accessToken}
+        handleInterviewStatus={setStatus}
+      />
+    );
   } else if (status === 'end') {
     content = <End />;
   }

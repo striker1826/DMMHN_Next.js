@@ -21,6 +21,7 @@ const Page = async ({ searchParams }: { searchParams: { [key: string]: string | 
           <Simulation
             stacks={stacksData}
             firstQuestion={firstQuestionData.result.message.content}
+            accessToken={accessToken}
           />
         </Suspense>
       </main>
