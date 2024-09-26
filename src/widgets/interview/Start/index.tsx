@@ -1,29 +1,22 @@
-import styles from './Start.module.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useVideoHandler } from '@/models/simulation/video';
-import { useQuestion } from '@/queries/question/questionApi';
 import { useHandleInterview } from '@/models/simulation/useHandleInterview';
 import SimulationBtn from '@/shared/components/Button/SimulationBtn/SimulationBtn';
-import { useGetGradingResult } from '@/mutation/grading/getGradingResult';
-import { useGradingStore } from '@/shared/store/gradingStore';
+import styles from './Start.module.scss';
 
 interface Props {
   handleInterviewStatus: (status: 'ready' | 'start' | 'end') => void;
   firstQuestion: string;
+  accessToken?: string;
 }
 
-export const Start = ({ handleInterviewStatus, firstQuestion }: Props) => {
+export const Start = ({ handleInterviewStatus, firstQuestion, accessToken }: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const { setGradingResult } = useGradingStore();
   const { handleStartRecording, handleStopRecording, handleDownload } = useVideoHandler(videoRef);
-
-  const { mutateAsync } = useGetGradingResult();
-  const { data: questionList } = useQuestion();
 
   const {
     interview,
     currentQuestion,
-    grading,
     loadNext,
     startInterview,
     loadNextQuestion,
@@ -32,16 +25,9 @@ export const Start = ({ handleInterviewStatus, firstQuestion }: Props) => {
   } = useHandleInterview(
     handleInterviewStatus,
     { handleStartRecording, handleStopRecording, handleDownload },
-    mutateAsync,
-    questionList,
+    firstQuestion,
+    accessToken,
   );
-
-  useEffect(() => {
-    if (questionList?.length === grading.length) {
-      setGradingResult(grading);
-      handleInterviewStatus('end');
-    }
-  }, [grading, questionList, setGradingResult, handleInterviewStatus]);
 
   return (
     <>
@@ -80,9 +66,21 @@ export const Start = ({ handleInterviewStatus, firstQuestion }: Props) => {
         ))}
       {interview.isEnd &&
         (loadNext ? (
-          <SimulationBtn text="면접을 종료하는 중..." onClick={quitInterview} />
+          <SimulationBtn
+            text="면접을 종료하는 중..."
+            onClick={() => {
+              handleInterviewStatus('end');
+              quitInterview();
+            }}
+          />
         ) : (
-          <SimulationBtn text="면접 종료하기" onClick={quitInterview} />
+          <SimulationBtn
+            text="면접 종료하기"
+            onClick={() => {
+              handleInterviewStatus('end');
+              quitInterview();
+            }}
+          />
         ))}
     </>
   );

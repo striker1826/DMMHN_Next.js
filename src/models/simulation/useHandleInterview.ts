@@ -1,11 +1,10 @@
 'use client';
 
 import 'regenerator-runtime/runtime';
-import { Question } from '@/shared/types/question';
-import { getSpeech } from '@striker1826/use-tts';
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { useState } from 'react';
-import { apiInstance } from '@/shared/utils/axios';
+import { useSearchParams } from 'next/navigation';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import { updateNextGPTQuestion } from '@/mutation/question/updateNextGPTQuestion';
 
 interface Recording {
   handleStartRecording: () => void;
@@ -16,26 +15,46 @@ interface Recording {
 export const useHandleInterview = (
   handleInterviewStatus: (status: 'ready' | 'start' | 'end') => void,
   { handleStartRecording, handleStopRecording, handleDownload }: Recording,
-  mutateAsync: any,
-  questionList?: Question[],
+  firstQuestion: string,
+  accessToken?: string,
 ) => {
+  const searchParams = useSearchParams();
   const [loadNext, setLoadNext] = useState(false);
   const [answerText, setAnswerText] = useState<string[]>([]);
-  const [grading, setGrading] = useState([]);
+  const [interview, setInterview] = useState<{ isStart: boolean; isEnd: boolean }>({
+    isStart: false,
+    isEnd: false,
+  });
+  const [questionHistory, setQuestionHistory] = useState([firstQuestion]);
+  const QUESTION_TOTAL_COUNT = 6;
+  const [currentQuestion, setCurrentQuestion] = useState<{
+    totalCount: number;
+    currentNumber: number;
+    question: string;
+  }>({
+    totalCount: QUESTION_TOTAL_COUNT,
+    currentNumber: 0,
+    question: '면접 시작 전입니다',
+  });
   const { transcript, resetTranscript } = useSpeechRecognition();
+
+  const questionSetting = () => {
+    if (!firstQuestion) {
+      alert('준비된 질문이 없습니다.');
+      handleInterviewStatus('end');
+    }
+
+    setCurrentQuestion(prev => {
+      return {
+        ...prev,
+        currentNumber: prev.currentNumber + 1,
+        question: firstQuestion,
+      };
+    });
+  };
 
   const handleAnswerStart = () => {
     SpeechRecognition.startListening({ continuous: true, language: 'ko' });
-  };
-
-  const gradingResult = async () => {
-    const result = questionList?.map((value, index) => ({
-      question: value.question,
-      answer: answerText[index],
-    }));
-
-    const gradingResult = await mutateAsync(result);
-    return gradingResult;
   };
 
   const handleAnswerStop = () => {
@@ -44,39 +63,8 @@ export const useHandleInterview = (
     resetTranscript();
   };
 
-  const [interview, setInterview] = useState<{ isStart: boolean; isEnd: boolean }>({
-    isStart: false,
-    isEnd: false,
-  });
-  const [currentQuestion, setCurrentQuestion] = useState<{
-    totalCount: number;
-    currentNumber: number;
-    question: string;
-  }>({
-    totalCount: 500,
-    currentNumber: 0,
-    question: '면접 시작 전입니다',
-  });
-
-  const questionSetting = () => {
-    if (!questionList) return;
-    if (!questionList[0].question) {
-      alert('준비된 질문이 없습니다.');
-      handleInterviewStatus('end');
-    }
-
-    setCurrentQuestion(prev => {
-      return {
-        ...prev,
-        totalCount: questionList?.length,
-        currentNumber: prev.currentNumber + 1,
-        question: questionList[prev.currentNumber].question,
-      };
-    });
-  };
-
   const startInterview = () => {
-    if (!questionList) return;
+    if (!firstQuestion) return;
 
     setLoadNext(true);
     handleAnswerStart();
@@ -91,16 +79,22 @@ export const useHandleInterview = (
       });
       setLoadNext(false);
     }, 2500);
-
-    // getSpeech(questionList[currentQuestion.currentNumber].speechText);
   };
 
-  const loadNextQuestion = () => {
-    if (!questionList) return;
+  const loadNextQuestion = async () => {
+    if (!firstQuestion) return;
     setLoadNext(true);
     setTimeout(() => {
       handleAnswerStop();
     }, 2000);
+
+    const GPTQuestionData = await updateNextGPTQuestion({
+      stacksText: searchParams.get('stacks'),
+      accessToken,
+      question: firstQuestion,
+      answer: transcript,
+      previousQuestions: questionHistory,
+    });
 
     setTimeout(() => {
       handleAnswerStart();
@@ -108,13 +102,12 @@ export const useHandleInterview = (
         return {
           ...prev,
           currentNumber: prev.currentNumber + 1,
-          question: questionList[currentQuestion.currentNumber].question,
+          question: GPTQuestionData.result.message.content,
         };
       });
+      setQuestionHistory(prev => [...prev, GPTQuestionData.result.message.content]);
       setLoadNext(false);
     }, 2500);
-
-    // getSpeech(questionList[currentQuestion.currentNumber].speechText);
   };
 
   const endInterview = () => {
@@ -131,15 +124,12 @@ export const useHandleInterview = (
   const quitInterview = async () => {
     setLoadNext(true);
     handleDownload();
-    const result = await gradingResult();
-    setGrading(result);
     setLoadNext(false);
   };
 
   return {
     interview,
     currentQuestion,
-    grading,
     loadNext,
     startInterview,
     loadNextQuestion,
