@@ -1,16 +1,32 @@
-import styles from "./page.module.scss";
-import Header from "@/shared/components/Header/Header";
-import { Simulation } from "@/widgets/interview";
+import { Suspense } from 'react';
+import { cookies } from 'next/headers';
+import { getStacks } from '@/queries/stacks/stacksApi';
+import { getFirstQuestionForGPT } from '@/queries/question/questionApi';
+import Simulation from './Simulation';
+import styles from './page.module.scss';
 
-const page = () => {
+const Page = async ({ searchParams }: { searchParams: { [key: string]: string | undefined } }) => {
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+  const stacksData = await getStacks(accessToken);
+  const firstQuestionData = await getFirstQuestionForGPT({
+    stacks: searchParams?.stacks,
+    accessToken,
+  });
+
   return (
-    <>
-      <Header />
+    <div className={styles.wrap}>
       <main className={styles.layout}>
-        <Simulation />
+        <Suspense>
+          <Simulation
+            stacks={stacksData}
+            firstQuestion={firstQuestionData.result.message.content}
+            accessToken={accessToken}
+          />
+        </Suspense>
       </main>
-    </>
+    </div>
   );
 };
 
-export default page;
+export default Page;
