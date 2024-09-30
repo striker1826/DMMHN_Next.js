@@ -1,12 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { LogInBtn, UserProfile } from '@/components/user';
-import styles from './Header.module.scss';
 import { cookies } from 'next/headers';
+import { LogInBtn, LogOutBtn, UserProfile } from '@/components/user';
+import styles from './Header.module.scss';
 
 const Header = () => {
   const cookieStore = cookies();
   const profileImg = cookieStore.get('profileImg')?.value;
+  const accessToken = cookieStore.get('accessToken')?.value;
 
   return (
     <header className={styles.layout}>
@@ -17,8 +18,11 @@ const Header = () => {
             <p>떨면뭐하니</p>
           </div>
         </Link>
+        <div className={styles.profile}>
+          {profileImg && <UserProfile profileImg={profileImg} />}
+          {accessToken ? <LogOutBtn /> : <LogInBtn />}
+        </div>
       </nav>
-      {profileImg ? <UserProfile profileImg={profileImg} /> : <LogInBtn />}
     </header>
   );
 };
