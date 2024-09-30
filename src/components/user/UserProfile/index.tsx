@@ -7,6 +7,8 @@ interface Props {
 
 export const UserProfile = ({ profileImg }: Props) => {
   return (
-    <Image src={profileImg} className={styles.profile_img} width={32} height={32} alt="profile" />
+    <div className={styles.container}>
+      <Image src={profileImg} className={styles.profile_img} width={32} height={32} alt="profile" />
+    </div>
   );
 };
