@@ -24,7 +24,6 @@ const page = () => {
 
 const KakaoRedirectComponent = () => {
   const router = useRouter();
-  const { setUserProfileImg } = useUserStore();
   const searchParams = useSearchParams();
   let code = searchParams.get('code');
 
@@ -39,11 +38,11 @@ const KakaoRedirectComponent = () => {
 
     if (data) {
       const profileImg = data?.user.profileImg;
-      setUserProfileImg(profileImg);
       setCookie('accessToken', data.access_token);
+      setCookie('profileImg', profileImg);
       router.push('/');
     }
-  }, [isLoading, data, isError, router, setUserProfileImg]);
+  }, [isLoading, data, isError, router]);
 
   return (
     <div className={styles.spinnerWrapper}>

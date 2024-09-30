@@ -1,21 +1,20 @@
 'use client';
 
 // import 'regenerator-runtime/runtime';
-import { RxHamburgerMenu } from 'react-icons/rx';
 import styles from './UserProfile.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useUserStore } from '@/shared/store/userStore';
+import { getCookie } from '@/shared/utils/cookies';
 
 export const UserProfile = () => {
-  const { userProfileImg } = useUserStore();
+  const profileImg = getCookie('profileImg');
 
   return (
     <>
-      {userProfileImg ? (
+      {profileImg ? (
         <>
           <Image
-            src={userProfileImg}
+            src={profileImg}
             className={styles.profile_img}
             width={32}
             height={32}
