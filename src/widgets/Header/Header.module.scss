@@ -9,23 +9,16 @@
 }
 
 .nav {
+  width: 100%;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 10px;
-
-  & li {
-    list-style: none;
-    color: #777;
-    font-size: 20px;
-    font-weight: 600;
-  }
 }
 
 .logo {
   display: flex;
   align-items: center;
   gap: 4px;
-
   margin-right: 20px;
 
   p {
@@ -33,6 +26,12 @@
     font-size: 24px;
     font-weight: 800;
   }
+}
+
+.profile {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 .menu {
@@ -43,23 +42,6 @@
 
 .profile_img {
   border-radius: 50%;
-}
-
-.hamburger {
-  border: none;
-  background-color: transparent;
-}
-
-.login {
-  padding: 12px 52px;
-  border-radius: 31px;
-  border: 1px solid #025729;
-
-  p {
-    color: #025729;
-    font-size: 20px;
-    font-weight: 400;
-  }
 }
 
 @media (max-width: 1280px) and (min-width: 781px) {
