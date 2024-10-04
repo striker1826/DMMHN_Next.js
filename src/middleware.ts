@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { AxiosResponse } from 'axios';
 import { apiInstance } from './shared/utils/axios';
 
 export async function middleware(req: NextRequest) {
@@ -8,10 +9,13 @@ export async function middleware(req: NextRequest) {
   if (code) {
     try {
       // 카카오 API에 요청하여 사용자 정보 및 토큰 가져오기
-      const response = await apiInstance.post('/auth/v2/kakao', {
+      const response: unknown = await apiInstance.post('/auth/v2/kakao', {
         code,
       });
-      const { access_token, user } = response;
+      const { access_token, user } = response as {
+        access_token: string;
+        user: { profileImg: string };
+      };
 
       // 쿠키에 토큰 및 사용자 정보 저장
       const res = NextResponse.redirect(new URL('/', req.url));
