@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useUserInfo } from '@/queries/user/userApi';
+import { userInfo } from '@/queries/user/userApi';
 import { End, Ready, Stacks, Start } from '@/widgets/interview';
 import { Stack } from '@/shared/types/stack';
 import styles from './page.module.scss';
@@ -19,18 +19,20 @@ const Simulation = ({ stacks, firstQuestion, accessToken }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<InterviewStatus>('stacks');
-  const { data: isLogin, isFetched } = useUserInfo();
 
   useEffect(() => {
-    if (isFetched && !isLogin) {
-      router.push('/signin');
-    }
+    const getUserInfo = async () => {
+      console.log(accessToken);
+      const result = await userInfo(accessToken);
+    };
+
+    getUserInfo();
 
     if (!searchParams.has('stacks')) {
       setStatus('stacks');
       router.push('/interview');
     }
-  }, [isFetched, isLogin, router, searchParams]);
+  }, [router, searchParams, accessToken]);
 
   let content = <Stacks stacks={stacks} onChangeStatus={setStatus} />;
 

@@ -22,7 +22,7 @@ export const getFirstQuestionForGPT = async ({
 }) => {
   const response = await fetch(`${process.env.BASE_URL}/question/ai/first?stacks=${stacks}`, {
     headers: {
-      Cookie: `accessToken=${accessToken};`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 
