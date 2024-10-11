@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { userInfo } from '@/queries/user/userApi';
 import { End, Ready, Stacks, Start } from '@/widgets/interview';
 import { Stack } from '@/shared/types/stack';
-import styles from './page.module.scss';
 
 export type InterviewStatus = 'stacks' | 'ready' | 'start' | 'end';
 
@@ -50,13 +49,7 @@ const Simulation = ({ stacks, firstQuestion, accessToken }: Props) => {
     content = <End />;
   }
 
-  return (
-    <div className={styles.wrap}>
-      <main className={styles.layout}>
-        <div className={styles.simulation_layout}>{content}</div>
-      </main>
-    </div>
-  );
+  return <>{content}</>;
 };
 
 export default Simulation;

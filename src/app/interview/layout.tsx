@@ -4,14 +4,5 @@ export const metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return (
-    <main
-      style={{
-        background:
-          'radial-gradient(321.46% 126.46% at 86.33% 0%, #1b172f 0%, #1a1a1a 47.92%, #1b172f 100%)',
-      }}
-    >
-      {children}
-    </main>
-  );
+  return <main>{children}</main>;
 }
