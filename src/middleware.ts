@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { AxiosResponse } from 'axios';
-import { apiInstance } from './shared/utils/axios';
+import { apiInstance } from '@/shared/utils/axios';
+import { protectRoute } from '@/shared/utils/protectRoute';
 
 export async function middleware(req: NextRequest) {
   const { pathname, searchParams } = req.nextUrl;
@@ -8,7 +8,6 @@ export async function middleware(req: NextRequest) {
 
   if (code) {
     try {
-      // 카카오 API에 요청하여 사용자 정보 및 토큰 가져오기
       const response: unknown = await apiInstance.post('/auth/v2/kakao', {
         code,
       });
@@ -17,20 +16,20 @@ export async function middleware(req: NextRequest) {
         user: { profileImg: string };
       };
 
-      // 쿠키에 토큰 및 사용자 정보 저장
       const res = NextResponse.redirect(new URL('/', req.url));
       res.cookies.set('accessToken', access_token);
       res.cookies.set('profileImg', user.profileImg);
 
-      // 홈 페이지로 리다이렉트
       return res;
     } catch (error) {
       console.error('로그인 처리 중 오류 발생:', error);
-      return NextResponse.redirect(new URL('/', req.url)); // 오류 페이지로 리다이렉트
+      return NextResponse.redirect(new URL('/', req.url));
     }
   }
 
-  // Avoid redirect loops for specific routes
+  const protectResponse = protectRoute({ req, route: 'interview' });
+  if (protectResponse) return protectResponse;
+
   if (pathname === '/signin' || pathname === '/mobile-page') {
     return NextResponse.next();
   }
