@@ -74,17 +74,17 @@ export const Stacks = ({ onChangeStatus, stacks }: Props) => {
       <StackTypeList handleClickType={handleClickType} currentType={currentType} />
       <div className={styles.stack_name_container}>
         <ul className={styles.stack_name_wrapper}>
-          {stacks.map(({ stack, stackId, QuestionType }) => (
-            <li key={stackId}>
+          {stacks.map(({ questionTypeId, type }) => (
+            <li key={questionTypeId}>
               <button
                 type="button"
-                name={QuestionType.type}
-                onClick={() => handleClickSelectStack(stack)}
+                name={type}
+                onClick={() => handleClickSelectStack(type)}
                 className={`${styles.stack_name_btn} ${
-                  isActive(QuestionType.type as stack_type) ? styles.active : ''
+                  isActive(type as stack_type) ? styles.active : ''
                 }`}
               >
-                {stack}
+                {type}
               </button>
             </li>
           ))}
