@@ -16,15 +16,13 @@ const Page = async ({ searchParams }: { searchParams: { [key: string]: string | 
 
   return (
     <div className={styles.wrap}>
-      <main className={styles.layout}>
-        <Suspense>
-          <Simulation
-            stacks={stacksData}
-            firstQuestion={firstQuestionData.result.message.content}
-            accessToken={accessToken}
-          />
-        </Suspense>
-      </main>
+      <Suspense>
+        <Simulation
+          stacks={stacksData}
+          firstQuestion={firstQuestionData.result.message.content}
+          accessToken={accessToken}
+        />
+      </Suspense>
     </div>
   );
 };

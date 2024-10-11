@@ -1,15 +1,12 @@
 .container {
-  min-width: 400px;
-  width: 100%;
-  padding: 40px 20px;
   display: flex;
   gap: 7px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 41px;
-  background: #0b627d;
-  color: #ffffff;
+  background-color: #e3daba;
+  padding: 40px;
+  border-radius: 12px;
 }
 
 .stack_name_container {
