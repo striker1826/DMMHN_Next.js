@@ -1,0 +1,19 @@
+.stack_type {
+  display: flex;
+  gap: 10px;
+}
+
+.stack_type_btn {
+  font-size: x-large;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 5px 20px;
+
+  &.selected {
+    background-color: #bcbcbc;
+  }
+}
+
+.info {
+  font-size: small;
+}

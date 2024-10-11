@@ -55,7 +55,7 @@
 }
 
 .gettyImage {
-  background: url("../../../public/gettyImage.png");
+  background: url('../../../public/gettyImage.png');
   width: 823px;
   height: 549px;
 }
@@ -69,6 +69,12 @@
     padding: 0px 20px;
   }
 
+  .gettyImage {
+    display: none;
+  }
+}
+
+@media (max-width: 650px) {
   .gettyImage {
     display: none;
   }
