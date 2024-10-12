@@ -6,4 +6,17 @@
   background: linear-gradient(150deg, #004922 0%, #02632f 40%, #058841 70%);
   min-width: 660px;
   width: 100%;
+  padding: 200px 100px;
+}
+
+@media (max-width: 1280px) {
+  .wrap {
+    padding: 300px 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .wrap {
+    padding: 400px 100px;
+  }
 }

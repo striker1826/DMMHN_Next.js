@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { StackTypeList } from '@/component_list/index';
 import Button from '@/shared/components/Button/Button';
 import { Stack } from '@/shared/types/stack';
-import { InterviewStatus } from '@/app/interview/Simulation';
+import { InterviewStatus } from '@/app/interview/InterviewContainer';
 import styles from './index.module.scss';
 
 export type stack_type = '공통' | 'FE' | 'BE';
@@ -70,7 +70,7 @@ export const Stacks = ({ onChangeStatus, stacks }: Props) => {
   };
 
   return (
-    <div className={styles.container}>
+    <>
       <StackTypeList handleClickType={handleClickType} currentType={currentType} />
       <div className={styles.stack_name_container}>
         <ul className={styles.stack_name_wrapper}>
@@ -96,6 +96,6 @@ export const Stacks = ({ onChangeStatus, stacks }: Props) => {
         </p>
         <Button text="면접 시작!" onClick={applySelectedStacks} />
       </div>
-    </div>
+    </>
   );
 };
