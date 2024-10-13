@@ -62,7 +62,11 @@ export const Stacks = ({ onChangeStatus, stacks }: Props) => {
               type="button"
               name={type}
               onClick={() => handleClickSelectStack(type)}
-              className={styles.stack_name_btn}
+              className={
+                selectedStacks.includes(type)
+                  ? styles.selected_stack_name_btn
+                  : styles.stack_name_btn
+              }
             >
               {type}
             </button>
