@@ -51,27 +51,26 @@ export const Stacks = ({ onChangeStatus, stacks }: Props) => {
 
   return (
     <>
-      <div className={styles.stack_name_container}>
-        <ul className={styles.stack_name_wrapper}>
-          {stacks.map(({ questionTypeId, type }) => (
-            <li key={questionTypeId}>
-              <button
-                type="button"
-                name={type}
-                onClick={() => handleClickSelectStack(type)}
-                className={styles.stack_name_btn}
-              >
-                {type}
-              </button>
-            </li>
-          ))}
-        </ul>
-        <p>
-          {selectedStacks.length > 0
-            ? `지금 선택된 스택은 ${selectedStacks.join(',')} 입니다.`
-            : '위 태그를 토글해서 면접 볼 기술 스택을 최대 3개까지 선택해주세요!'}
-        </p>
-        <Button text="면접 시작!" onClick={applySelectedStacks} />
+      <div className={styles.stack_header}>
+        <h1>사용할 기술 스택을 선택해 주세요!</h1>
+        <p>최대 3개까지 선택 가능합니다.</p>
+      </div>
+      <ul className={styles.stack_name_wrapper}>
+        {stacks.map(({ questionTypeId, type }) => (
+          <li key={questionTypeId}>
+            <button
+              type="button"
+              name={type}
+              onClick={() => handleClickSelectStack(type)}
+              className={styles.stack_name_btn}
+            >
+              {type}
+            </button>
+          </li>
+        ))}
+      </ul>
+      <div className={styles.next_btn_wrapper}>
+        <Button text="다음으로" onClick={applySelectedStacks} />
       </div>
     </>
   );
