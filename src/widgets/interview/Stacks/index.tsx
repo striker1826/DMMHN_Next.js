@@ -1,12 +1,11 @@
 'use client';
 
-import { MouseEventHandler, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { StackTypeList } from '@/component_list/index';
 import Button from '@/shared/components/Button/Button';
 import { Stack } from '@/shared/types/stack';
 import { InterviewStatus } from '@/app/interview/InterviewContainer';
-import styles from './index.module.scss';
+import styles from './Stacks.module.scss';
 
 export type stack_type = '공통' | 'FE' | 'BE';
 
@@ -19,7 +18,6 @@ export const Stacks = ({ onChangeStatus, stacks }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [currentType, setCurrentType] = useState<stack_type | null>(null);
   const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
 
   const createQueryString = useCallback(
@@ -31,18 +29,6 @@ export const Stacks = ({ onChangeStatus, stacks }: Props) => {
     },
     [searchParams],
   );
-
-  const handleClickType: MouseEventHandler<HTMLButtonElement> = e => {
-    e.preventDefault();
-
-    const selectedType = e.currentTarget.name as stack_type;
-
-    if (currentType === selectedType) {
-      setCurrentType(null);
-    } else {
-      setCurrentType(selectedType);
-    }
-  };
 
   const handleClickSelectStack = (stack: string) => {
     setSelectedStacks(prev => {
@@ -63,15 +49,8 @@ export const Stacks = ({ onChangeStatus, stacks }: Props) => {
     onChangeStatus('ready');
   };
 
-  const isActive = (type: stack_type) => {
-    return (
-      currentType === type || (type === '공통' && (currentType === 'FE' || currentType === 'BE'))
-    );
-  };
-
   return (
     <>
-      <StackTypeList handleClickType={handleClickType} currentType={currentType} />
       <div className={styles.stack_name_container}>
         <ul className={styles.stack_name_wrapper}>
           {stacks.map(({ questionTypeId, type }) => (
@@ -80,9 +59,7 @@ export const Stacks = ({ onChangeStatus, stacks }: Props) => {
                 type="button"
                 name={type}
                 onClick={() => handleClickSelectStack(type)}
-                className={`${styles.stack_name_btn} ${
-                  isActive(type as stack_type) ? styles.active : ''
-                }`}
+                className={styles.stack_name_btn}
               >
                 {type}
               </button>
