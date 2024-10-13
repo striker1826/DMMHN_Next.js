@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { cookies } from 'next/headers';
 import { getStacks } from '@/queries/stacks/stacksApi';
 import { getFirstQuestionForGPT } from '@/queries/question/questionApi';
-import Simulation from './Simulation';
+import InterviewContainer from './InterviewContainer';
 import styles from './page.module.scss';
 
 const Page = async ({ searchParams }: { searchParams: { [key: string]: string | undefined } }) => {
@@ -17,7 +17,7 @@ const Page = async ({ searchParams }: { searchParams: { [key: string]: string | 
   return (
     <div className={styles.wrap}>
       <Suspense>
-        <Simulation
+        <InterviewContainer
           stacks={stacksData}
           firstQuestion={firstQuestionData.result.message.content}
           accessToken={accessToken}
