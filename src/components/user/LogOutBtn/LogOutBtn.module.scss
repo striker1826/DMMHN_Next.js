@@ -2,10 +2,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 4px 8px;
-  font-size: 16px;
-  background-color: red;
-  border-radius: 8px;
-  color: white;
+  background-color: transparent;
+  font-size: 24px;
+  cursor: pointer;
   border: none;
+  color: #ffffff;
+}
+
+.logout_btn:hover {
+  color: rgba($color: #ffffff, $alpha: 0.7);
 }

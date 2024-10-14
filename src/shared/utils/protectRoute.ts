@@ -6,7 +6,7 @@ export function protectRoute({ req, route }: { req: NextRequest; route: string }
   if (pathname.startsWith(`/${route}`)) {
     const accessToken = req.cookies.get('accessToken');
 
-    if (!accessToken) {
+    if (!accessToken || accessToken.toString().length < 1) {
       return NextResponse.redirect(new URL('/signin', req.url));
     }
   }

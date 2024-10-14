@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { removeCookie } from '@/shared/utils/cookies';
+import { MdLogout } from 'react-icons/md';
 import styles from './LogOutBtn.module.scss';
 
 export const LogOutBtn = () => {
@@ -14,7 +15,7 @@ export const LogOutBtn = () => {
   };
   return (
     <button type="submit" className={styles.logout_btn} onClick={handleLogout}>
-      로그아웃
+      <MdLogout />
     </button>
   );
 };
