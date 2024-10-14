@@ -1,10 +1,9 @@
 import React from 'react';
-import styles from './ChattingList.module.scss';
 import Chatting from '@/components/chat/chatting/Chatting';
 
 interface Props {
   content: {
-    type: 'other' | 'mine' | 'recording';
+    type: 'other' | 'mine' | 'recording' | 'exit';
     name: string;
     message: string;
   }[];
@@ -12,6 +11,7 @@ interface Props {
   onRecAudio: () => void;
   onChangeRecordingBoxState: (state: boolean) => void;
   onChangeIsAnswering: (state: boolean) => void;
+  handleToExitChat: () => void;
 }
 
 const ChattingList = ({
@@ -20,6 +20,7 @@ const ChattingList = ({
   onRecAudio,
   onChangeIsAnswering,
   onChangeRecordingBoxState,
+  handleToExitChat,
 }: Props) => {
   return content.map((chatInfo, index) => (
     <div key={index} className={chatInfo.type === 'other' ? 'other' : 'mine'}>
@@ -30,6 +31,7 @@ const ChattingList = ({
         questionIsLoading
         recordingBox={recordingBox}
         onRecAudio={onRecAudio}
+        handleToExitChat={handleToExitChat}
         onChangeIsAnswering={onChangeIsAnswering}
         onChangeRecordingBoxState={onChangeRecordingBoxState}
       />

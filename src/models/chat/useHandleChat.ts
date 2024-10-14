@@ -38,7 +38,6 @@ export const useHandleChat = ({
   const { text, handleStopRecAudio } = useSTT();
   const [isAnswering, setIsAnswering] = useState(false);
   const [recordingBox, setRecordingBox] = useState(false);
-  const { handleEndQuestion } = useHandleInterview(handleInterviewStatus);
   const [chatInfoList, setChatInfoList] = useState<ChatInfo[]>([
     { type: 'other', name: '면접관', message: '안녕하세요. 5초 후에 면접을 시작하겠습니다.' },
   ]);

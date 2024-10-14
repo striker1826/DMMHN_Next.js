@@ -3,12 +3,13 @@ import styles from './Chatting.module.scss';
 import { ScaleLoader } from 'react-spinners';
 
 interface Props {
-  type: 'other' | 'mine' | 'recording';
+  type: 'other' | 'mine' | 'recording' | 'exit';
   name: string;
   message: string;
   questionIsLoading: boolean;
   recordingBox: boolean;
   onRecAudio: () => void;
+  handleToExitChat: () => void;
   onChangeIsAnswering: (state: boolean) => void;
   onChangeRecordingBoxState: (state: boolean) => void;
 }
@@ -20,6 +21,7 @@ const Chatting = ({
   name,
   message,
   recordingBox,
+  handleToExitChat,
   onChangeIsAnswering,
   onChangeRecordingBoxState,
   onRecAudio,
@@ -58,12 +60,18 @@ const Chatting = ({
     if (recordingBox) {
       onRecAudio();
     }
-  }, [count, recordingBox, onRecAudio]);
+  }, [recordingBox, onRecAudio]);
 
   return (
     <div className={type === 'other' ? styles.other_container : styles.mine_container}>
       <p className={type === 'other' ? styles.other_name : styles.mine_name}>{name}</p>
-      <div className={type === 'other' ? styles.other_chat : styles.mine_chat}>
+      <div
+        className={`
+  ${type === 'other' ? styles.other_chat : styles.mine_chat}
+  ${type === 'exit' ? styles.exit_chat : ''}
+`}
+        onClick={() => type === 'exit' && handleToExitChat()}
+      >
         {type === 'recording' ? (
           <div>
             {recordingBox ? <ScaleLoader height={12} /> : <p>{count}초 후 녹음이 시작됩니다</p>}
