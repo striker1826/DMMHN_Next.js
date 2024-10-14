@@ -7,3 +7,9 @@ export interface Question {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface QuestionResponse {
+  question: string;
+  questionId: string;
+  speechText: string;
+}

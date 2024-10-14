@@ -1,27 +1,18 @@
 import { Suspense } from 'react';
 import { cookies } from 'next/headers';
 import { getStacks } from '@/queries/stacks/stacksApi';
-import { getFirstQuestionForGPT } from '@/queries/question/questionApi';
 import InterviewContainer from './InterviewContainer';
 import styles from './page.module.scss';
 
-const Page = async ({ searchParams }: { searchParams: { [key: string]: string | undefined } }) => {
+const Page = async () => {
   const cookieStore = cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
   const stacksData = await getStacks(accessToken);
-  const firstQuestionData = await getFirstQuestionForGPT({
-    stacks: searchParams?.stacks,
-    accessToken,
-  });
 
   return (
     <div className={styles.wrap}>
       <Suspense>
-        <InterviewContainer
-          stacks={stacksData}
-          firstQuestion={firstQuestionData.result.message.content}
-          accessToken={accessToken}
-        />
+        <InterviewContainer stacks={stacksData} accessToken={accessToken} />
       </Suspense>
     </div>
   );
