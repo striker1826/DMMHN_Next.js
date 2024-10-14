@@ -1,8 +1,11 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSTT } from '../audio/useSTT';
+import { QuestionResponse } from '@/shared/types/question';
+import { useHandleQuestion } from '../question/useHandleQuestion';
+import { useHandleInterview } from '../simulation/useHandleInterview';
 
 interface ChatInfo {
-  type: 'other' | 'mine' | 'recording';
+  type: 'other' | 'mine' | 'recording' | 'exit';
   name: string;
   message: string;
 }
@@ -23,19 +26,28 @@ interface ChatInfo {
 	•	@property {Function} submitAnswer - 답변을 제출하고 다음 질문을 로드하는 함수입니다.
 	•	@property {Function} addRecordingBox - 녹음 박스를 채팅에 추가하는 함수입니다.
 */
-export const useHandleChat = () => {
+export const useHandleChat = ({
+  questionList,
+  handleInterviewStatus,
+}: {
+  questionList: QuestionResponse[];
+  handleInterviewStatus: (status: 'ready' | 'start' | 'end') => void;
+}) => {
+  const { currentQuestion, questionLength, currentQuestionNumber, handleLoadNextQuestion } =
+    useHandleQuestion({ questionList });
   const { text, handleStopRecAudio } = useSTT();
   const [isAnswering, setIsAnswering] = useState(false);
   const [recordingBox, setRecordingBox] = useState(false);
+  const { handleEndQuestion } = useHandleInterview(handleInterviewStatus);
   const [chatInfoList, setChatInfoList] = useState<ChatInfo[]>([
     { type: 'other', name: '면접관', message: '안녕하세요. 5초 후에 면접을 시작하겠습니다.' },
   ]);
-
   /**
    * 답변 중 상태를 변경합니다.
    *
    * @param {boolean} state - 답변 중 상태 값입니다.
    */
+
   const handleChangeIsAnswering = (state: boolean) => {
     setIsAnswering(state);
   };
@@ -79,16 +91,18 @@ export const useHandleChat = () => {
    * @param {number} timers.recordingBoxTimer - 녹음 박스를 표시할 시간(ms)입니다.
    * @returns {void}
    */
-  const handleLoadNextQuestion = useCallback(
+  const handleLoadNextInterviewrChat = useCallback(
     ({
       interviewerTimer,
       recordingBoxTimer,
+      question,
     }: {
       interviewerTimer: number;
       recordingBoxTimer: number;
+      question: string;
     }) => {
       setTimeout(() => {
-        setChatInfoList(prev => [...prev, { type: 'other', name: '면접관', message: 'test 문구' }]);
+        setChatInfoList(prev => [...prev, { type: 'other', name: '면접관', message: question }]);
       }, interviewerTimer);
 
       setTimeout(() => {
@@ -111,13 +125,41 @@ export const useHandleChat = () => {
     setChatInfoList(prev => {
       prev[prev.length - 1].type = 'mine';
       prev[prev.length - 1].message = text.current ? text.current : '잘 모르겠습니다.';
-
       return prev;
     });
 
     setRecordingBox(false);
-    handleLoadNextQuestion({ interviewerTimer: 2000, recordingBoxTimer: 4000 });
+
+    if (questionLength > currentQuestionNumber) {
+      handleLoadNextQuestion();
+    } else {
+      handleChangeChatInfoList({
+        type: 'other',
+        name: '면접관',
+        message: '면접이 종료되었습니다.',
+      });
+      handleChangeChatInfoList({
+        type: 'other',
+        name: '면접관',
+        message: '결과를 확인해보실래요?',
+      });
+      handleChangeChatInfoList({
+        type: 'exit',
+        name: '나',
+        message: '결과 확인하기',
+      });
+    }
   };
+
+  useEffect(() => {
+    if (currentQuestion) {
+      handleLoadNextInterviewrChat({
+        interviewerTimer: 2000,
+        recordingBoxTimer: 4000,
+        question: currentQuestion,
+      });
+    }
+  }, [currentQuestion, handleLoadNextInterviewrChat]);
 
   return {
     isAnswering,
