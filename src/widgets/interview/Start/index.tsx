@@ -15,7 +15,7 @@ export const Start = ({ handleInterviewStatus, handleChangeInterviewChatResult }
   const videoRef = useRef<HTMLVideoElement>(null);
   useVideoHandler(videoRef);
 
-  const { questionList, handleLoadQuestionList } = useHandleInterview(handleInterviewStatus);
+  const { questionList, handleLoadQuestionList } = useHandleInterview();
 
   useEffect(() => {
     handleLoadQuestionList();
