@@ -13,7 +13,7 @@ interface Props {
   handleChangeInterviewChatResult: (
     interviewChatResult: { question: string; answer: string }[],
   ) => void;
-  handleInterviewStatus: (status: 'stacks' | 'ready' | 'start' | 'end') => void;
+  handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'end') => void;
 }
 
 const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatResult }: Props) => {

@@ -1,17 +1,17 @@
 import { useEffect, useRef } from 'react';
 import { useVideoHandler } from '@/models/simulation/video';
 import { useHandleInterview } from '@/models/simulation/useHandleInterview';
-import styles from './Start.module.scss';
+import styles from './Interviewing.module.scss';
 import Chat from '@/widgets/chat/Chat';
 
 interface Props {
-  handleInterviewStatus: (status: 'stacks' | 'ready' | 'start' | 'end') => void;
+  handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'end') => void;
   handleChangeInterviewChatResult: (
     interviewChatResult: { question: string; answer: string }[],
   ) => void;
 }
 
-export const Start = ({ handleInterviewStatus, handleChangeInterviewChatResult }: Props) => {
+export const Interviewing = ({ handleInterviewStatus, handleChangeInterviewChatResult }: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   useVideoHandler(videoRef);
 
