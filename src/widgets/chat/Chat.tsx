@@ -98,7 +98,11 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
         onClick={submitAnswer}
         disabled={!isAnswering}
       >
-        {isAnswering ? '답변을 마쳤어요!' : '문제를 출제중입니다...'}
+        {chatInfoList[chatInfoList.length - 1].type === 'exit'
+          ? '면접이 끝났어요!'
+          : isAnswering
+          ? '답변을 마쳤어요!'
+          : '문제를 출제중입니다...'}
       </button>
     </div>
   );
