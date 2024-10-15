@@ -21,9 +21,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className={styles.gettyImageWrapper}>
-        <Image src="/gettyImage.png" width={720} height={480} alt="character-image" />
-      </section>
     </div>
   );
 }
