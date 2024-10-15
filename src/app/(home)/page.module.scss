@@ -1,5 +1,5 @@
 .container {
-  width: calc(100vw);
+  width: 100vw;
   height: 100vh;
   background: linear-gradient(150deg, #004922 0%, #02632f 40%, #058841 70%, #fff 70%);
   display: flex;
@@ -70,18 +70,8 @@
   }
 }
 
-.gettyImageWrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
 @media (max-width: 1280px) and (min-width: 650px) {
   .container {
     justify-content: center;
-  }
-
-  .gettyImageWrapper {
-    display: none;
   }
 }
