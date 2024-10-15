@@ -37,22 +37,19 @@ const Simulation = ({ stacks, accessToken }: Props) => {
     }
   }, [router, searchParams, accessToken]);
 
-  let content = <Stacks stacks={stacks} onChangeStatus={setStatus} />;
-
-  if (status === 'ready') {
-    content = <Ready onChangeStatus={setStatus} />;
-  } else if (status === 'start') {
-    content = (
-      <Start
-        handleInterviewStatus={setStatus}
-        handleChangeInterviewChatResult={handleChangeInterviewChatResult}
-      />
-    );
-  } else if (status === 'end') {
-    content = <End />;
-  }
-
-  return <main className={styles.container}>{content}</main>;
+  return (
+    <main className={styles.container}>
+      {status === 'stacks' && <Stacks stacks={stacks} onChangeStatus={setStatus} />}
+      {status === 'ready' && <Ready onChangeStatus={setStatus} />}
+      {status === 'start' && (
+        <Start
+          handleInterviewStatus={setStatus}
+          handleChangeInterviewChatResult={handleChangeInterviewChatResult}
+        />
+      )}
+      {status === 'end' && <End />}
+    </main>
+  );
 };
 
 export default Simulation;
