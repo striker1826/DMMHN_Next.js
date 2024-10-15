@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 /**
@@ -15,7 +15,8 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 */
 export const useSTT = () => {
   const text = useRef<string>();
-  const { transcript, resetTranscript } = useSpeechRecognition();
+  const [isListen, setIsListen] = useState(false);
+  const { transcript, listening, resetTranscript } = useSpeechRecognition();
 
   /**
    * 녹음을 시작하고 한국어로 음성을 인식합니다.
@@ -23,6 +24,7 @@ export const useSTT = () => {
    * @returns {void}
    */
   const handleRecAudio = () => {
+    setIsListen(true);
     text.current = '';
     SpeechRecognition.startListening({ continuous: true, language: 'ko' });
   };
@@ -32,6 +34,7 @@ export const useSTT = () => {
    * 또한, 다음 녹음을 위해 인식된 텍스트를 초기화합니다.
    */
   const handleStopRecAudio = () => {
+    setIsListen(false);
     SpeechRecognition.abortListening();
     text.current = transcript;
     resetTranscript();
@@ -39,6 +42,7 @@ export const useSTT = () => {
 
   return {
     text,
+    isListen,
     handleRecAudio,
     handleStopRecAudio,
   };
