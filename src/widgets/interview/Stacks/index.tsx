@@ -44,6 +44,9 @@ export const Stacks = ({ onChangeStatus, stacks }: Props) => {
   };
 
   const applySelectedStacks = () => {
+    if (!selectedStacks.length) {
+      return;
+    }
     const queryString = createQueryString('stacks', selectedStacks.join(','));
     router.push(`${pathname}?${queryString}`);
     onChangeStatus('ready');
