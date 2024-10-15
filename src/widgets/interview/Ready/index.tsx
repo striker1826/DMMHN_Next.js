@@ -7,7 +7,7 @@ import { useVideoHandler } from '@/models/simulation/video';
 import { useSTT } from '@/models/audio/useSTT';
 
 interface Props {
-  onChangeStatus: (status: 'stacks' | 'ready' | 'start' | 'end') => void;
+  onChangeStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'end') => void;
 }
 
 export const Ready = ({ onChangeStatus }: Props) => {
@@ -41,7 +41,7 @@ export const Ready = ({ onChangeStatus }: Props) => {
       </div>
       <div className={styles.btn_container}>
         <Button text="이전으로" onClick={() => onChangeStatus('stacks')} />
-        <Button text="시작" onClick={() => onChangeStatus('start')} />
+        <Button text="시작" onClick={() => onChangeStatus('interviewing')} />
       </div>
     </div>
   );

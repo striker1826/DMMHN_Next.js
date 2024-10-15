@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { End, Ready, Stacks, Start } from '@/widgets/interview';
+import { End, Interviewing, Ready, Stacks } from '@/widgets/interview';
 import { Stack } from '@/shared/types/stack';
 import styles from './InterviewContainer.module.scss';
 
-export type InterviewStatus = 'stacks' | 'ready' | 'start' | 'end';
+export type InterviewStatus = 'stacks' | 'ready' | 'interviewing' | 'end';
 
 interface Props {
   stacks: Stack[];
@@ -41,8 +41,8 @@ const Simulation = ({ stacks, accessToken }: Props) => {
     <main className={styles.container}>
       {status === 'stacks' && <Stacks stacks={stacks} onChangeStatus={setStatus} />}
       {status === 'ready' && <Ready onChangeStatus={setStatus} />}
-      {status === 'start' && (
-        <Start
+      {status === 'interviewing' && (
+        <Interviewing
           handleInterviewStatus={setStatus}
           handleChangeInterviewChatResult={handleChangeInterviewChatResult}
         />
