@@ -34,6 +34,12 @@
   padding: 20px 16px;
   color: #000;
   background-color: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #058841;
+    transition: background-color 0.2s ease-in-out;
+  }
 }
 
 .not_active_btn {
