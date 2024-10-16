@@ -2,10 +2,10 @@
 
 import { useCallback, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import Button from '@/shared/components/Button/Button';
 import { Stack } from '@/shared/types/stack';
 import { InterviewStatus } from '@/app/interview/InterviewContainer';
 import styles from './Stacks.module.scss';
+import PrimaryBtn from '@/shared/components/Button/PrimaryBtn/PrimaryBtn';
 
 export type stack_type = '공통' | 'FE' | 'BE';
 
@@ -77,7 +77,7 @@ export const Stacks = ({ onChangeStatus, stacks }: Props) => {
         ))}
       </ul>
       <div className={styles.next_btn_wrapper}>
-        <Button text="다음으로" onClick={applySelectedStacks} />
+        <PrimaryBtn text="다음으로" onClick={applySelectedStacks} />
       </div>
     </>
   );
