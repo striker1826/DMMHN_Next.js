@@ -1,10 +1,10 @@
 import 'regenerator-runtime/runtime';
 import { useRef, useState } from 'react';
 
-import Button from '@/shared/components/Button/Button';
 import styles from './Ready.module.scss';
 import { useVideoHandler } from '@/models/simulation/video';
 import { useSTT } from '@/models/audio/useSTT';
+import PrimaryBtn from '@/shared/components/Button/PrimaryBtn/PrimaryBtn';
 
 interface Props {
   onChangeStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'end') => void;
@@ -40,8 +40,8 @@ export const Ready = ({ onChangeStatus }: Props) => {
         </div>
       </div>
       <div className={styles.btn_container}>
-        <Button text="이전으로" onClick={() => onChangeStatus('stacks')} />
-        <Button text="시작" onClick={() => onChangeStatus('interviewing')} />
+        <PrimaryBtn text="이전으로" onClick={() => onChangeStatus('stacks')} />
+        <PrimaryBtn text="시작" onClick={() => onChangeStatus('interviewing')} />
       </div>
     </div>
   );
