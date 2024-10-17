@@ -47,7 +47,7 @@ const Simulation = ({ stacks, accessToken }: Props) => {
           handleChangeInterviewChatResult={handleChangeInterviewChatResult}
         />
       )}
-      {status === 'end' && <End />}
+      {status === 'end' && <End interviewResult={interviewChatResult} accessToken={accessToken} />}
     </main>
   );
 };
