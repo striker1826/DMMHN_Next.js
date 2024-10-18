@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import Image from 'next/image';
 import styles from './page.module.scss';
+import MovePageBtn from '@/shared/components/Button/MovePageBtn/MovePageBtn';
+import LoginModal from '@/components/auth/LoginModal/LoginModal';
 
 export default function Home() {
   return (
@@ -15,12 +15,12 @@ export default function Home() {
             떨면뭐하니의 모의 면접을 이용하여 당신의 꿈을 이뤄줄 면접을 대비해보세요.
           </p>
           <div className={styles.interviewBtnWrapper}>
-            <Link href="/interview" className={styles.interviewBtn}>
-              시작하기
-            </Link>
+            <MovePageBtn route="/interview" />
           </div>
         </div>
       </section>
+
+      <LoginModal />
     </div>
   );
 }
