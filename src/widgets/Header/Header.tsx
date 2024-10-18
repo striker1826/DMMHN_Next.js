@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { cookies } from 'next/headers';
-import { LogInBtn, LogOutBtn, UserProfile } from '@/components/user';
 import styles from './Header.module.scss';
+import { cookies } from 'next/headers';
+import { UserProfileHamburger } from '@/components/user/UserProfile';
 
 const Header = () => {
   const cookieStore = cookies();
@@ -18,9 +18,7 @@ const Header = () => {
             <p>떨면뭐하니</p>
           </div>
         </Link>
-        <div className={styles.profile}>
-          {profileImg && accessToken && <UserProfile profileImg={profileImg} />}
-        </div>
+        {profileImg && accessToken && <UserProfileHamburger profileImg={profileImg} />}
       </nav>
     </header>
   );
