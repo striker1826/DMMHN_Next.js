@@ -19,8 +19,7 @@ const Header = () => {
           </div>
         </Link>
         <div className={styles.profile}>
-          {profileImg && <UserProfile profileImg={profileImg} />}
-          {accessToken ? <LogOutBtn /> : <LogInBtn />}
+          {profileImg && accessToken && <UserProfile profileImg={profileImg} />}
         </div>
       </nav>
     </header>
