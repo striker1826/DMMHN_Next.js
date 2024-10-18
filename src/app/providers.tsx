@@ -1,5 +1,7 @@
 'use client';
 
+import { ChakraProvider } from '@chakra-ui/react';
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 function makeQueryClient() {
@@ -28,5 +30,9 @@ function getQueryClient() {
 export default function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
 
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
+  return (
+    <ChakraProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </ChakraProvider>
+  );
 }
