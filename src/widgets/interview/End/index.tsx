@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { evaluate, totalEvaluate } from '@/queries/evaluation/evaluate';
 import { extractStrings } from '@/shared/utils/extractStrings';
+import { Box, Card, CardBody, CardHeader, Heading, Text } from '@chakra-ui/react';
 import styles from './End.module.scss';
 
 interface Props {
@@ -49,7 +50,7 @@ export const End = ({ interviewResult, accessToken }: Props) => {
   }
 
   return (
-    <div className={styles.end_container}>
+    <Box className={styles.end_container}>
       <ul className={styles.evaluation_container}>
         {result.map(({ good, bad }, index) => (
           <li
@@ -59,14 +60,28 @@ export const End = ({ interviewResult, accessToken }: Props) => {
             }}
             className={styles.evaluation_item}
           >
-            <div className={styles.evaluation_content}>
-              <p className={styles.content_title}>잘하셨어요!</p>
-              <p>{good}</p>
-            </div>
-            <div className={styles.evaluation_content}>
-              <p className={styles.content_title}>보완하면 좋을 점은요...</p>
-              <p>{bad}</p>
-            </div>
+            <Card width="330px" height="440px">
+              <CardHeader>
+                <Heading size="lg">잘하셨어요!</Heading>
+              </CardHeader>
+              <div className={styles.custom_divider_horizontal} />
+              <CardBody>
+                <Text fontSize="lg" fontWeight="500">
+                  {good}
+                </Text>
+              </CardBody>
+            </Card>
+            <Card width="330px" height="440px">
+              <CardHeader>
+                <Heading size="lg">아쉬운 점은...</Heading>
+              </CardHeader>
+              <div className={styles.custom_divider_horizontal} />
+              <CardBody>
+                <Text fontSize="lg" fontWeight="500">
+                  {bad}
+                </Text>
+              </CardBody>
+            </Card>
           </li>
         ))}
         <li
@@ -75,10 +90,17 @@ export const End = ({ interviewResult, accessToken }: Props) => {
           }}
           className={styles.evaluation_item}
         >
-          <div className={styles.evaluation_content}>
-            <p className={styles.content_title}>정리하자면...</p>
-            <p>{totalEvaluation}</p>
-          </div>
+          <Card width="330px" height="440px">
+            <CardHeader>
+              <Heading size="lg">정리하자면...</Heading>
+            </CardHeader>
+            <div className={styles.custom_divider_horizontal} />
+            <CardBody>
+              <Text fontSize="lg" fontWeight="500">
+                {totalEvaluation}
+              </Text>
+            </CardBody>
+          </Card>
         </li>
       </ul>
       <ul className={styles.pagination}>
@@ -96,6 +118,6 @@ export const End = ({ interviewResult, accessToken }: Props) => {
           }`}
         />
       </ul>
-    </div>
+    </Box>
   );
 };
