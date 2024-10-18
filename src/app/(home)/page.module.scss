@@ -39,6 +39,7 @@
 }
 
 .description {
+  margin-bottom: 28px;
   color: #fff;
   font-size: 20px;
   font-weight: 300;
@@ -52,22 +53,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
-  .interviewBtn {
-    padding: 18px 84px;
-    border-radius: 42.5px;
-    background: #fff9c1;
-    border: none;
-    color: #025729;
-    font-size: 34px;
-    font-weight: 700;
-    text-decoration: none;
-
-    &:hover {
-      background: #d3ce9f;
-      transition: background-color 0.1s ease-in-out;
-    }
-  }
 }
 
 @media (max-width: 1280px) and (min-width: 650px) {
