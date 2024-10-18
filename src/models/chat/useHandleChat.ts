@@ -22,7 +22,7 @@ interface ChatInfo {
 	•	@property {Function} handleChangeIsAnswering - 답변 중 상태를 변경하는 함수입니다.
 	•	@property {Function} handleChangeRecordingBox - 녹음 박스 상태를 변경하는 함수입니다.
 	•	@property {Function} handleLoadNextQuestion - 다음 질문을 로드하는 함수입니다.
-	•	@property {Function} handleChangeChatInfoList - 채팅 내역을 업데이트하는 함수입니다.
+	•	@property {Function} handleAddChatInfoList - 채팅 내역을 업데이트하는 함수입니다.
 	•	@property {Function} submitAnswer - 답변을 제출하고 다음 질문을 로드하는 함수입니다.
 	•	@property {Function} addRecordingBox - 녹음 박스를 채팅에 추가하는 함수입니다.
 */
@@ -70,7 +70,7 @@ export const useHandleChat = ({
    * @param {string} chatInfo.message - 채팅 메시지 내용입니다.
    * @returns {void}
    */
-  const handleChangeChatInfoList = useCallback(({ type, name, message }: ChatInfo) => {
+  const handleAddChatInfoList = useCallback(({ type, name, message }: ChatInfo) => {
     setChatInfoList(prev => [...prev, { type, name, message }]);
   }, []);
 
@@ -132,17 +132,17 @@ export const useHandleChat = ({
     if (questionLength > currentQuestionNumber) {
       handleLoadNextQuestion();
     } else {
-      handleChangeChatInfoList({
+      handleAddChatInfoList({
         type: 'other',
         name: '면접관',
         message: '면접이 종료되었습니다.',
       });
-      handleChangeChatInfoList({
+      handleAddChatInfoList({
         type: 'other',
         name: '면접관',
         message: '결과를 확인해보실래요?',
       });
-      handleChangeChatInfoList({
+      handleAddChatInfoList({
         type: 'exit',
         name: '나',
         message: '결과 확인하기',
@@ -167,7 +167,7 @@ export const useHandleChat = ({
     handleChangeIsAnswering,
     handleChangeRecordingBox,
     handleLoadNextQuestion,
-    handleChangeChatInfoList,
+    handleAddChatInfoList,
     submitAnswer,
     addRecordingBox,
   };

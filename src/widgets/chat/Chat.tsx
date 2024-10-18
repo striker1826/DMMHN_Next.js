@@ -27,7 +27,7 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
     isAnswering,
     handleChangeRecordingBox,
     handleChangeIsAnswering,
-    handleChangeChatInfoList,
+    handleAddChatInfoList,
     addRecordingBox,
     submitAnswer,
   } = useHandleChat({ questionList, handleInterviewStatus });
@@ -58,7 +58,7 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     let interviewerTimer = setTimeout(() => {
-      handleChangeChatInfoList({
+      handleAddChatInfoList({
         type: 'other',
         name: '면접관',
         message: questionList[0].question,
@@ -73,7 +73,7 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
       clearTimeout(interviewerTimer);
       clearTimeout(recordingBoxTimer);
     };
-  }, [addRecordingBox, handleChangeChatInfoList, questionList]);
+  }, [addRecordingBox, handleAddChatInfoList, questionList]);
 
   useEffect(() => {
     if (chatContainerRef.current) {
