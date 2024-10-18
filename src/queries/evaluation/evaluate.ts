@@ -22,8 +22,13 @@ export async function evaluate({
   }
 
   const data = await response.json();
-  const result = data.map((item: string) => JSON.parse(item));
-
+  const result = data.map((string: string) => {
+    const a = string.split('good: ')[1];
+    const good = a.split(', bad')[0];
+    const bad = a.split('bad: ');
+    return { good, bad };
+  });
+  console.log('result', result);
   return result;
 }
 
@@ -32,7 +37,7 @@ export async function totalEvaluate({
   totalEvaluation,
 }: {
   accessToken?: string;
-  totalEvaluation: string[];
+  totalEvaluation: { evaluation: string }[];
 }) {
   const response = await fetch(`${process.env.BASE_URL}/grading/evaluation/overall`, {
     method: 'POST',
