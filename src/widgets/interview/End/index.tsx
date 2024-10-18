@@ -23,8 +23,11 @@ export const End = ({ interviewResult, accessToken }: Props) => {
     const evaluation = await evaluate({ accessToken, QnAList: interviewResult });
 
     const evaluationStrArr = extractStrings(evaluation);
+    const evaluationObj = evaluationStrArr.map(string => {
+      return { evaluation: string };
+    });
 
-    const totalEvaluation = await totalEvaluate({ accessToken, totalEvaluation: evaluationStrArr });
+    const totalEvaluation = await totalEvaluate({ accessToken, totalEvaluation: evaluationObj });
 
     setResult(evaluation);
     setTotalEvaluation(totalEvaluation);
