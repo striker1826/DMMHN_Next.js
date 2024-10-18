@@ -20,6 +20,14 @@ export const Ready = ({ onChangeStatus }: Props) => {
     return isListen ? handleStopRecAudio() : handleRecAudio();
   };
 
+  const sliceTranscript = (transcript: string) => {
+    if (transcript.length > 15) {
+      return `${transcript.slice(0, 15)}...`;
+    } else {
+      return transcript;
+    }
+  };
+
   return (
     <div className={styles.layout}>
       <div className={styles.content_layout}>
@@ -29,7 +37,9 @@ export const Ready = ({ onChangeStatus }: Props) => {
             <p>1. 마이크를 충분히 가까이 하신 후 시작해주세요. </p>
             <p>2. 발음이 불분명하거나 빠르게 말할 경우 인식이 어려울 수 있습니다.</p>
             <p>3. 답을 완전히 말씀하신 후 1초 정도 뒤에 버튼을 눌러주세요.</p>
-            <div className={styles.stt_text_container}>{text.current}</div>
+            <div className={styles.stt_text_container}>
+              {text.current ? sliceTranscript(text.current) : '녹음된 음성이 Text로 표시됩니다!'}
+            </div>
           </div>
         </div>
         <div className={styles.video_wrap}>
