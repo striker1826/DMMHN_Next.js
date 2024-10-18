@@ -23,12 +23,11 @@ export async function evaluate({
 
   const data = await response.json();
   const result = data.map((string: string) => {
-    const a = string.split('good: ')[1];
-    const good = a.split(', bad')[0];
-    const bad = a.split('bad: ');
+    const splitPoint = string.split('good: ')[1];
+    const good = splitPoint.split(', bad')[0];
+    const bad = splitPoint.split('bad: ');
     return { good, bad };
   });
-  console.log('result', result);
   return result;
 }
 
