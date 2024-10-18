@@ -16,7 +16,7 @@ export default function Home() {
           </p>
           <div className={styles.interviewBtnWrapper}>
             <Link href="/interview" className={styles.interviewBtn}>
-              모의면접
+              시작하기
             </Link>
           </div>
         </div>
