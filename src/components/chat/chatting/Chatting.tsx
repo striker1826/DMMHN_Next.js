@@ -1,11 +1,17 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import styles from './Chatting.module.scss';
 import { ScaleLoader } from 'react-spinners';
+import Image from 'next/image';
+import { getCookie } from '@/shared/utils/cookies';
+import { profile } from 'console';
 
 interface Props {
   type: 'other' | 'mine' | 'recording' | 'exit';
   name: string;
   message: string;
+  profileImg: string;
   questionIsLoading: boolean;
   recordingBox: boolean;
   onRecAudio: () => void;
@@ -20,6 +26,7 @@ const Chatting = ({
   type,
   name,
   message,
+  profileImg,
   recordingBox,
   handleToExitChat,
   onChangeIsAnswering,
@@ -64,7 +71,18 @@ const Chatting = ({
 
   return (
     <div className={type === 'other' ? styles.other_container : styles.mine_container}>
-      <p className={type === 'other' ? styles.other_name : styles.mine_name}>{name}</p>
+      <div className={styles.name_container}>
+        <Image
+          src={profileImg}
+          width={30}
+          height={40}
+          alt="profile_img"
+          className={styles.profile_img}
+          objectFit="cover"
+        />
+        <p className={type === 'other' ? styles.name : styles.none_name}>{name}</p>
+      </div>
+
       <div
         className={`
   ${type === 'other' ? styles.other_chat : styles.mine_chat}
