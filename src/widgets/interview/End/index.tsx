@@ -4,18 +4,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import NextLink from 'next/link';
 import { evaluate, totalEvaluate } from '@/queries/evaluation/evaluate';
 import { extractStrings } from '@/shared/utils/extractStrings';
-import {
-  Box,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Flex,
-  Heading,
-  Link,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Link } from '@chakra-ui/react';
 import styles from './End.module.scss';
+import FeedbackCard from '@/components/feedback/FeedbackCard';
 
 interface Props {
   interviewResult: {
@@ -71,28 +62,8 @@ export const End = ({ interviewResult, accessToken }: Props) => {
             }}
             className={styles.evaluation_item}
           >
-            <Card width="330px" height="440px">
-              <CardHeader>
-                <Heading size="lg">잘하셨어요!</Heading>
-              </CardHeader>
-              <div className={styles.custom_divider_horizontal} />
-              <CardBody>
-                <Text fontSize="lg" fontWeight="500">
-                  {good}
-                </Text>
-              </CardBody>
-            </Card>
-            <Card width="330px" height="440px">
-              <CardHeader>
-                <Heading size="lg">아쉬운 점은...</Heading>
-              </CardHeader>
-              <div className={styles.custom_divider_horizontal} />
-              <CardBody>
-                <Text fontSize="lg" fontWeight="500">
-                  {bad}
-                </Text>
-              </CardBody>
-            </Card>
+            <FeedbackCard heading="잘하셨어요!" body={good} />
+            <FeedbackCard heading="아쉬운 점은..." body={bad} />
           </li>
         ))}
         <li
@@ -101,17 +72,7 @@ export const End = ({ interviewResult, accessToken }: Props) => {
           }}
           className={styles.evaluation_item}
         >
-          <Card width="330px" height="440px">
-            <CardHeader>
-              <Heading size="lg">정리하자면...</Heading>
-            </CardHeader>
-            <div className={styles.custom_divider_horizontal} />
-            <CardBody>
-              <Text fontSize="lg" fontWeight="500">
-                {totalEvaluation}
-              </Text>
-            </CardBody>
-          </Card>
+          <FeedbackCard heading="정리하자면..." body={totalEvaluation} />
           <Flex
             flexDirection="column"
             width="330px"
