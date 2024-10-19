@@ -7,6 +7,7 @@ import ChattingList from '@/component_list/chattingList/ChattingList';
 import { useSTT } from '@/models/audio/useSTT';
 import { useHandleChat } from '@/models/chat/useHandleChat';
 import { QuestionResponse } from '@/shared/types/question';
+import { INTERVIER_PROFILE_IMG } from '@/constants/chat';
 
 interface Props {
   questionList: QuestionResponse[];
@@ -62,6 +63,7 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
         type: 'other',
         name: '면접관',
         message: questionList[0].question,
+        profileImg: INTERVIER_PROFILE_IMG,
       });
     }, 5000);
 

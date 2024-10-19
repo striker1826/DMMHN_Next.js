@@ -6,6 +6,7 @@ interface Props {
     type: 'other' | 'mine' | 'recording' | 'exit';
     name: string;
     message: string;
+    profileImg: string;
   }[];
   recordingBox: boolean;
   onRecAudio: () => void;
@@ -28,6 +29,7 @@ const ChattingList = ({
         type={chatInfo.type}
         name={chatInfo.name}
         message={chatInfo.message}
+        profileImg={chatInfo.profileImg}
         questionIsLoading
         recordingBox={recordingBox}
         onRecAudio={onRecAudio}
