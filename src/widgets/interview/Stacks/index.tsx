@@ -29,7 +29,7 @@ export const Stacks = ({ stacks, selectedStacks, onChangeStatus, handleSelectSta
   return (
     <>
       <div className={styles.stack_header}>
-        <h1>사용할 기술 스택을 선택해 주세요!</h1>
+        <h1>사용할 기술 스택을 선택해주세요!</h1>
         <p>최대 3개까지 선택 가능합니다.</p>
       </div>
       <ul className={styles.stack_name_wrapper}>
