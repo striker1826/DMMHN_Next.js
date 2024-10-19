@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import NextLink from 'next/link';
 import { postFeedback, postTotalFeedback } from '@/queries/feedback';
 import { extractStrings } from '@/shared/utils/extractStrings';
-import { Button, Flex, Heading, Link, Text } from '@chakra-ui/react';
+import { Button, Flex, Heading, HStack, Link } from '@chakra-ui/react';
 import FeedbackCard from '@/components/feedback/FeedbackCard';
 
 interface Props {
@@ -44,6 +44,10 @@ export const Feedback = ({ interviewResult, accessToken }: Props) => {
     if (currentIndex > 0) setCurrentIndex(prev => prev - 1);
   };
 
+  const goToCurrentIndex = (index: number) => {
+    setCurrentIndex(index);
+  };
+
   if (!feedbacks.length) {
     return <p>결과가 없습니다!</p>;
   }
@@ -54,7 +58,11 @@ export const Feedback = ({ interviewResult, accessToken }: Props) => {
     <Flex direction="column" justify="center" align="center" boxSize="100%" gap="15px">
       {/* 현재 피드백 받을 문제 */}
       <Flex justify="left" width="100%">
-        <Heading>{interviewResult[currentIndex].question}</Heading>
+        <Heading>
+          {isLastPage
+            ? '마지막으로 요약을 제공해 드립니다.'
+            : `질문: ${interviewResult[currentIndex].question}`}
+        </Heading>
       </Flex>
 
       {/* 피드백 카드 */}
@@ -77,12 +85,9 @@ export const Feedback = ({ interviewResult, accessToken }: Props) => {
             justify="center"
             gap="30px"
           >
-            <Link as={NextLink} href="/" fontSize="24px" fontWeight="600">
-              홈으로
+            <Link as={NextLink} href="/" fontSize="28px" fontWeight="700">
+              처음으로
             </Link>
-            <Button fontSize="24px" fontWeight="600" padding="30px" colorScheme="green">
-              녹화본 저장
-            </Button>
           </Flex>
         )}
       </Flex>
@@ -93,14 +98,21 @@ export const Feedback = ({ interviewResult, accessToken }: Props) => {
           onClick={goToPrev}
           isDisabled={currentIndex === 0}
           colorScheme="green"
-          variant="outline"
+          variant="ghost"
         >
           이전
         </Button>
-        <Text>
-          {currentIndex + 1} / {feedbacks.length + 1}
-        </Text>
-        <Button onClick={goToNext} isDisabled={isLastPage} colorScheme="green" variant="outline">
+        <HStack>
+          {Array.from({ length: feedbacks.length + 1 }).map((_, index) => (
+            <Button
+              key={index}
+              onClick={() => goToCurrentIndex(index)}
+              colorScheme={currentIndex === index ? 'green' : 'blackAlpha'}
+              height="6px"
+            />
+          ))}
+        </HStack>
+        <Button onClick={goToNext} isDisabled={isLastPage} colorScheme="green" variant="ghost">
           다음
         </Button>
       </Flex>

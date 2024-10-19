@@ -16,7 +16,7 @@ interface Props {
 const Simulation = ({ stacks, accessToken }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [status, setStatus] = useState<InterviewStatus>('feedback');
+  const [status, setStatus] = useState<InterviewStatus>('stacks');
   const [interviewChatResult, setInterviewChatResult] = useState<
     {
       question: string;
