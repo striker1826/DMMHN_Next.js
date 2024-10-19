@@ -5,21 +5,26 @@ import styles from './Interviewing.module.scss';
 import Chat from '@/widgets/chat/Chat';
 
 interface Props {
+  selectedStacks: string[];
   handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'end') => void;
   handleChangeInterviewChatResult: (
     interviewChatResult: { question: string; answer: string }[],
   ) => void;
 }
 
-export const Interviewing = ({ handleInterviewStatus, handleChangeInterviewChatResult }: Props) => {
+export const Interviewing = ({
+  selectedStacks,
+  handleInterviewStatus,
+  handleChangeInterviewChatResult,
+}: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   useVideoHandler(videoRef);
 
   const { questionList, handleLoadQuestionList } = useHandleInterview();
 
   useEffect(() => {
-    handleLoadQuestionList();
-  }, [handleLoadQuestionList]);
+    handleLoadQuestionList(selectedStacks);
+  }, [selectedStacks, handleLoadQuestionList]);
 
   return (
     <div className={styles.layout}>

@@ -16,6 +16,7 @@ interface Props {
 const Simulation = ({ stacks, accessToken }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
   const [status, setStatus] = useState<InterviewStatus>('stacks');
   const [interviewChatResult, setInterviewChatResult] = useState<
     {
@@ -23,6 +24,19 @@ const Simulation = ({ stacks, accessToken }: Props) => {
       answer: string;
     }[]
   >([]);
+
+  const handleSelectStack = (stack: string) => {
+    setSelectedStacks(prev => {
+      if (prev.includes(stack)) {
+        return prev.filter(item => item !== stack);
+      }
+      if (prev.length >= 3) {
+        alert('기술 스택은 최대 3개까지 선택 가능합니다!');
+        return prev;
+      }
+      return [...prev, stack];
+    });
+  };
 
   const handleChangeInterviewChatResult = (
     interviewChatResult: { question: string; answer: string }[],
@@ -39,10 +53,18 @@ const Simulation = ({ stacks, accessToken }: Props) => {
 
   return (
     <main className={styles.container}>
-      {status === 'stacks' && <Stacks stacks={stacks} onChangeStatus={setStatus} />}
+      {status === 'stacks' && (
+        <Stacks
+          stacks={stacks}
+          selectedStacks={selectedStacks}
+          onChangeStatus={setStatus}
+          handleSelectStack={handleSelectStack}
+        />
+      )}
       {status === 'ready' && <Ready onChangeStatus={setStatus} />}
       {status === 'interviewing' && (
         <Interviewing
+          selectedStacks={selectedStacks}
           handleInterviewStatus={setStatus}
           handleChangeInterviewChatResult={handleChangeInterviewChatResult}
         />
