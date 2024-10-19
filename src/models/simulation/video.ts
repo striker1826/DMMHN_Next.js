@@ -21,6 +21,7 @@ export const useVideoHandler = (videoRef: React.RefObject<HTMLVideoElement>) => 
         videoRef.current.srcObject = mediaStream;
       }
     } catch (err) {
+      console.log('err', err);
       alert('카메라 정보를 가져오지 못했습니다. 권한 설정을 확인해주세요.');
     }
   }, [videoRef, setStream]);
