@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { End, Interviewing, Ready, Stacks } from '@/widgets/interview';
 import { Stack } from '@/shared/types/stack';
 import styles from './InterviewContainer.module.scss';
+import { useSTT } from '@/models/audio/useSTT';
 
 export type InterviewStatus = 'stacks' | 'ready' | 'interviewing' | 'end';
 
@@ -14,8 +15,8 @@ interface Props {
 }
 
 const Simulation = ({ stacks, accessToken }: Props) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const { text } = useSTT();
+  const [currentTranscript, setCurrentTranscript] = useState<string>('');
   const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
   const [status, setStatus] = useState<InterviewStatus>('stacks');
   const [interviewChatResult, setInterviewChatResult] = useState<
@@ -24,6 +25,15 @@ const Simulation = ({ stacks, accessToken }: Props) => {
       answer: string;
     }[]
   >([]);
+
+  const handleResetCurrentScript = () => {
+    setCurrentTranscript('');
+  };
+
+  useEffect(() => {
+    console.log('text', text);
+    setCurrentTranscript(text);
+  }, [text]);
 
   const handleSelectStack = (stack: string) => {
     setSelectedStacks(prev => {
@@ -44,13 +54,6 @@ const Simulation = ({ stacks, accessToken }: Props) => {
     setInterviewChatResult(prev => [...prev, ...interviewChatResult]);
   };
 
-  useEffect(() => {
-    if (!searchParams.has('stacks')) {
-      setStatus('stacks');
-      router.push('/interview');
-    }
-  }, [router, searchParams, accessToken]);
-
   return (
     <main className={styles.container}>
       {status === 'stacks' && (
@@ -61,9 +64,16 @@ const Simulation = ({ stacks, accessToken }: Props) => {
           handleSelectStack={handleSelectStack}
         />
       )}
-      {status === 'ready' && <Ready onChangeStatus={setStatus} />}
+      {status === 'ready' && (
+        <Ready
+          transcript={currentTranscript}
+          handleResetCurrentScript={handleResetCurrentScript}
+          onChangeStatus={setStatus}
+        />
+      )}
       {status === 'interviewing' && (
         <Interviewing
+          transcript={currentTranscript || ''}
           selectedStacks={selectedStacks}
           handleInterviewStatus={setStatus}
           handleChangeInterviewChatResult={handleChangeInterviewChatResult}

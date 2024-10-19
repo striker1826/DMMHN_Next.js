@@ -17,7 +17,12 @@ interface Props {
 }
 
 export const Stacks = ({ stacks, selectedStacks, onChangeStatus, handleSelectStack }: Props) => {
-  const applySelectedStacks = () => {
+  const applySelectedStacks = (selectedStacks: string[]) => {
+    if (!selectedStacks.length) {
+      alert('면접 볼 stack을 선택해주세요!');
+      return;
+    }
+
     onChangeStatus('ready');
   };
 
@@ -46,7 +51,7 @@ export const Stacks = ({ stacks, selectedStacks, onChangeStatus, handleSelectSta
         ))}
       </ul>
       <div className={styles.next_btn_wrapper}>
-        <PrimaryBtn text="다음으로" onClick={applySelectedStacks} />
+        <PrimaryBtn text="다음으로" onClick={() => applySelectedStacks(selectedStacks)} />
       </div>
     </>
   );
