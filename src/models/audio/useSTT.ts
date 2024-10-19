@@ -16,14 +16,14 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 export const useSTT = () => {
   const text = useRef<string>();
   const [isListen, setIsListen] = useState(false);
-  const { transcript, listening, resetTranscript } = useSpeechRecognition();
+  let { transcript, resetTranscript } = useSpeechRecognition();
 
   /**
    * 녹음을 시작하고 한국어로 음성을 인식합니다.
    * 녹음 시작 전 인식된 텍스트를 빈 문자열로 초기화합니다.
    * @returns {void}
    */
-  const handleRecAudio = () => {
+  const handleRecAudio = (): void => {
     setIsListen(true);
     text.current = '';
     SpeechRecognition.startListening({ continuous: true, language: 'ko' });
@@ -35,7 +35,7 @@ export const useSTT = () => {
    */
   const handleStopRecAudio = () => {
     setIsListen(false);
-    SpeechRecognition.abortListening();
+    SpeechRecognition.stopListening();
     text.current = transcript;
     resetTranscript();
   };
