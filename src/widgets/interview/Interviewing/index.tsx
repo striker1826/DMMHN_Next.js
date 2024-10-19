@@ -5,7 +5,7 @@ import styles from './Interviewing.module.scss';
 import Chat from '@/widgets/chat/Chat';
 
 interface Props {
-  handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'end') => void;
+  handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
   handleChangeInterviewChatResult: (
     interviewChatResult: { question: string; answer: string }[],
   ) => void;

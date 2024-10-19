@@ -7,7 +7,7 @@ import { useSTT } from '@/models/audio/useSTT';
 import PrimaryBtn from '@/shared/components/Button/PrimaryBtn/PrimaryBtn';
 
 interface Props {
-  onChangeStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'end') => void;
+  onChangeStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
 }
 
 export const Ready = ({ onChangeStatus }: Props) => {

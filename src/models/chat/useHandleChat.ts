@@ -31,7 +31,7 @@ export const useHandleChat = ({
   handleInterviewStatus,
 }: {
   questionList: QuestionResponse[];
-  handleInterviewStatus: (status: 'ready' | 'interviewing' | 'end') => void;
+  handleInterviewStatus: (status: 'ready' | 'interviewing' | 'feedback') => void;
 }) => {
   const { currentQuestion, questionLength, currentQuestionNumber, handleLoadNextQuestion } =
     useHandleQuestion({ questionList });

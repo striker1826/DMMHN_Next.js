@@ -1,4 +1,4 @@
-export async function evaluate({
+export async function postFeedback({
   accessToken,
   QnAList,
 }: {
@@ -28,19 +28,20 @@ export async function evaluate({
     const bad = splitPoint.split('bad: ');
     return { good, bad };
   });
+
   return result;
 }
 
-export async function totalEvaluate({
+export async function postTotalFeedback({
   accessToken,
-  totalEvaluation,
+  totalFeedback,
 }: {
   accessToken?: string;
-  totalEvaluation: { evaluation: string }[];
+  totalFeedback: { feedback: string }[];
 }) {
   const response = await fetch(`${process.env.BASE_URL}/grading/evaluation/overall`, {
     method: 'POST',
-    body: JSON.stringify(totalEvaluation),
+    body: JSON.stringify(totalFeedback),
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
