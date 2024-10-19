@@ -3,29 +3,23 @@
   height: 100vh;
   background: linear-gradient(150deg, #004922 0%, #02632f 40%, #058841 70%, #fff 70%);
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 120px;
-  padding: 0px 120px;
+  gap: 50px;
 }
 
-.introduceContainer {
+.introduce {
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-
-  .introduce {
-    width: 690px;
-    display: flex;
-    flex-direction: column;
-    align-items: baseline;
-    gap: 40px;
-  }
+  align-items: center;
+  gap: 40px;
 }
 
 .heading {
+  text-align: center;
   color: #fff;
   font-size: 52px;
   font-weight: 700;
@@ -39,7 +33,6 @@
 }
 
 .description {
-  margin-bottom: 28px;
   color: #fff;
   font-size: 20px;
   font-weight: 300;
@@ -48,7 +41,6 @@
 }
 
 .interviewBtnWrapper {
-  margin-top: 8px;
   width: 100%;
   display: flex;
   justify-content: center;
