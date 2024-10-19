@@ -7,13 +7,31 @@ interface Props {
 
 export default function FeedbackCard({ heading, body }: Props) {
   return (
-    <Card width="360px" height="480px" boxShadow="0 1px 3px 0 rgba(1,1,1,0.3)">
-      <CardHeader>
-        <Heading size="lg">{heading}</Heading>
+    <Card width="360px" height="480px" boxShadow="md" borderRadius="xl" overflow="hidden">
+      <CardHeader padding="0 5px 5px">
+        <Heading
+          bgColor="green.600"
+          color="green.50"
+          width="100%"
+          padding="15px"
+          borderRadius="xl"
+          size="lg"
+        >
+          {heading}
+        </Heading>
       </CardHeader>
-      <Divider borderColor="green" borderWidth="2px" w="95%" alignSelf="center" />
-      <CardBody>
-        <Text fontSize="lg" fontWeight="500">
+      <CardBody padding="0 5px 5px" overflowY="auto">
+        <Text
+          height="100%"
+          width="100%"
+          bgColor="green.100"
+          padding="15px"
+          borderRadius="xl"
+          fontSize="xl"
+          fontWeight="600"
+          color="green.900"
+          lineHeight="1.8"
+        >
           {body}
         </Text>
       </CardBody>
