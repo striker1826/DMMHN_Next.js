@@ -17,9 +17,16 @@
   border-radius: 12px;
   transform: scaleX(-1);
   object-fit: fill;
+  aspect-ratio: 16 / 9;
 }
 
 .chat_area {
   display: flex;
   flex: 1;
+}
+
+@media (max-width: 1020px) {
+  .video_area {
+    flex: 1;
+  }
 }
