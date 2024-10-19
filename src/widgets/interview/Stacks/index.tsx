@@ -20,6 +20,7 @@ export const Stacks = ({ stacks, selectedStacks, onChangeStatus, handleSelectSta
   const applySelectedStacks = (selectedStacks: string[]) => {
     if (!selectedStacks.length) {
       alert('면접 볼 stack을 선택해주세요!');
+      return;
     }
 
     onChangeStatus('ready');

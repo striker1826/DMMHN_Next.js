@@ -6,7 +6,8 @@ export const getStacks = async (accessToken?: string) => {
   });
 
   if (!response.ok) {
-    throw new Error(`${response.status} ${response.statusText}`);
+    // switch(response.status) {
+    // }
   }
 
   const data = await response.json();
