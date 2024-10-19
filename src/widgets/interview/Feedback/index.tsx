@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import NextLink from 'next/link';
 import { postFeedback, postTotalFeedback } from '@/queries/feedback';
 import { extractStrings } from '@/shared/utils/extractStrings';
-import { Button, Flex, Heading, HStack, Link } from '@chakra-ui/react';
+import { Button, Flex, Heading, HStack, Link, Spinner } from '@chakra-ui/react';
 import FeedbackCard from '@/components/feedback/FeedbackCard';
 
 interface Props {
@@ -16,20 +16,27 @@ export const Feedback = ({ interviewResult, accessToken }: Props) => {
   const [feedbacks, setFeedbacks] = useState<{ good: string; bad: string }[]>([]);
   const [totalFeedback, setTotalFeedback] = useState<string>('');
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const handleFeedback = useCallback(async () => {
-    const feedback = await postFeedback({ accessToken, QnAList: interviewResult });
-    setFeedbacks(feedback);
+    try {
+      const feedback = await postFeedback({ accessToken, QnAList: interviewResult });
+      setFeedbacks(feedback);
 
-    const feedbackStrArr = extractStrings(feedback);
-    const feedbackObj = feedbackStrArr.map(string => ({ feedback: string }));
+      const feedbackStrArr = extractStrings(feedback);
+      const feedbackObj = feedbackStrArr.map(string => ({ feedback: string }));
 
-    const total = await postTotalFeedback({
-      accessToken,
-      totalFeedback: feedbackObj,
-    });
+      const total = await postTotalFeedback({
+        accessToken,
+        totalFeedback: feedbackObj,
+      });
 
-    setTotalFeedback(total);
+      setTotalFeedback(total);
+    } catch (error) {
+      console.error('피드백 로딩 중 오류 발생:', error);
+    } finally {
+      setIsLoading(false);
+    }
   }, [accessToken, interviewResult]);
 
   useEffect(() => {
@@ -48,8 +55,12 @@ export const Feedback = ({ interviewResult, accessToken }: Props) => {
     setCurrentIndex(index);
   };
 
-  if (!feedbacks.length) {
-    return <p>결과가 없습니다!</p>;
+  if (isLoading) {
+    return (
+      <Flex height="100vh" align="center" justify="center">
+        <Spinner size="xl" color="green.500" />
+      </Flex>
+    );
   }
 
   const isLastPage = currentIndex === feedbacks.length;
