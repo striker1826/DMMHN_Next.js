@@ -1,9 +1,20 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import NextLink from 'next/link';
 import { evaluate, totalEvaluate } from '@/queries/evaluation/evaluate';
 import { extractStrings } from '@/shared/utils/extractStrings';
-import { Box, Card, CardBody, CardHeader, Heading, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Flex,
+  Heading,
+  Link,
+  Text,
+} from '@chakra-ui/react';
 import styles from './End.module.scss';
 
 interface Props {
@@ -101,6 +112,22 @@ export const End = ({ interviewResult, accessToken }: Props) => {
               </Text>
             </CardBody>
           </Card>
+          <Flex
+            flexDirection="column"
+            width="330px"
+            height="440px"
+            align="center"
+            justify="center"
+            gap="30px"
+            h="100%"
+          >
+            <Link as={NextLink} href="/" fontSize="24px" fontWeight="600">
+              홈으로
+            </Link>
+            <Button fontSize="24px" fontWeight="600" padding="30px" colorScheme="green">
+              녹화본 저장
+            </Button>
+          </Flex>
         </li>
       </ul>
       <ul className={styles.pagination}>
