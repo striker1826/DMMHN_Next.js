@@ -47,8 +47,8 @@
   align-items: center;
 }
 
-@media (max-width: 1280px) and (min-width: 650px) {
+@media (max-width: 1020px) {
   .container {
-    justify-content: center;
+    min-width: 760px;
   }
 }
