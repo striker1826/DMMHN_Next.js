@@ -60,13 +60,17 @@ export const Ready = ({ transcript, handleResetCurrentScript, onChangeStatus }: 
         </div>
       </div>
       <div className={styles.btn_container}>
-        <PrimaryBtn text="이전으로" onClick={() => onChangeStatus('stacks')} />
-        <PrimaryBtn
-          text="시작"
-          onClick={() => {
-            onChangeStatus('interviewing');
-          }}
-        />
+        <div className={styles.btn_wrapper}>
+          <PrimaryBtn text="이전으로" onClick={() => onChangeStatus('stacks')} />
+        </div>
+        <div className={styles.btn_wrapper}>
+          <PrimaryBtn
+            text="시작"
+            onClick={() => {
+              onChangeStatus('interviewing');
+            }}
+          />
+        </div>
       </div>
     </div>
   );
