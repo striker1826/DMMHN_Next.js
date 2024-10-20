@@ -25,7 +25,7 @@ export async function postFeedback({
   const result = data.map((string: string) => {
     const splitPoint = string.split('good: ')[1];
     const good = splitPoint.split(', bad')[0];
-    const bad = splitPoint.split('bad: ');
+    const bad = splitPoint.split('bad: ')[1].split('}')[0];
     return { good, bad };
   });
 
@@ -37,7 +37,7 @@ export async function postTotalFeedback({
   totalFeedback,
 }: {
   accessToken?: string;
-  totalFeedback: { feedback: string }[];
+  totalFeedback: { evaluation: string }[];
 }) {
   const response = await fetch(`${process.env.BASE_URL}/grading/evaluation/overall`, {
     method: 'POST',

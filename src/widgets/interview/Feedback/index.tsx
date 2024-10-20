@@ -24,7 +24,7 @@ export const Feedback = ({ interviewResult, accessToken }: Props) => {
       setFeedbacks(feedback);
 
       const feedbackStrArr = extractStrings(feedback);
-      const feedbackObj = feedbackStrArr.map(string => ({ feedback: string }));
+      const feedbackObj = feedbackStrArr.map(string => ({ evaluation: string }));
 
       const total = await postTotalFeedback({
         accessToken,
