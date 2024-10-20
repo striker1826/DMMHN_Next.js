@@ -31,7 +31,6 @@ const Simulation = ({ stacks, accessToken }: Props) => {
   };
 
   useEffect(() => {
-    console.log('text', text);
     setCurrentTranscript(text);
   }, [text]);
 

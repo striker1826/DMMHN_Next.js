@@ -46,7 +46,6 @@ export const useSTT = () => {
    * transcript가 변경될 때마다 text 상태를 업데이트합니다.
    */
   useEffect(() => {
-    console.log('transcript', transcript);
     if (transcript !== '') {
       setText(transcript);
     }
