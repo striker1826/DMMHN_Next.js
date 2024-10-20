@@ -7,7 +7,7 @@ import Chat from '@/widgets/chat/Chat';
 interface Props {
   transcript: string;
   selectedStacks: string[];
-  handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'end') => void;
+  handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
   handleChangeInterviewChatResult: (
     interviewChatResult: { question: string; answer: string }[],
   ) => void;

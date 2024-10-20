@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { End, Interviewing, Ready, Stacks } from '@/widgets/interview';
+import { Feedback, Interviewing, Ready, Stacks } from '@/widgets/interview';
 import { Stack } from '@/shared/types/stack';
 import styles from './InterviewContainer.module.scss';
 import { useSTT } from '@/models/audio/useSTT';
 
-export type InterviewStatus = 'stacks' | 'ready' | 'interviewing' | 'end';
+export type InterviewStatus = 'stacks' | 'ready' | 'interviewing' | 'feedback';
 
 interface Props {
   stacks: Stack[];
@@ -79,7 +79,9 @@ const Simulation = ({ stacks, accessToken }: Props) => {
           handleChangeInterviewChatResult={handleChangeInterviewChatResult}
         />
       )}
-      {status === 'end' && <End interviewResult={interviewChatResult} accessToken={accessToken} />}
+      {status === 'feedback' && (
+        <Feedback interviewResult={interviewChatResult} accessToken={accessToken} />
+      )}
     </main>
   );
 };

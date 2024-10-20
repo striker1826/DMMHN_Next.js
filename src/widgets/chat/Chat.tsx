@@ -16,7 +16,7 @@ interface Props {
   handleChangeInterviewChatResult: (
     interviewChatResult: { question: string; answer: string }[],
   ) => void;
-  handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'end') => void;
+  handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
 }
 
 const Chat = ({
@@ -65,7 +65,7 @@ const Chat = ({
     );
 
     handleChangeInterviewChatResult(formattedData);
-    handleInterviewStatus('end');
+    handleInterviewStatus('feedback');
   };
 
   const chatContainerRef = useRef<HTMLDivElement | null>(null);

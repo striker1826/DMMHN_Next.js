@@ -10,7 +10,7 @@ import { timeSleep } from '@/shared/utils/sleep';
 interface Props {
   transcript?: string;
   handleResetCurrentScript: () => void;
-  onChangeStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'end') => void;
+  onChangeStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
 }
 
 export const Ready = ({ transcript, handleResetCurrentScript, onChangeStatus }: Props) => {
