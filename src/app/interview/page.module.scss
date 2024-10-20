@@ -8,3 +8,9 @@
   width: 100%;
   padding: 100px 200px;
 }
+
+@media (max-width: 1230px) {
+  .wrap {
+    padding: 100px 60px;
+  }
+}

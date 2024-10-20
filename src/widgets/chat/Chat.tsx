@@ -7,8 +7,11 @@ import ChattingList from '@/component_list/chattingList/ChattingList';
 import { useSTT } from '@/models/audio/useSTT';
 import { useHandleChat } from '@/models/chat/useHandleChat';
 import { QuestionResponse } from '@/shared/types/question';
+import { INTERVIER_PROFILE_IMG } from '@/constants/chat';
+import SpeechRecognition from 'react-speech-recognition';
 
 interface Props {
+  transcript: string;
   questionList: QuestionResponse[];
   handleChangeInterviewChatResult: (
     interviewChatResult: { question: string; answer: string }[],
@@ -16,8 +19,13 @@ interface Props {
   handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
 }
 
-const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatResult }: Props) => {
-  const { handleRecAudio } = useSTT();
+const Chat = ({
+  transcript,
+  questionList,
+  handleInterviewStatus,
+  handleChangeInterviewChatResult,
+}: Props) => {
+  const { handleStopRecAudio } = useSTT();
   const [interviewHistory, setInterviewHistory] = useState<{ question: string; answer: string }[]>(
     [],
   );
@@ -30,7 +38,12 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
     handleAddChatInfoList,
     addRecordingBox,
     submitAnswer,
-  } = useHandleChat({ questionList, handleInterviewStatus });
+  } = useHandleChat({
+    questionList,
+    transcript,
+    stopListening: handleStopRecAudio,
+    handleInterviewStatus,
+  });
 
   const handleToExitChat = () => {
     const questionAndAnswer = chatInfoList.slice(1, -3);
@@ -62,6 +75,7 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
         type: 'other',
         name: '면접관',
         message: questionList[0].question,
+        profileImg: INTERVIER_PROFILE_IMG,
       });
     }, 5000);
 
@@ -88,7 +102,7 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
           content={chatInfoList}
           recordingBox={recordingBox}
           handleToExitChat={handleToExitChat}
-          onRecAudio={handleRecAudio}
+          onRecAudio={() => SpeechRecognition.startListening({ continuous: true, language: 'ko' })}
           onChangeIsAnswering={handleChangeIsAnswering}
           onChangeRecordingBoxState={handleChangeRecordingBox}
         />

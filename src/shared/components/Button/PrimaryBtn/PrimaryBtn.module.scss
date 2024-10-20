@@ -1,4 +1,5 @@
 .layout {
+  width: 100%;
   border-radius: 11px;
   border: 3px solid #058841;
   background: #fff;
@@ -13,6 +14,7 @@
 
   &:hover {
     background-color: #058841;
+    color: #fff;
     transition: background-color 0.2s ease-in-out;
   }
 
@@ -26,5 +28,11 @@
     font-size: 36px;
     font-weight: 600;
     cursor: none;
+  }
+}
+
+@media (max-width: 1020px) {
+  .layout {
+    font-size: 28px;
   }
 }

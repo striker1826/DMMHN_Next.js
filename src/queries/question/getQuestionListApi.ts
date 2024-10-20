@@ -14,7 +14,10 @@ export const getQuestionListApi = async (stacksId: string): Promise<QuestionResp
   });
 
   if (!response.ok) {
-    throw new Error(`${response.status} ${response.statusText}`);
+    switch (response.status) {
+      case 400:
+        alert('stack의 갯수는 3개를 넘어갈 수 없습니다');
+    }
   }
 
   const questionList = await response.json();

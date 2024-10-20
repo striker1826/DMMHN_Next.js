@@ -6,14 +6,13 @@ import { getQuestionListApi } from '@/queries/question/getQuestionListApi';
 import { useSearchParams } from 'next/navigation';
 
 export const useHandleInterview = () => {
-  const searchParams = useSearchParams();
-  const stacksId = searchParams.get('stacks');
   const [questionList, setQuestionList] = useState<QuestionResponse[]>([]);
 
-  const handleLoadQuestionList = useCallback(async () => {
-    const questionList = await getQuestionListApi(stacksId || '');
+  const handleLoadQuestionList = useCallback(async (stackIds: string[]) => {
+    const stackIdsString = stackIds.join(',');
+    const questionList = await getQuestionListApi(stackIdsString || '');
     setQuestionList(questionList);
-  }, [stacksId]);
+  }, []);
 
   return {
     questionList,

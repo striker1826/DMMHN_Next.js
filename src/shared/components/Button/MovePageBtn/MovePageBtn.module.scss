@@ -1,0 +1,15 @@
+.interviewBtn {
+  padding: 18px 112px;
+  border-radius: 42.5px;
+  background: #fff9c1;
+  border: none;
+  color: #025729;
+  font-size: 40px;
+  font-weight: 700;
+  text-decoration: none;
+
+  &:hover {
+    background: #d3ce9f;
+    transition: background-color 0.1s ease-in-out;
+  }
+}

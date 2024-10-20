@@ -2,12 +2,15 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSTT } from '../audio/useSTT';
 import { QuestionResponse } from '@/shared/types/question';
 import { useHandleQuestion } from '../question/useHandleQuestion';
-import { useHandleInterview } from '../simulation/useHandleInterview';
+import { getCookie } from '@/shared/utils/cookies';
+import { INTERVIER_PROFILE_IMG } from '@/constants/chat';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 interface ChatInfo {
   type: 'other' | 'mine' | 'recording' | 'exit';
   name: string;
   message: string;
+  profileImg: string;
 }
 
 /**
@@ -28,18 +31,25 @@ interface ChatInfo {
 */
 export const useHandleChat = ({
   questionList,
-  handleInterviewStatus,
+  transcript,
+  stopListening,
 }: {
   questionList: QuestionResponse[];
+  transcript: string;
+  stopListening: () => void;
   handleInterviewStatus: (status: 'ready' | 'interviewing' | 'feedback') => void;
 }) => {
   const { currentQuestion, questionLength, currentQuestionNumber, handleLoadNextQuestion } =
     useHandleQuestion({ questionList });
-  const { text, handleStopRecAudio } = useSTT();
   const [isAnswering, setIsAnswering] = useState(false);
   const [recordingBox, setRecordingBox] = useState(false);
   const [chatInfoList, setChatInfoList] = useState<ChatInfo[]>([
-    { type: 'other', name: '면접관', message: '안녕하세요. 5초 후에 면접을 시작하겠습니다.' },
+    {
+      type: 'other',
+      name: '면접관',
+      message: '안녕하세요. 5초 후에 면접을 시작하겠습니다.',
+      profileImg: INTERVIER_PROFILE_IMG,
+    },
   ]);
   /**
    * 답변 중 상태를 변경합니다.
@@ -70,8 +80,8 @@ export const useHandleChat = ({
    * @param {string} chatInfo.message - 채팅 메시지 내용입니다.
    * @returns {void}
    */
-  const handleAddChatInfoList = useCallback(({ type, name, message }: ChatInfo) => {
-    setChatInfoList(prev => [...prev, { type, name, message }]);
+  const handleAddChatInfoList = useCallback(({ type, name, message, profileImg }: ChatInfo) => {
+    setChatInfoList(prev => [...prev, { type, name, message, profileImg }]);
   }, []);
 
   /**
@@ -79,7 +89,8 @@ export const useHandleChat = ({
    * @returns {void}
    */
   const addRecordingBox = useCallback(() => {
-    setChatInfoList(prev => [...prev, { type: 'recording', name: '나', message: '' }]);
+    const profileImg = getCookie('profileImg');
+    setChatInfoList(prev => [...prev, { type: 'recording', name: '나', message: '', profileImg }]);
   }, []);
 
   /**
@@ -101,7 +112,10 @@ export const useHandleChat = ({
       question: string;
     }) => {
       setTimeout(() => {
-        setChatInfoList(prev => [...prev, { type: 'other', name: '면접관', message: question }]);
+        setChatInfoList(prev => [
+          ...prev,
+          { type: 'other', name: '면접관', message: question, profileImg: INTERVIER_PROFILE_IMG },
+        ]);
       }, interviewerTimer);
 
       setTimeout(() => {
@@ -117,13 +131,13 @@ export const useHandleChat = ({
    *
    * @returns {Promise<void>} - 비동기로 처리되는 함수입니다.
    */
-  const submitAnswer = async () => {
+  const submitAnswer = async (): Promise<void> => {
     setIsAnswering(false);
-    handleStopRecAudio();
+    stopListening();
 
     setChatInfoList(prev => {
       prev[prev.length - 1].type = 'mine';
-      prev[prev.length - 1].message = text.current ? text.current : '잘 모르겠습니다.';
+      prev[prev.length - 1].message = transcript ? transcript : '잘 모르겠습니다.';
       return prev;
     });
 
@@ -136,16 +150,19 @@ export const useHandleChat = ({
         type: 'other',
         name: '면접관',
         message: '면접이 종료되었습니다.',
+        profileImg: INTERVIER_PROFILE_IMG,
       });
       handleAddChatInfoList({
         type: 'other',
         name: '면접관',
         message: '결과를 확인해보실래요?',
+        profileImg: INTERVIER_PROFILE_IMG,
       });
       handleAddChatInfoList({
         type: 'exit',
         name: '나',
         message: '결과 확인하기',
+        profileImg: INTERVIER_PROFILE_IMG,
       });
     }
   };

@@ -12,3 +12,21 @@
   border: none;
   background-color: transparent;
 }
+
+.chakra_menu__menu_button {
+  background: none !important;
+  border: none !important;
+}
+
+.chakra_menu__menu_list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 5px !important;
+  min-width: 100% !important;
+  padding: 5px !important;
+}
+
+.chakra_menu_menu_item {
+  font-size: 15px;
+  font-weight: 600;
+}
