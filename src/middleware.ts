@@ -1,30 +1,21 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse, userAgent } from 'next/server';
 import { apiInstance } from '@/shared/utils/axios';
+
+const PROTECTED_PATHS = ['/interview'];
 
 export async function middleware(req: NextRequest) {
   const { pathname, searchParams } = req.nextUrl;
+
   const kakao_code = searchParams.get('code');
+
   const accessToken = req.cookies.get('accessToken')?.value;
   const oneDay = 24 * 60 * 60 * 1000;
-  const userAgent = req.headers.get('user-agent') || '';
-  const isMobile = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(
-    userAgent,
-  );
 
-  // 모바일로 접근 시 안내페이지로 리다이렉트 합니다.
-  if (isMobile) {
-    return NextResponse.redirect(new URL('/mobile-page', req.url));
-  }
+  const { device, browser } = userAgent(req);
+  console.log(device, browser);
 
-  // / 은 비보호 경로입니다.
-  if (pathname === '/') {
-    return NextResponse.next();
-  }
-
-  // 토큰 없이 보호 경로에 접근시 비보호 경로로 리다이렉트 합니다.
-  if (!accessToken) {
-    return NextResponse.redirect(new URL('/', req.url));
-  }
+  const isMobile = device.type === 'mobile';
+  const isChrome = browser.name === 'Chrome';
 
   // 카카오 인증
   if (kakao_code) {
@@ -48,9 +39,24 @@ export async function middleware(req: NextRequest) {
     }
   }
 
+  // 모바일로 접근 시 안내 페이지로 리다이렉트합니다.
+  if (isMobile) {
+    return NextResponse.redirect(new URL('/mobile-page', req.url));
+  }
+
+  // 크롬이 아닌 브라우저로 접근 시 안내 페이지로 리다이렉트합니다.
+  if (!isChrome) {
+    return NextResponse.redirect(new URL('/browser-not-supported', req.url));
+  }
+
+  // 보호 경로에 접근 시 토큰이 없는 경우 비보호 경로로 리다이렉트 합니다.
+  if (PROTECTED_PATHS.includes(pathname) && !accessToken) {
+    return NextResponse.redirect(new URL('/', req.url));
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/:path*', '/api/:path*'],
+  matcher: ['/:path', '/interview/:path', '/api/:path*'],
 };
