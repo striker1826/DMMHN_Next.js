@@ -25,8 +25,9 @@ export default function FeedbackCard({ heading, body }: Props) {
   return (
     <>
       <Card
-        width="360px"
-        height="480px"
+        width="100%"
+        minHeight="100%"
+        height="100%"
         boxShadow="md"
         borderRadius="xl"
         overflow="hidden"
@@ -50,9 +51,10 @@ export default function FeedbackCard({ heading, body }: Props) {
             {heading}
           </Heading>
         </CardHeader>
-        <CardBody padding="0 5px 5px" overflowY="auto">
+        <CardBody padding="0 5px 5px">
           <Text
-            height="100%"
+            // height="100%"
+            minHeight="100%"
             width="100%"
             bgColor="green.100"
             padding="15px"
@@ -62,6 +64,7 @@ export default function FeedbackCard({ heading, body }: Props) {
             fontWeight="600"
             color="green.900"
             lineHeight="1.8"
+            noOfLines={7}
           >
             {body}
           </Text>
@@ -69,13 +72,13 @@ export default function FeedbackCard({ heading, body }: Props) {
       </Card>
       <Modal isOpen={isOpen} onClose={onClose} size="lg" isCentered>
         <ModalOverlay />
-        <ModalContent padding="8px">
+        <ModalContent padding="8px" height="400px">
           <ModalHeader>
             <Heading size="lg">{heading}</Heading>
           </ModalHeader>
           <ModalCloseButton />
           <Divider borderWidth="2px" color="green" borderRadius="full" />
-          <ModalBody>
+          <ModalBody overflowY="auto">
             <Text fontSize="xl" fontWeight="600" lineHeight="1.8">
               {body}
             </Text>

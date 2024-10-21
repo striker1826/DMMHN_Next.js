@@ -66,18 +66,16 @@ export const Feedback = ({ interviewResult, accessToken }: Props) => {
   const isLastPage = currentIndex === feedbacks.length;
 
   return (
-    <Flex direction="column" justify="center" align="center" boxSize="100%" gap="15px">
+    <Flex direction="column" justify="center" align="center" boxSize="100%" gap="40px">
       {/* 현재 피드백 받을 문제 */}
-      <Flex justify="left" width="100%">
-        <Heading>
-          {isLastPage
-            ? '마지막으로 요약을 제공해 드립니다.'
-            : `질문: ${interviewResult[currentIndex].question}`}
-        </Heading>
-      </Flex>
+      <Heading textAlign="left" width="100%">
+        {isLastPage
+          ? '마지막으로 요약을 제공해 드립니다.'
+          : `${interviewResult[currentIndex].question}`}
+      </Heading>
 
       {/* 피드백 카드 */}
-      <Flex width="100%" align="center" justify="center" gap="40px">
+      <Flex width="100%" align="center" height="345px" justify="center" gap="40px">
         {!isLastPage ? (
           <>
             <FeedbackCard heading="잘하셨어요!" body={feedbacks[currentIndex].good} />
