@@ -6,6 +6,7 @@ import { ScaleLoader } from 'react-spinners';
 import Image from 'next/image';
 import { getCookie } from '@/shared/utils/cookies';
 import { profile } from 'console';
+import { useSTT } from '@/models/audio/useSTT';
 
 interface Props {
   type: 'other' | 'mine' | 'recording' | 'exit';
@@ -34,6 +35,8 @@ const Chatting = ({
   onRecAudio,
 }: Props) => {
   const [count, setCount] = useState(DEFAULT_READY_RECORDING_SECOND);
+
+  const { handleRecAudio } = useSTT();
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -65,9 +68,9 @@ const Chatting = ({
 
   useEffect(() => {
     if (recordingBox) {
-      onRecAudio();
+      handleRecAudio();
     }
-  }, [recordingBox, onRecAudio]);
+  }, [recordingBox, handleRecAudio]);
 
   return (
     <div className={type === 'other' ? styles.other_container : styles.mine_container}>

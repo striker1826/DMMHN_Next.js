@@ -39,6 +39,7 @@ export const useHandleChat = ({
   stopListening: () => void;
   handleInterviewStatus: (status: 'ready' | 'interviewing' | 'feedback') => void;
 }) => {
+  const { text } = useSTT();
   const { currentQuestion, questionLength, currentQuestionNumber, handleLoadNextQuestion } =
     useHandleQuestion({ questionList });
   const [isAnswering, setIsAnswering] = useState(false);
@@ -137,7 +138,7 @@ export const useHandleChat = ({
 
     setChatInfoList(prev => {
       prev[prev.length - 1].type = 'mine';
-      prev[prev.length - 1].message = transcript ? transcript : '잘 모르겠습니다.';
+      prev[prev.length - 1].message = text ? text : '잘 모르겠습니다.';
       return prev;
     });
 
