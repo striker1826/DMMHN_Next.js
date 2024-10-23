@@ -58,5 +58,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/:path', '/interview/:path', '/api/:path*'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|browser-not-supported|mobile-page).*)'],
 };
