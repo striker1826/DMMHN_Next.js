@@ -1,0 +1,58 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  border: 5px solid #058841;
+  border-radius: 12px;
+  padding: 24px 16px;
+}
+
+.chat {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.other {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.mine {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.button {
+  border: 3px solid #058841;
+  border-radius: 4px;
+  padding: 20px 16px;
+  color: #000;
+  background-color: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #058841;
+    transition: background-color 0.2s ease-in-out;
+  }
+}
+
+.not_active_btn {
+  border: 3px solid #058841;
+  border-radius: 4px;
+  padding: 20px 16px;
+  color: #000;
+  background-color: #fff;
+  opacity: 0.6;
+}

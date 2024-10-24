@@ -1,49 +1,127 @@
-.caution {
-  background-color: #0b627d;
-  padding: 40px 40px 20px;
-  border-radius: 32px;
-  margin-bottom: 12px;
+.layout {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
 
-  h2 {
-    font-size: 48;
-    font-weight: 600;
-    color: #d1dae3;
-  }
+.content_layout {
+  display: flex;
+  gap: 50px;
+  justify-content: space-between;
 
-  p {
+  .description {
+    flex: 2;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    font-size: 16px;
+    gap: 20px;
+    height: 100%;
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .description_wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+      height: 100%;
+      font-size: 20px;
+    }
+  }
+
+  .video_wrap {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .recording {
+      border-radius: 8px;
+      padding: 8px 16px;
+      border: 1px solid #000;
+      background-color: #058841;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      border-radius: 28px;
+      transform: scaleX(-1);
+      object-fit: fill;
+    }
   }
 }
 
-.description {
-  min-width: 620px;
+.btn_wrapper {
+  min-width: 350px;
+  min-height: 95px;
+}
+
+.stt_text_container {
   width: 100%;
-  color: #fff;
-  text-align: center;
-  font-size: 32px;
-  font-weight: 500;
-  line-height: 1.4;
-
-  margin-bottom: 16px;
+  height: 100%;
+  border: 1px solid #000;
+  margin-top: 24px;
+  border-radius: 4px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
 }
 
-.micBtn {
-  border-radius: 8px;
-  border: none;
-  padding: 12px 20px;
+.btn_container {
+  display: flex;
+  justify-content: space-between;
 }
 
-.transcript {
-  color: #fff;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 1.4;
-  margin: 10px 0;
+@media (max-width: 1020px) {
+  .content_layout {
+    display: block;
+  }
+
+  .description {
+    text-align: center;
+
+    h1 {
+      font-size: 28px;
+      word-break: keep-all;
+    }
+
+    p {
+      word-break: keep-all;
+    }
+  }
+
+  .video_wrap {
+    display: none;
+
+    video {
+      display: none;
+    }
+
+    .recording {
+      display: none;
+    }
+  }
+
+  .stt_text_container {
+    display: none;
+  }
+
+  .btn_container {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .btn_wrapper {
+    width: 100%;
+  }
 }
