@@ -17,6 +17,8 @@ export async function middleware(req: NextRequest) {
   const isMobile = device.type === 'mobile';
   const isChrome = browser.name === 'Chrome';
 
+  console.log('kakao_code', kakao_code);
+
   // 카카오 인증
   if (kakao_code) {
     try {
@@ -58,6 +60,6 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  // matcher: ['/((?!_next/static|_next/image|favicon.ico|browser-not-supported|mobile-page).*)'],
-  matcher: ['/:path*', '/api/:path*'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|browser-not-supported|mobile-page).*)'],
+  // matcher: ['/:path*', '/api/:path*'],
 };
