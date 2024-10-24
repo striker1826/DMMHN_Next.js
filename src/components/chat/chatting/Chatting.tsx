@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Chatting.module.scss';
 import { ScaleLoader } from 'react-spinners';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import { getCookie } from '@/shared/utils/cookies';
 import { profile } from 'console';
 import { useSTT } from '@/models/audio/useSTT';
@@ -12,7 +12,7 @@ interface Props {
   type: 'other' | 'mine' | 'recording' | 'exit';
   name: string;
   message: string;
-  profileImg: string;
+  profileImg: StaticImageData;
   questionIsLoading: boolean;
   recordingBox: boolean;
   onRecAudio: () => void;

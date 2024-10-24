@@ -7,7 +7,7 @@ import ChattingList from '@/component_list/chattingList/ChattingList';
 import { useSTT } from '@/models/audio/useSTT';
 import { useHandleChat } from '@/models/chat/useHandleChat';
 import { QuestionResponse } from '@/shared/types/question';
-import { INTERVIER_PROFILE_IMG } from '@/constants/chat';
+import INTERVIER_PROFILE_IMG from '../../../public/Logo.png';
 import SpeechRecognition from 'react-speech-recognition';
 
 interface Props {

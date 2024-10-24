@@ -3,14 +3,15 @@ import { useSTT } from '../audio/useSTT';
 import { QuestionResponse } from '@/shared/types/question';
 import { useHandleQuestion } from '../question/useHandleQuestion';
 import { getCookie } from '@/shared/utils/cookies';
-import { INTERVIER_PROFILE_IMG } from '@/constants/chat';
+import INTERVIER_PROFILE_IMG from '../../../public/Logo.png';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import { StaticImageData } from 'next/image';
 
 interface ChatInfo {
   type: 'other' | 'mine' | 'recording' | 'exit';
   name: string;
   message: string;
-  profileImg: string;
+  profileImg: StaticImageData;
 }
 
 /**
