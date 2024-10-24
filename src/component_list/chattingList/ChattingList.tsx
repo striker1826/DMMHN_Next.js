@@ -1,12 +1,13 @@
 import React from 'react';
 import Chatting from '@/components/chat/chatting/Chatting';
+import { StaticImageData } from 'next/image';
 
 interface Props {
   content: {
     type: 'other' | 'mine' | 'recording' | 'exit';
     name: string;
     message: string;
-    profileImg: string;
+    profileImg: StaticImageData;
   }[];
   recordingBox: boolean;
   onRecAudio: () => void;
