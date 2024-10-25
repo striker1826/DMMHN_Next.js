@@ -133,17 +133,18 @@ export const useHandleChat = ({
    *
    * @returns {Promise<void>} - 비동기로 처리되는 함수입니다.
    */
-  const submitAnswer = async (): Promise<void> => {
+  const submitAnswer = async (transcript: string, resetTranscript: () => void): Promise<void> => {
     setIsAnswering(false);
     stopListening();
 
     setChatInfoList(prev => {
       prev[prev.length - 1].type = 'mine';
-      prev[prev.length - 1].message = text ? text : '잘 모르겠습니다.';
+      prev[prev.length - 1].message = transcript ? transcript : '잘 모르겠습니다.';
       return prev;
     });
 
     setRecordingBox(false);
+    resetTranscript();
 
     if (questionLength > currentQuestionNumber) {
       handleLoadNextQuestion();

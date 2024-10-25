@@ -8,7 +8,7 @@ import { useSTT } from '@/models/audio/useSTT';
 import { useHandleChat } from '@/models/chat/useHandleChat';
 import { QuestionResponse } from '@/shared/types/question';
 import INTERVIER_PROFILE_IMG from '../../../public/Logo.png';
-import SpeechRecognition from 'react-speech-recognition';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 interface Props {
   transcript: string;
@@ -25,10 +25,9 @@ const Chat = ({
   handleInterviewStatus,
   handleChangeInterviewChatResult,
 }: Props) => {
+  const { transcript: sttText, resetTranscript } = useSpeechRecognition();
   const { handleStopRecAudio } = useSTT();
-  const [interviewHistory, setInterviewHistory] = useState<{ question: string; answer: string }[]>(
-    [],
-  );
+
   const {
     chatInfoList,
     recordingBox,
@@ -41,7 +40,7 @@ const Chat = ({
   } = useHandleChat({
     questionList,
     transcript,
-    stopListening: handleStopRecAudio,
+    stopListening: SpeechRecognition.abortListening,
     handleInterviewStatus,
   });
 
@@ -109,7 +108,7 @@ const Chat = ({
       </div>
       <button
         className={isAnswering ? styles.button : styles.not_active_btn}
-        onClick={submitAnswer}
+        onClick={() => submitAnswer(sttText, resetTranscript)}
         disabled={!isAnswering}
       >
         {chatInfoList[chatInfoList.length - 1].type === 'exit'

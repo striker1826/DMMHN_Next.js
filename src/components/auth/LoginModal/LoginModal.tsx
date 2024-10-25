@@ -19,7 +19,7 @@ const LoginModal = () => {
         <ModalBody className={styles.content}>
           <Link
             className={styles.kakao_wrap}
-            href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=https://dmmhn-next-js.vercel.app/kakao/redirect&response_type=code`}
+            href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.KAKAO_REDIRECT_URI}&response_type=code`}
           >
             <Image fill src="/kakao_login_medium_wide.png" alt="kakao_btn" />
           </Link>
