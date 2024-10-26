@@ -17,9 +17,10 @@ import {
 interface Props {
   heading: string;
   body?: string;
+  cardType: 'good' | 'bad' | 'totalFeedback';
 }
 
-export default function FeedbackCard({ heading, body }: Props) {
+export default function FeedbackCard({ heading, body, cardType }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -28,9 +29,10 @@ export default function FeedbackCard({ heading, body }: Props) {
         width="100%"
         minHeight="100%"
         height="100%"
-        boxShadow="md"
+        boxShadow="lg"
         borderRadius="xl"
         overflow="hidden"
+        cursor="pointer"
         onClick={onOpen}
         transition="all 0.3s ease"
         _hover={{
@@ -38,32 +40,48 @@ export default function FeedbackCard({ heading, body }: Props) {
           boxShadow: 'xl',
         }}
       >
-        <CardHeader padding="0 5px 5px">
+        <CardHeader padding="10px 10px 2.5px 10px">
           <Heading
-            bgColor="green.600"
+            bgColor={
+              cardType === 'totalFeedback'
+                ? 'green.600'
+                : cardType === 'good'
+                ? 'blue.300'
+                : cardType === 'bad'
+                ? 'red.300'
+                : ''
+            }
             color="green.50"
             width="100%"
             padding="15px"
             borderRadius="xl"
-            borderBottomRadius="none"
+            borderBottomRadius="sm"
             size="lg"
           >
             {heading}
           </Heading>
         </CardHeader>
-        <CardBody padding="0 5px 5px">
+        <CardBody padding="2.5px 10px 10px 10px" overflow="hidden">
           <Text
-            // height="100%"
-            minHeight="100%"
             width="100%"
-            bgColor="green.100"
-            padding="15px"
+            height="100%"
+            bgColor={
+              cardType === 'totalFeedback'
+                ? 'green.100'
+                : cardType === 'good'
+                ? 'blue.100'
+                : cardType === 'bad'
+                ? 'red.100'
+                : ''
+            }
+            padding="5px 15px"
             borderRadius="xl"
-            borderTopRadius="none"
+            borderTopRadius="sm"
             fontSize="xl"
             fontWeight="600"
             color="green.900"
             lineHeight="1.8"
+            overflow="hidden"
             noOfLines={7}
           >
             {body}
