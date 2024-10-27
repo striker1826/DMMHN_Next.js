@@ -66,23 +66,55 @@ export const Feedback = ({ interviewResult, accessToken }: Props) => {
   const isLastPage = currentIndex === feedbacks.length;
 
   return (
-    <Flex direction="column" justify="center" align="center" boxSize="100%" gap="40px">
+    <Flex direction="column" justify="center" align="center" boxSize="100%" gap="30px">
       {/* 현재 피드백 받을 문제 */}
-      <Heading textAlign="left" width="100%">
-        {isLastPage
-          ? '마지막으로 요약을 제공해 드립니다.'
-          : `${interviewResult[currentIndex].question}`}
-      </Heading>
+      <Flex width="100%" padding="10px" boxShadow="lg" borderRadius="xl" align="center">
+        {!isLastPage && (
+          <Flex
+            justify="center"
+            align="center"
+            padding="10px"
+            bgColor="green.600"
+            color="green.50"
+            borderRadius="xl"
+            fontWeight="600"
+            fontSize="28px"
+            width="70px"
+          >
+            Q{currentIndex + 1}
+          </Flex>
+        )}
+        <Heading
+          textAlign="left"
+          width="100%"
+          fontSize="28px"
+          paddingY="10px"
+          marginLeft="10px"
+          color="green.900"
+        >
+          {isLastPage
+            ? '마지막으로 요약을 제공해 드립니다.'
+            : `${interviewResult[currentIndex].question}`}
+        </Heading>
+      </Flex>
 
       {/* 피드백 카드 */}
-      <Flex width="100%" align="center" height="345px" justify="center" gap="40px">
+      <Flex width="100%" align="center" height="345px" justify="center" gap="30px">
         {!isLastPage ? (
           <>
-            <FeedbackCard heading="잘하셨어요!" body={feedbacks[currentIndex].good} />
-            <FeedbackCard heading="아쉬운 점은..." body={feedbacks[currentIndex].bad} />
+            <FeedbackCard
+              heading="잘하셨어요!"
+              body={feedbacks[currentIndex].good}
+              cardType="good"
+            />
+            <FeedbackCard
+              heading="아쉬운 점은..."
+              body={feedbacks[currentIndex].bad}
+              cardType="bad"
+            />
           </>
         ) : (
-          <FeedbackCard heading="정리하자면..." body={totalFeedback} />
+          <FeedbackCard heading="정리하자면..." body={totalFeedback} cardType="totalFeedback" />
         )}
 
         {isLastPage && (
@@ -94,7 +126,7 @@ export const Feedback = ({ interviewResult, accessToken }: Props) => {
             justify="center"
             gap="30px"
           >
-            <Link as={NextLink} href="/" fontSize="28px" fontWeight="700">
+            <Link as={NextLink} href="/" fontSize="28px" fontWeight="700" color="green.900">
               처음으로
             </Link>
           </Flex>
@@ -107,7 +139,12 @@ export const Feedback = ({ interviewResult, accessToken }: Props) => {
           onClick={goToPrev}
           isDisabled={currentIndex === 0}
           colorScheme="green"
+          color="green.900"
+          fontSize="20px"
+          fontWeight="700"
           variant="ghost"
+          boxShadow="lg"
+          padding="10px 20px"
         >
           이전
         </Button>
@@ -121,7 +158,17 @@ export const Feedback = ({ interviewResult, accessToken }: Props) => {
             />
           ))}
         </HStack>
-        <Button onClick={goToNext} isDisabled={isLastPage} colorScheme="green" variant="ghost">
+        <Button
+          onClick={goToNext}
+          isDisabled={isLastPage}
+          colorScheme="green"
+          color="green.900"
+          fontSize="20px"
+          fontWeight="700"
+          variant="ghost"
+          boxShadow="lg"
+          padding="10px 20px"
+        >
           다음
         </Button>
       </Flex>
