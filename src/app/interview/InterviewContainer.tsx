@@ -33,6 +33,10 @@ const Simulation = ({ stacks, accessToken }: Props) => {
     setCurrentTranscript(text);
   }, [text]);
 
+  const handleResetStack = () => {
+    setSelectedStacks([]);
+  };
+
   const handleSelectStack = (stack: string) => {
     setSelectedStacks(prev => {
       if (prev.includes(stack)) {
@@ -80,6 +84,7 @@ const Simulation = ({ stacks, accessToken }: Props) => {
       {status === 'feedback' && (
         <Feedback
           interviewResult={interviewChatResult}
+          handleResetStack={handleResetStack}
           accessToken={accessToken}
           handleInterviewStatus={setStatus}
         />
