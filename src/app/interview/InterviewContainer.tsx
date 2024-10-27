@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { Feedback, Interviewing, Ready, Stacks } from '@/widgets/interview';
 import { Stack } from '@/shared/types/stack';
 import styles from './InterviewContainer.module.scss';
@@ -79,7 +78,11 @@ const Simulation = ({ stacks, accessToken }: Props) => {
         />
       )}
       {status === 'feedback' && (
-        <Feedback interviewResult={interviewChatResult} accessToken={accessToken} />
+        <Feedback
+          interviewResult={interviewChatResult}
+          accessToken={accessToken}
+          handleInterviewStatus={setStatus}
+        />
       )}
     </main>
   );

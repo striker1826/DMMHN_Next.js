@@ -1,18 +1,18 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import NextLink from 'next/link';
 import { postFeedback, postTotalFeedback } from '@/queries/feedback';
 import { extractStrings } from '@/shared/utils/extractStrings';
-import { Button, Flex, Heading, HStack, Link, Spinner } from '@chakra-ui/react';
+import { Button, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
 import FeedbackCard from '@/components/feedback/FeedbackCard';
 
 interface Props {
   interviewResult: { question: string; answer: string }[];
   accessToken?: string;
+  handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
 }
 
-export const Feedback = ({ interviewResult, accessToken }: Props) => {
+export const Feedback = ({ interviewResult, accessToken, handleInterviewStatus }: Props) => {
   const [feedbacks, setFeedbacks] = useState<{ good: string; bad: string }[]>([]);
   const [totalFeedback, setTotalFeedback] = useState<string>('');
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -126,9 +126,16 @@ export const Feedback = ({ interviewResult, accessToken }: Props) => {
             justify="center"
             gap="30px"
           >
-            <Link as={NextLink} href="/" fontSize="28px" fontWeight="700" color="green.900">
+            <Button
+              onClick={() => handleInterviewStatus('stacks')}
+              colorScheme="green"
+              fontSize="24px"
+              fontWeight="600"
+              color="green.50"
+              padding="10px 20px"
+            >
               처음으로
-            </Link>
+            </Button>
           </Flex>
         )}
       </Flex>
