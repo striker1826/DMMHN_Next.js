@@ -40,7 +40,7 @@ export const useHandleChat = ({
   stopListening: () => void;
   handleInterviewStatus: (status: 'ready' | 'interviewing' | 'feedback') => void;
 }) => {
-  const { text } = useSTT();
+  const { listening } = useSpeechRecognition();
   const { currentQuestion, questionLength, currentQuestionNumber, handleLoadNextQuestion } =
     useHandleQuestion({ questionList });
   const [isAnswering, setIsAnswering] = useState(false);
@@ -131,44 +131,45 @@ export const useHandleChat = ({
    * 사용자의 답변을 제출하고, 채팅 내역을 업데이트한 후, 다음 질문을 로드합니다.
    * 음성 녹음을 중지하고 인식된 텍스트를 채팅에 추가합니다.
    *
-   * @returns {Promise<void>} - 비동기로 처리되는 함수입니다.
    */
-  const submitAnswer = async (transcript: string, resetTranscript: () => void): Promise<void> => {
-    setIsAnswering(false);
-    stopListening();
+  const submitAnswer = useCallback(
+    (transcript: string, resetTranscript: () => void) => {
+      setIsAnswering(false);
 
-    setChatInfoList(prev => {
-      prev[prev.length - 1].type = 'mine';
-      prev[prev.length - 1].message = transcript ? transcript : '잘 모르겠습니다.';
-      return prev;
-    });
+      setChatInfoList(prev => {
+        prev[prev.length - 1].type = 'mine';
+        prev[prev.length - 1].message = transcript ? transcript : '잘 모르겠습니다.';
+        return prev;
+      });
 
-    setRecordingBox(false);
-    resetTranscript();
+      setRecordingBox(false);
+      resetTranscript();
 
-    if (questionLength > currentQuestionNumber) {
-      handleLoadNextQuestion();
-    } else {
-      handleAddChatInfoList({
-        type: 'other',
-        name: '면접관',
-        message: '면접이 종료되었습니다.',
-        profileImg: INTERVIER_PROFILE_IMG,
-      });
-      handleAddChatInfoList({
-        type: 'other',
-        name: '면접관',
-        message: '결과를 확인해보실래요?',
-        profileImg: INTERVIER_PROFILE_IMG,
-      });
-      handleAddChatInfoList({
-        type: 'exit',
-        name: '나',
-        message: '결과 확인하기',
-        profileImg: INTERVIER_PROFILE_IMG,
-      });
-    }
-  };
+      if (questionLength > currentQuestionNumber) {
+        handleLoadNextQuestion();
+      } else {
+        handleAddChatInfoList({
+          type: 'other',
+          name: '면접관',
+          message: '면접이 종료되었습니다.',
+          profileImg: INTERVIER_PROFILE_IMG,
+        });
+        handleAddChatInfoList({
+          type: 'other',
+          name: '면접관',
+          message: '결과를 확인해보실래요?',
+          profileImg: INTERVIER_PROFILE_IMG,
+        });
+        handleAddChatInfoList({
+          type: 'exit',
+          name: '나',
+          message: '결과 확인하기',
+          profileImg: INTERVIER_PROFILE_IMG,
+        });
+      }
+    },
+    [currentQuestionNumber, handleAddChatInfoList, handleLoadNextQuestion, questionLength],
+  );
 
   useEffect(() => {
     if (currentQuestion) {

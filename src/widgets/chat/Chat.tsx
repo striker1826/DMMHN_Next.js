@@ -9,7 +9,7 @@ import { useHandleChat } from '@/models/chat/useHandleChat';
 import { QuestionResponse } from '@/shared/types/question';
 import INTERVIER_PROFILE_IMG from '../../../public/Logo.png';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-
+import { timeSleep } from '@/shared/utils/sleep';
 interface Props {
   transcript: string;
   questionList: QuestionResponse[];
@@ -20,14 +20,13 @@ interface Props {
 }
 
 const Chat = ({
-  transcript,
+  // transcript,
   questionList,
   handleInterviewStatus,
   handleChangeInterviewChatResult,
 }: Props) => {
-  const { transcript: sttText, resetTranscript } = useSpeechRecognition();
-  const { handleStopRecAudio } = useSTT();
-
+  const { transcript: sttText, listening, resetTranscript } = useSpeechRecognition();
+  const [isSubmit, setIsSubmit] = useState(false);
   const {
     chatInfoList,
     recordingBox,
@@ -39,8 +38,8 @@ const Chat = ({
     submitAnswer,
   } = useHandleChat({
     questionList,
-    transcript,
-    stopListening: SpeechRecognition.abortListening,
+    transcript: sttText,
+    stopListening: SpeechRecognition.stopListening,
     handleInterviewStatus,
   });
 
@@ -94,6 +93,25 @@ const Chat = ({
     }
   }, [chatInfoList]);
 
+  const handleDelayStopListening = () => {
+    setIsSubmit(true);
+    setTimeout(() => {
+      SpeechRecognition.stopListening();
+
+      if (!sttText && listening) {
+        submitAnswer(sttText, resetTranscript);
+      }
+      setIsSubmit(false);
+    }, 1500);
+  };
+
+  useEffect(() => {
+    if (sttText && !listening) {
+      submitAnswer(sttText, resetTranscript);
+      setIsSubmit(false);
+    }
+  }, [listening, submitAnswer, sttText, resetTranscript]);
+
   return (
     <div className={styles.layout}>
       <div className={styles.chat} ref={chatContainerRef}>
@@ -101,17 +119,24 @@ const Chat = ({
           content={chatInfoList}
           recordingBox={recordingBox}
           handleToExitChat={handleToExitChat}
-          onRecAudio={() => SpeechRecognition.startListening({ continuous: true, language: 'ko' })}
+          onRecAudio={() =>
+            SpeechRecognition.startListening({
+              continuous: true,
+              language: 'ko',
+            })
+          }
           onChangeIsAnswering={handleChangeIsAnswering}
           onChangeRecordingBoxState={handleChangeRecordingBox}
         />
       </div>
       <button
-        className={isAnswering ? styles.button : styles.not_active_btn}
-        onClick={() => submitAnswer(sttText, resetTranscript)}
-        disabled={!isAnswering}
+        className={isAnswering && !isSubmit ? styles.button : styles.not_active_btn}
+        onClick={() => handleDelayStopListening()}
+        disabled={!isAnswering || isSubmit}
       >
-        {chatInfoList[chatInfoList.length - 1].type === 'exit'
+        {isSubmit
+          ? '답변을 제출 중입니다...'
+          : chatInfoList[chatInfoList.length - 1].type === 'exit'
           ? '면접이 끝났어요!'
           : isAnswering
           ? '답변을 마쳤어요!'
