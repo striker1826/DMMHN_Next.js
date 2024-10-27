@@ -12,21 +12,16 @@ export async function middleware(req: NextRequest) {
   const oneDay = 24 * 60 * 60 * 1000;
 
   const { device, browser } = userAgent(req);
-  // console.log(device, browser);
 
   const isMobile = device.type === 'mobile';
   const isChrome = browser.name === 'Chrome';
 
-  console.log('kakao_code', kakao_code);
-
   // 카카오 인증
   if (kakao_code) {
-    console.log('kakao_code 2', kakao_code);
     try {
       const response: unknown = await apiInstance.post('/auth/v2/kakao', {
         code: kakao_code,
       });
-      console.log('response', response);
       const { access_token, user } = response as {
         access_token: string;
         user: { profileImg: string };
