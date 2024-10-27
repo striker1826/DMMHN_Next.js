@@ -2,6 +2,7 @@ import { NextRequest, NextResponse, userAgent } from 'next/server';
 import { apiInstance } from '@/shared/utils/axios';
 
 const PROTECTED_PATHS = ['/interview'];
+const ONE_DAY_PER_SEC = 24 * 60 * 60;
 
 export async function middleware(req: NextRequest) {
   const { pathname, searchParams } = req.nextUrl;
@@ -9,7 +10,6 @@ export async function middleware(req: NextRequest) {
   const kakao_code = searchParams.get('code');
 
   const accessToken = req.cookies.get('accessToken')?.value;
-  const oneDay = 24 * 60 * 60 * 1000;
 
   const { device, browser } = userAgent(req);
 
@@ -27,9 +27,13 @@ export async function middleware(req: NextRequest) {
         user: { profileImg: string };
       };
 
-      const res = NextResponse.redirect(new URL('/', req.url));
-      res.cookies.set('accessToken', access_token, { maxAge: oneDay });
-      res.cookies.set('profileImg', user.profileImg, { maxAge: oneDay });
+      const res = NextResponse.redirect(new URL('/interview', req.url));
+      res.cookies.set('accessToken', access_token, {
+        maxAge: ONE_DAY_PER_SEC,
+      });
+      res.cookies.set('profileImg', user.profileImg, {
+        maxAge: ONE_DAY_PER_SEC,
+      });
 
       return res;
     } catch (error) {
@@ -48,6 +52,11 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/browser-not-supported', req.url));
   }
 
+  // 토큰이 있으면 인터뷰 페이지로 리다이렉트합니다.
+  if (pathname === '/' && accessToken) {
+    return NextResponse.redirect(new URL('/interview', req.url));
+  }
+
   // 보호 경로에 접근 시 토큰이 없는 경우 비보호 경로로 리다이렉트 합니다.
   if (PROTECTED_PATHS.includes(pathname) && !accessToken) {
     return NextResponse.redirect(new URL('/', req.url));
@@ -58,5 +67,4 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: ['/((?!_next/static|_next/image|favicon.ico|browser-not-supported|mobile-page).*)'],
-  // matcher: ['/:path*', '/api/:path*'],
 };
