@@ -2,7 +2,7 @@ import { NextRequest, NextResponse, userAgent } from 'next/server';
 import { apiInstance } from '@/shared/utils/axios';
 
 const PROTECTED_PATHS = ['/interview'];
-const ONE_DAY = 24 * 60 * 60 * 1000;
+const ONE_DAY_PER_SEC = 24 * 60 * 60;
 
 export async function middleware(req: NextRequest) {
   const { pathname, searchParams } = req.nextUrl;
@@ -28,8 +28,12 @@ export async function middleware(req: NextRequest) {
       };
 
       const res = NextResponse.redirect(new URL('/interview', req.url));
-      res.cookies.set('accessToken', access_token, { maxAge: ONE_DAY });
-      res.cookies.set('profileImg', user.profileImg, { maxAge: ONE_DAY });
+      res.cookies.set('accessToken', access_token, {
+        maxAge: ONE_DAY_PER_SEC,
+      });
+      res.cookies.set('profileImg', user.profileImg, {
+        maxAge: ONE_DAY_PER_SEC,
+      });
 
       return res;
     } catch (error) {
