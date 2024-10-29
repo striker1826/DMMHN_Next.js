@@ -16,19 +16,22 @@ interface Props {
 
 export const Ready = ({ transcript, handleResetCurrentScript, onChangeStatus }: Props) => {
   const [currentScript, setCurrentScript] = useState('');
+  const [isListening, setIsListening] = useState(false);
   const videoRef = useRef(null);
   useVideoHandler(videoRef);
 
   const { transcript: sttText, listening, resetTranscript } = useSpeechRecognition();
 
   const handleAudio = async () => {
-    if (listening) {
-      // handleResetCurrentScript();
+    console.log('listening', listening);
+    if (isListening) {
+      setIsListening(false);
       resetTranscript();
       SpeechRecognition.stopListening();
       setCurrentScript('');
       return;
     } else {
+      setIsListening(true);
       SpeechRecognition.startListening({ continuous: true, language: 'ko' });
       return;
     }
@@ -63,7 +66,7 @@ export const Ready = ({ transcript, handleResetCurrentScript, onChangeStatus }: 
         <div className={styles.video_wrap}>
           <video ref={videoRef} autoPlay muted />
           <button className={styles.recording} onClick={handleAudio}>
-            {listening ? '녹음 중지!' : '녹음을 테스트 해보세요!'}
+            {isListening ? '녹음 중지!' : '녹음을 테스트 해보세요!'}
           </button>
         </div>
       </div>
