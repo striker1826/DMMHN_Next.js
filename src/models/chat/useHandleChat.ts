@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSTT } from '../audio/useSTT';
 import { QuestionResponse } from '@/shared/types/question';
 import { useHandleQuestion } from '../question/useHandleQuestion';
 import { getCookie } from '@/shared/utils/cookies';
 import INTERVIER_PROFILE_IMG from '../../../public/Logo.png';
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import { useSpeechRecognition } from 'react-speech-recognition';
 import { StaticImageData } from 'next/image';
 
 interface ChatInfo {
@@ -32,8 +31,6 @@ interface ChatInfo {
 */
 export const useHandleChat = ({
   questionList,
-  transcript,
-  stopListening,
 }: {
   questionList: QuestionResponse[];
   transcript: string;

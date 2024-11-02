@@ -4,14 +4,12 @@ import 'regenerator-runtime/runtime';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './Chat.module.scss';
 import ChattingList from '@/component_list/chattingList/ChattingList';
-import { useSTT } from '@/models/audio/useSTT';
 import { useHandleChat } from '@/models/chat/useHandleChat';
 import { QuestionResponse } from '@/shared/types/question';
 import INTERVIER_PROFILE_IMG from '../../../public/Logo.png';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import { timeSleep } from '@/shared/utils/sleep';
+
 interface Props {
-  transcript: string;
   questionList: QuestionResponse[];
   handleChangeInterviewChatResult: (
     interviewChatResult: { question: string; answer: string }[],
@@ -19,12 +17,7 @@ interface Props {
   handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
 }
 
-const Chat = ({
-  // transcript,
-  questionList,
-  handleInterviewStatus,
-  handleChangeInterviewChatResult,
-}: Props) => {
+const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatResult }: Props) => {
   const { transcript: sttText, listening, resetTranscript } = useSpeechRecognition();
   const [isSubmit, setIsSubmit] = useState(false);
   const {
@@ -119,12 +112,6 @@ const Chat = ({
           content={chatInfoList}
           recordingBox={recordingBox}
           handleToExitChat={handleToExitChat}
-          onRecAudio={() =>
-            SpeechRecognition.startListening({
-              continuous: true,
-              language: 'ko',
-            })
-          }
           onChangeIsAnswering={handleChangeIsAnswering}
           onChangeRecordingBoxState={handleChangeRecordingBox}
         />

@@ -5,7 +5,6 @@ import styles from './Interviewing.module.scss';
 import Chat from '@/widgets/chat/Chat';
 
 interface Props {
-  transcript: string;
   selectedStacks: string[];
   handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
   handleChangeInterviewChatResult: (
@@ -14,7 +13,6 @@ interface Props {
 }
 
 export const Interviewing = ({
-  transcript,
   selectedStacks,
   handleInterviewStatus,
   handleChangeInterviewChatResult,
@@ -35,7 +33,6 @@ export const Interviewing = ({
       </div>
       <div className={styles.chat_area}>
         <Chat
-          transcript={transcript}
           questionList={questionList}
           handleInterviewStatus={handleInterviewStatus}
           handleChangeInterviewChatResult={handleChangeInterviewChatResult}

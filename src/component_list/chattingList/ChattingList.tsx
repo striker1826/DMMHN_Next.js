@@ -10,7 +10,6 @@ interface Props {
     profileImg: StaticImageData;
   }[];
   recordingBox: boolean;
-  onRecAudio: () => void;
   onChangeRecordingBoxState: (state: boolean) => void;
   onChangeIsAnswering: (state: boolean) => void;
   handleToExitChat: () => void;
@@ -19,7 +18,6 @@ interface Props {
 const ChattingList = ({
   content,
   recordingBox,
-  onRecAudio,
   onChangeIsAnswering,
   onChangeRecordingBoxState,
   handleToExitChat,
@@ -33,7 +31,6 @@ const ChattingList = ({
         profileImg={chatInfo.profileImg}
         questionIsLoading
         recordingBox={recordingBox}
-        onRecAudio={onRecAudio}
         handleToExitChat={handleToExitChat}
         onChangeIsAnswering={onChangeIsAnswering}
         onChangeRecordingBoxState={onChangeRecordingBoxState}
