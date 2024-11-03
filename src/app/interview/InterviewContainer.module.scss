@@ -4,10 +4,10 @@
   padding: 40px;
   display: flex;
   flex-direction: column;
-  gap: 40px;
   aspect-ratio: 16 / 9;
   max-width: 1320px;
   max-height: 740px;
   min-width: 790px;
   min-height: 444px;
+  position: relative;
 }
