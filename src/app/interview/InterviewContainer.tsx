@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react';
 import { Feedback, Interviewing, Ready, Stacks } from '@/widgets/interview';
 import { Stack } from '@/shared/types/stack';
-import styles from './InterviewContainer.module.scss';
 import { useSTT } from '@/models/audio/useSTT';
+import { Button, Flex } from '@chakra-ui/react';
+import styles from './InterviewContainer.module.scss';
 
 export type InterviewStatus = 'stacks' | 'ready' | 'interviewing' | 'feedback';
 
@@ -52,6 +53,18 @@ const Simulation = ({ stacks, accessToken }: Props) => {
     setInterviewChatResult(prev => [...prev, ...interviewChatResult]);
   };
 
+  const handleClickReset = () => {
+    const confirmReset = window.confirm(
+      '현재 진행 중인 과정을 모두 잃고 처음으로 돌아갑니다. 정말 초기화하시겠습니까?',
+    );
+    if (confirmReset) {
+      setCurrentTranscript('');
+      setInterviewChatResult([]);
+      setSelectedStacks([]);
+      setStatus('stacks');
+    }
+  };
+
   return (
     <main className={styles.container}>
       {status === 'stacks' && (
@@ -84,6 +97,18 @@ const Simulation = ({ stacks, accessToken }: Props) => {
           handleInterviewStatus={setStatus}
         />
       )}
+      <Flex position="absolute" left="0" top="-8">
+        <Button
+          onClick={handleClickReset}
+          colorScheme="red"
+          borderRadius="xl"
+          opacity="0.5"
+          size="xs"
+          _hover={{ opacity: '1' }}
+        >
+          과정 초기화
+        </Button>
+      </Flex>
     </main>
   );
 };
