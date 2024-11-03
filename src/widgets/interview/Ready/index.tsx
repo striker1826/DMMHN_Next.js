@@ -1,13 +1,11 @@
 import 'regenerator-runtime/runtime';
-import { useEffect, useRef, useState } from 'react';
-
-import styles from './Ready.module.scss';
+import { useRef } from 'react';
 import { useVideoHandler } from '@/models/simulation/video';
 import { useSTT } from '@/models/audio/useSTT';
-import PrimaryBtn from '@/shared/components/Button/PrimaryBtn/PrimaryBtn';
-import { timeSleep } from '@/shared/utils/sleep';
 import { Button } from '@chakra-ui/react';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
+import { RiErrorWarningFill, RiMicFill, RiMicOffFill } from 'react-icons/ri';
+import styles from './Ready.module.scss';
 
 interface Props {
   transcript?: string;
@@ -48,16 +46,20 @@ export const Ready = ({ transcript, handleResetCurrentScript, onChangeStatus }: 
           <video ref={videoRef} autoPlay muted />
         </div>
         <div className={styles.description}>
-          <h2>주의사항</h2>
+          <div className={styles.title}>
+            <RiErrorWarningFill />
+            <h2>중요합니다!</h2>
+          </div>
           <ul className={styles.description_wrap}>
             <li>마이크를 충분히 가까이 하신 후 시작해주세요.</li>
-            <li>발음이 불분명하거나 빠르게 말할 경우 인식이 어려울 수 있습니다.</li>
-            <li>답을 완전히 말씀하신 후 1초 정도 뒤에 버튼을 눌러주세요.</li>
+            <li>발음이 불분명하거나 빠르게 말씀하실 경우 인식이 어려울 수 있습니다.</li>
+            <li>답변을 완전히 말씀하신 후 1초 정도 뒤에 버튼을 눌러주세요.</li>
+            <li>아래 버튼을 누르시고 마이크를 통해 목소리가 제대로 인식되는지 확인해주세요.</li>
           </ul>
-          <Button onClick={handleAudio} colorScheme="green" fontSize="20px" paddingY="12px">
-            {isListen ? '녹음 중지!' : '녹음을 테스트 해보세요!'}
-          </Button>
           <div className={styles.stt_text_container}>
+            <Button onClick={handleAudio} variant="ghost" size="xs" fontSize="20px">
+              {isListen ? <RiMicOffFill /> : <RiMicFill />}
+            </Button>
             {transcript ? sliceTranscript(transcript) : '녹음된 음성이 Text로 표시됩니다!'}
           </div>
         </div>

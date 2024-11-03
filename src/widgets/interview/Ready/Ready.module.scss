@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 20px;
   width: 100%;
   height: 100%;
 
@@ -16,28 +17,33 @@
   width: 100%;
   height: 100%;
   gap: 20px;
-  overflow: scroll;
 
   .description {
     display: flex;
     flex-direction: column;
     gap: 10px;
 
-    h2 {
+    .title {
+      display: flex;
       font-size: 24px;
       font-weight: 600;
+      align-items: center;
+      gap: 5px;
     }
 
     .description_wrap {
       display: flex;
       flex-direction: column;
-      font-size: 20px;
+      font-size: 18px;
       list-style-type: disc;
-      padding-left: 30px;
+      padding-left: 28px;
     }
 
     .stt_text_container {
-      border: 1px solid #000;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid rgba($color: #000000, $alpha: 0.3);
       padding: 12px 8px;
       border-radius: 8px;
       font-size: 16px;
