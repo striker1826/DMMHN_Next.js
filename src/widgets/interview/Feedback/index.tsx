@@ -5,6 +5,7 @@ import { postFeedback, postTotalFeedback } from '@/queries/feedback';
 import { extractStrings } from '@/shared/utils/extractStrings';
 import { Button, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
 import FeedbackCard from '@/components/feedback/FeedbackCard';
+import { RxReset } from 'react-icons/rx';
 
 interface Props {
   interviewResult: { question: string; answer: string }[];
@@ -66,7 +67,7 @@ export const Feedback = ({ interviewResult, accessToken, handleInterviewStatus }
   const isLastPage = currentIndex === feedbacks.length;
 
   return (
-    <Flex direction="column" justify="center" align="center" boxSize="100%" gap="30px">
+    <Flex direction="column" justify="space-around" align="center" boxSize="100%" gap="20px">
       {/* 현재 피드백 받을 문제 */}
       <Flex width="100%" padding="10px" boxShadow="lg" borderRadius="xl" align="center">
         {!isLastPage && (
@@ -116,28 +117,6 @@ export const Feedback = ({ interviewResult, accessToken, handleInterviewStatus }
         ) : (
           <FeedbackCard heading="정리하자면..." body={totalFeedback} cardType="totalFeedback" />
         )}
-
-        {isLastPage && (
-          <Flex
-            flexDirection="column"
-            width="330px"
-            height="440px"
-            align="center"
-            justify="center"
-            gap="30px"
-          >
-            <Button
-              onClick={() => handleInterviewStatus('stacks')}
-              colorScheme="green"
-              fontSize="24px"
-              fontWeight="600"
-              color="green.50"
-              padding="10px 20px"
-            >
-              처음으로
-            </Button>
-          </Flex>
-        )}
       </Flex>
 
       {/* 페이지네이션 컨트롤 */}
@@ -179,6 +158,12 @@ export const Feedback = ({ interviewResult, accessToken, handleInterviewStatus }
           다음
         </Button>
       </Flex>
+
+      {isLastPage && (
+        <Button onClick={() => handleInterviewStatus('stacks')} variant="arrowRight">
+          <RxReset />
+        </Button>
+      )}
     </Flex>
   );
 };
