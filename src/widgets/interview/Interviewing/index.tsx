@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef } from 'react';
 import { useVideoHandler } from '@/models/simulation/video';
 import { useHandleInterview } from '@/models/simulation/useHandleInterview';

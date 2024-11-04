@@ -1,31 +1,23 @@
 .layout {
   display: flex;
-  gap: 20px;
   width: 100%;
   height: 100%;
+  gap: 10px;
 }
 
 .video_wrap {
-  height: 100%;
   border-radius: 12px;
-  aspect-ratio: 4 / 3;
+  flex: 2;
 
   video {
-    aspect-ratio: 4 / 3;
     border-radius: 12px;
     height: 100%;
     transform: scaleX(-1);
-    object-fit: contain;
+    object-fit: fill;
   }
 }
 
 .chat_area {
   display: flex;
   flex: 1;
-}
-
-@media (max-width: 1020px) {
-  .video_area {
-    flex: 1;
-  }
 }
