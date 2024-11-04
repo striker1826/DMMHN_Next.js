@@ -5,19 +5,18 @@
   height: 100%;
 }
 
-.video_area {
-  width: 100%;
-  height: 100%;
-  flex: 2;
-}
-
-.recoding_display {
-  width: 100%;
+.video_wrap {
   height: 100%;
   border-radius: 12px;
-  transform: scaleX(-1);
-  object-fit: fill;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 4 / 3;
+
+  video {
+    aspect-ratio: 4 / 3;
+    border-radius: 12px;
+    height: 100%;
+    transform: scaleX(-1);
+    object-fit: contain;
+  }
 }
 
 .chat_area {

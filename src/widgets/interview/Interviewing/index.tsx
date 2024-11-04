@@ -30,8 +30,8 @@ export const Interviewing = ({
 
   return (
     <div className={styles.layout}>
-      <div className={styles.video_area}>
-        <video className={styles.recoding_display} ref={videoRef} autoPlay muted />
+      <div className={styles.video_wrap}>
+        <video ref={videoRef} autoPlay playsInline muted />
       </div>
       <div className={styles.chat_area}>
         <Chat

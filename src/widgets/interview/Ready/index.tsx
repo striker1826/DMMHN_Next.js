@@ -1,3 +1,5 @@
+'use client';
+
 import 'regenerator-runtime/runtime';
 import { useRef } from 'react';
 import { useVideoHandler } from '@/models/simulation/video';
@@ -14,7 +16,7 @@ interface Props {
 }
 
 export const Ready = ({ transcript, handleResetCurrentScript, onChangeStatus }: Props) => {
-  const videoRef = useRef(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   useVideoHandler(videoRef);
 
   const { isListen, handleRecAudio, handleStopRecAudio } = useSTT();
@@ -43,7 +45,7 @@ export const Ready = ({ transcript, handleResetCurrentScript, onChangeStatus }: 
       <h1>카메라와 마이크를 준비해주세요!</h1>
       <div className={styles.content_layout}>
         <div className={styles.video_wrap}>
-          <video ref={videoRef} autoPlay muted />
+          <video ref={videoRef} autoPlay playsInline muted />
         </div>
         <div className={styles.description}>
           <div className={styles.title}>
