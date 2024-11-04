@@ -4,15 +4,14 @@ import 'regenerator-runtime/runtime';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './Chat.module.scss';
 import ChattingList from '@/component_list/chattingList/ChattingList';
-import { useSTT } from '@/models/audio/useSTT';
 import { useHandleChat } from '@/models/chat/useHandleChat';
 import { QuestionResponse } from '@/shared/types/question';
 import INTERVIER_PROFILE_IMG from '../../../public/Logo.png';
-import SpeechRecognition from 'react-speech-recognition';
 import { Button } from '@chakra-ui/react';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+
 
 interface Props {
-  transcript: string;
   questionList: QuestionResponse[];
   handleChangeInterviewChatResult: (
     interviewChatResult: { question: string; answer: string }[],
@@ -20,16 +19,9 @@ interface Props {
   handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
 }
 
-const Chat = ({
-  transcript,
-  questionList,
-  handleInterviewStatus,
-  handleChangeInterviewChatResult,
-}: Props) => {
-  const { handleStopRecAudio } = useSTT();
-  const [interviewHistory, setInterviewHistory] = useState<{ question: string; answer: string }[]>(
-    [],
-  );
+const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatResult }: Props) => {
+  const { transcript: sttText, listening, resetTranscript } = useSpeechRecognition();
+  const [isSubmit, setIsSubmit] = useState(false);
   const {
     chatInfoList,
     recordingBox,
@@ -41,8 +33,8 @@ const Chat = ({
     submitAnswer,
   } = useHandleChat({
     questionList,
-    transcript,
-    stopListening: handleStopRecAudio,
+    transcript: sttText,
+    stopListening: SpeechRecognition.stopListening,
     handleInterviewStatus,
   });
 
@@ -96,6 +88,25 @@ const Chat = ({
     }
   }, [chatInfoList]);
 
+  const handleDelayStopListening = () => {
+    setIsSubmit(true);
+    setTimeout(() => {
+      SpeechRecognition.stopListening();
+
+      if (!sttText && listening) {
+        submitAnswer(sttText, resetTranscript);
+      }
+      setIsSubmit(false);
+    }, 1500);
+  };
+
+  useEffect(() => {
+    if (sttText && !listening) {
+      submitAnswer(sttText, resetTranscript);
+      setIsSubmit(false);
+    }
+  }, [listening, submitAnswer, sttText, resetTranscript]);
+
   return (
     <div className={styles.layout}>
       <div className={styles.chat_container} ref={chatContainerRef}>
@@ -103,7 +114,6 @@ const Chat = ({
           content={chatInfoList}
           recordingBox={recordingBox}
           handleToExitChat={handleToExitChat}
-          onRecAudio={() => SpeechRecognition.startListening({ continuous: true, language: 'ko' })}
           onChangeIsAnswering={handleChangeIsAnswering}
           onChangeRecordingBoxState={handleChangeRecordingBox}
         />
@@ -117,7 +127,9 @@ const Chat = ({
         paddingY="10px"
         borderRadius="lg"
       >
-        {chatInfoList[chatInfoList.length - 1].type === 'exit'
+        {isSubmit
+          ? '답변을 제출 중입니다...'
+          : chatInfoList[chatInfoList.length - 1].type === 'exit'
           ? '면접이 끝났어요!'
           : isAnswering
           ? '답변을 마쳤어요!'

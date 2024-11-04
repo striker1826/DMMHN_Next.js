@@ -25,7 +25,7 @@ export async function postFeedback({
   const result = data.map((string: string) => {
     const splitPoint = string.split('good: ')[1];
     const good = splitPoint.split(', bad')[0];
-    const bad = splitPoint.split('bad: ')[1].split('}')[0];
+    const bad = splitPoint.split('bad: ')[1].slice(0, -2);
     return { good, bad };
   });
 
