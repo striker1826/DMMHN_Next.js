@@ -1,18 +1,19 @@
 .layout {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  flex: 1;
-  border: 5px solid #058841;
+  border: 1px solid #058841;
+  box-shadow: 1px 1px 4px 1px rgba($color: #000000, $alpha: 0.3);
   border-radius: 12px;
-  padding: 24px 16px;
+  height: 100%;
+  padding: 10px;
+  gap: 10px;
 }
 
-.chat {
+.chat_container {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   overflow-y: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -32,27 +33,4 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-}
-
-.button {
-  border: 3px solid #058841;
-  border-radius: 4px;
-  padding: 20px 16px;
-  color: #000;
-  background-color: #fff;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #058841;
-    transition: background-color 0.2s ease-in-out;
-  }
-}
-
-.not_active_btn {
-  border: 3px solid #058841;
-  border-radius: 4px;
-  padding: 20px 16px;
-  color: #000;
-  background-color: #fff;
-  opacity: 0.6;
 }

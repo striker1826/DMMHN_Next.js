@@ -32,16 +32,18 @@ export const Interviewing = ({
 
   return (
     <div className={styles.layout}>
-      <div className={styles.video_wrap}>
-        <video ref={videoRef} autoPlay playsInline muted />
-      </div>
-      <div className={styles.chat_area}>
-        <Chat
-          transcript={transcript}
-          questionList={questionList}
-          handleInterviewStatus={handleInterviewStatus}
-          handleChangeInterviewChatResult={handleChangeInterviewChatResult}
-        />
+      <div className={styles.content_layout}>
+        <div className={styles.video_wrap}>
+          <video ref={videoRef} autoPlay playsInline muted />
+        </div>
+        <div className={styles.chat_layout}>
+          <Chat
+            transcript={transcript}
+            questionList={questionList}
+            handleInterviewStatus={handleInterviewStatus}
+            handleChangeInterviewChatResult={handleChangeInterviewChatResult}
+          />
+        </div>
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ import { useHandleChat } from '@/models/chat/useHandleChat';
 import { QuestionResponse } from '@/shared/types/question';
 import INTERVIER_PROFILE_IMG from '../../../public/Logo.png';
 import SpeechRecognition from 'react-speech-recognition';
+import { Button } from '@chakra-ui/react';
 
 interface Props {
   transcript: string;
@@ -97,7 +98,7 @@ const Chat = ({
 
   return (
     <div className={styles.layout}>
-      <div className={styles.chat} ref={chatContainerRef}>
+      <div className={styles.chat_container} ref={chatContainerRef}>
         <ChattingList
           content={chatInfoList}
           recordingBox={recordingBox}
@@ -107,17 +108,21 @@ const Chat = ({
           onChangeRecordingBoxState={handleChangeRecordingBox}
         />
       </div>
-      <button
-        className={isAnswering ? styles.button : styles.not_active_btn}
+      <Button
         onClick={submitAnswer}
         disabled={!isAnswering}
+        colorScheme="green"
+        variant="solid"
+        size="lg"
+        paddingY="10px"
+        borderRadius="lg"
       >
         {chatInfoList[chatInfoList.length - 1].type === 'exit'
           ? '면접이 끝났어요!'
           : isAnswering
           ? '답변을 마쳤어요!'
           : '문제를 출제중입니다...'}
-      </button>
+      </Button>
     </div>
   );
 };
