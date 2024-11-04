@@ -110,7 +110,7 @@ const Chat = ({
       </div>
       <Button
         onClick={submitAnswer}
-        disabled={!isAnswering}
+        disabled={!isAnswering || chatInfoList[chatInfoList.length - 1].type === 'exit'}
         colorScheme="green"
         variant="solid"
         size="lg"
