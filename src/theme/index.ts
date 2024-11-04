@@ -2,26 +2,28 @@ import { defineStyle, defineStyleConfig, extendTheme } from '@chakra-ui/react';
 
 const arrowRight = defineStyle({
   position: 'absolute',
-  right: '-20',
-  top: '0',
-  height: '100%',
-  background: 'none',
+  right: '-24',
+  top: '40%',
+  height: '20%',
+  borderRadius: 'full',
+  backgroundColor: 'blackAlpha.0',
   color: 'whiteAlpha.600',
   fontSize: '58px',
-  transition: 'right 0.3s ease-in-out, color 0.3s ease-in-out',
-  _hover: { color: 'whiteAlpha.900', right: '-24' },
+  transition: 'background-color 0.2s ease-in-out, color 0.2s ease-in-out',
+  _hover: { color: 'whiteAlpha.900', backgroundColor: 'blackAlpha.300' },
 });
 
 const arrowLeft = defineStyle({
   position: 'absolute',
-  left: '-20',
-  top: '0',
-  height: '100%',
-  background: 'none',
+  left: '-24',
+  top: '40%',
+  height: '20%',
+  borderRadius: 'full',
+  backgroundColor: 'blackAlpha.0',
   color: 'whiteAlpha.600',
   fontSize: '58px',
-  transition: 'left 0.3s ease-in-out, color 0.3s ease-in-out',
-  _hover: { color: 'whiteAlpha.900', left: '-24' },
+  transition: 'background-color 0.2s ease-in-out, color 0.2s ease-in-out',
+  _hover: { color: 'whiteAlpha.900', backgroundColor: 'blackAlpha.300' },
 });
 
 const buttonTheme = defineStyleConfig({
