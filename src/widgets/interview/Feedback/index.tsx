@@ -10,9 +10,15 @@ interface Props {
   interviewResult: { question: string; answer: string }[];
   accessToken?: string;
   handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
+  handleResetStack: () => void;
 }
 
-export const Feedback = ({ interviewResult, accessToken, handleInterviewStatus }: Props) => {
+export const Feedback = ({
+  interviewResult,
+  accessToken,
+  handleInterviewStatus,
+  handleResetStack,
+}: Props) => {
   const [feedbacks, setFeedbacks] = useState<{ good: string; bad: string }[]>([]);
   const [totalFeedback, setTotalFeedback] = useState<string>('');
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -127,7 +133,10 @@ export const Feedback = ({ interviewResult, accessToken, handleInterviewStatus }
             gap="30px"
           >
             <Button
-              onClick={() => handleInterviewStatus('stacks')}
+              onClick={() => {
+                handleInterviewStatus('stacks');
+                handleResetStack();
+              }}
               colorScheme="green"
               fontSize="24px"
               fontWeight="600"
