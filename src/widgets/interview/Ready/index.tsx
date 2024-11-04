@@ -3,43 +3,35 @@ import { useEffect, useRef, useState } from 'react';
 
 import styles from './Ready.module.scss';
 import { useVideoHandler } from '@/models/simulation/video';
-import { useSTT } from '@/models/audio/useSTT';
 import PrimaryBtn from '@/shared/components/Button/PrimaryBtn/PrimaryBtn';
-import { timeSleep } from '@/shared/utils/sleep';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 interface Props {
-  transcript?: string;
-  handleResetCurrentScript: () => void;
   onChangeStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
 }
 
-export const Ready = ({ transcript, handleResetCurrentScript, onChangeStatus }: Props) => {
+export const Ready = ({ onChangeStatus }: Props) => {
   const [currentScript, setCurrentScript] = useState('');
   const [isListening, setIsListening] = useState(false);
   const videoRef = useRef(null);
   useVideoHandler(videoRef);
 
-  const { transcript: sttText, listening, resetTranscript } = useSpeechRecognition();
+  const { transcript, resetTranscript } = useSpeechRecognition();
 
   const handleAudio = async () => {
-    console.log('listening', listening);
     if (isListening) {
-      setIsListening(false);
-      resetTranscript();
       SpeechRecognition.stopListening();
-      setCurrentScript('');
+      setIsListening(false);
+      setCurrentScript(transcript);
       return;
     } else {
       setIsListening(true);
+      resetTranscript();
+      setCurrentScript('');
       SpeechRecognition.startListening({ continuous: true, language: 'ko' });
       return;
     }
   };
-
-  useEffect(() => {
-    setCurrentScript(sttText);
-  }, [sttText]);
 
   const sliceTranscript = (transcript: string) => {
     if (transcript.length > 15) {
@@ -78,7 +70,9 @@ export const Ready = ({ transcript, handleResetCurrentScript, onChangeStatus }: 
           <PrimaryBtn
             text="시작"
             onClick={() => {
+              SpeechRecognition.stopListening();
               resetTranscript();
+              setCurrentScript('');
               setTimeout(() => {
                 onChangeStatus('interviewing');
               }, 1000);

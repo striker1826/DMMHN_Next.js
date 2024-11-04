@@ -66,13 +66,7 @@ const Simulation = ({ stacks, accessToken }: Props) => {
           handleSelectStack={handleSelectStack}
         />
       )}
-      {status === 'ready' && (
-        <Ready
-          transcript={currentTranscript}
-          handleResetCurrentScript={handleResetCurrentScript}
-          onChangeStatus={setStatus}
-        />
-      )}
+      {status === 'ready' && <Ready onChangeStatus={setStatus} />}
       {status === 'interviewing' && (
         <Interviewing
           transcript={currentTranscript || ''}
