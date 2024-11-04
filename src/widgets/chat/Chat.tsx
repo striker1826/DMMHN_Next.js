@@ -10,7 +10,6 @@ import INTERVIER_PROFILE_IMG from '../../../public/Logo.png';
 import { Button } from '@chakra-ui/react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
-
 interface Props {
   questionList: QuestionResponse[];
   handleChangeInterviewChatResult: (
@@ -119,8 +118,8 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
         />
       </div>
       <Button
-        onClick={submitAnswer}
-        disabled={!isAnswering || chatInfoList[chatInfoList.length - 1].type === 'exit'}
+        onClick={() => handleDelayStopListening()}
+        disabled={!isAnswering || isSubmit}
         colorScheme="green"
         variant="solid"
         size="lg"

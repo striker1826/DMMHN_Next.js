@@ -1,7 +1,7 @@
 'use client';
 
 import 'regenerator-runtime/runtime';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useVideoHandler } from '@/models/simulation/video';
 import { Button, Flex } from '@chakra-ui/react';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
@@ -81,11 +81,11 @@ export const Ready = ({ onChangeStatus }: Props) => {
       </Button>
       <Button
         onClick={() => {
-              resetTranscript();
-              setTimeout(() => {
-                onChangeStatus('interviewing');
-              }, 1000);
-            }}
+          resetTranscript();
+          setTimeout(() => {
+            onChangeStatus('interviewing');
+          }, 1000);
+        }}
         variant="arrowRight"
       >
         <SlArrowRight />

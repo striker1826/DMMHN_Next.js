@@ -51,7 +51,6 @@ const Simulation = ({ stacks, accessToken }: Props) => {
       '현재 진행 중인 과정을 모두 잃고 처음으로 돌아갑니다. 정말 초기화하시겠습니까?',
     );
     if (confirmReset) {
-      setCurrentTranscript('');
       setInterviewChatResult([]);
       setSelectedStacks([]);
       setStatus('stacks');
