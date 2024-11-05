@@ -26,8 +26,20 @@ const arrowLeft = defineStyle({
   _hover: { color: 'whiteAlpha.900', backgroundColor: 'blackAlpha.300' },
 });
 
+const circle = defineStyle({
+  width: '280px',
+  height: '280px',
+  rounded: 'full',
+  fontSize: '4xl',
+  backgroundColor: 'green.600',
+  color: 'white',
+  transition: 'all 0.1s ease-in-out',
+  _hover: { width: '300px', height: '300px', fontSize: '5xl' },
+  _selected: { backgroundColor: 'green.800' },
+});
+
 const buttonTheme = defineStyleConfig({
-  variants: { arrowRight, arrowLeft },
+  variants: { arrowRight, arrowLeft, circle },
 });
 
 export const theme = extendTheme({

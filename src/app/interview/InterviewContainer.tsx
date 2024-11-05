@@ -1,31 +1,27 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Feedback, Interviewing, Ready, Stacks } from '@/widgets/interview';
-import { Stack } from '@/shared/types/stack';
+import { useState } from 'react';
 import { Button, Flex } from '@chakra-ui/react';
+import { Feedback, Interviewing, Ready, Stacks } from '@/widgets/interview';
+import { InterviewTypes } from '@/widgets/interview/InterviewTypes';
+import { Stack } from '@/shared/types/stack';
+import { InterviewStatus } from '@/shared/types/interview';
 import styles from './InterviewContainer.module.scss';
-
-export type InterviewStatus = 'stacks' | 'ready' | 'interviewing' | 'feedback';
 
 interface Props {
   stacks: Stack[];
   accessToken?: string;
 }
 
-const Simulation = ({ stacks, accessToken }: Props) => {
+const InterviewContainer = ({ stacks, accessToken }: Props) => {
   const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
-  const [status, setStatus] = useState<InterviewStatus>('stacks');
+  const [status, setStatus] = useState<InterviewStatus>('interviewTypes');
   const [interviewChatResult, setInterviewChatResult] = useState<
     {
       question: string;
       answer: string;
     }[]
   >([]);
-
-  const handleResetStack = () => {
-    setSelectedStacks([]);
-  };
 
   const handleSelectStack = (stack: string) => {
     setSelectedStacks(prev => {
@@ -53,12 +49,13 @@ const Simulation = ({ stacks, accessToken }: Props) => {
     if (confirmReset) {
       setInterviewChatResult([]);
       setSelectedStacks([]);
-      setStatus('stacks');
+      setStatus('interviewTypes');
     }
   };
 
   return (
     <main className={styles.container}>
+      {status === 'interviewTypes' && <InterviewTypes />}
       {status === 'stacks' && (
         <Stacks
           stacks={stacks}
@@ -98,4 +95,4 @@ const Simulation = ({ stacks, accessToken }: Props) => {
   );
 };
 
-export default Simulation;
+export default InterviewContainer;
