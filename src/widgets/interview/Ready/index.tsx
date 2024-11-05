@@ -9,6 +9,7 @@ import { RiMicFill, RiMicOffFill } from 'react-icons/ri';
 import styles from './Ready.module.scss';
 import ReadyInfoCard from '@/components/interview/ReadyInfoCard';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import PrimaryBtn from '@/shared/components/Button/PrimaryBtn/PrimaryBtn';
 
 interface Props {
   onChangeStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
