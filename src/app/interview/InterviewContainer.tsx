@@ -78,9 +78,8 @@ const Simulation = ({ stacks, accessToken }: Props) => {
       {status === 'feedback' && (
         <Feedback
           interviewResult={interviewChatResult}
-          handleResetStack={handleResetStack}
           accessToken={accessToken}
-          handleInterviewStatus={setStatus}
+          handleClickReset={handleClickReset}
         />
       )}
       <Flex position="absolute" left="0" top="-8">

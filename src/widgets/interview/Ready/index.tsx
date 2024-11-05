@@ -1,7 +1,7 @@
 'use client';
 
 import 'regenerator-runtime/runtime';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useVideoHandler } from '@/models/simulation/video';
 import { Button, Flex } from '@chakra-ui/react';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
@@ -53,27 +53,6 @@ export const Ready = ({ onChangeStatus }: Props) => {
       <div className={styles.content_layout}>
         <div className={styles.video_wrap}>
           <video ref={videoRef} autoPlay muted />
-          <button className={styles.recording} onClick={handleAudio}>
-            {isListening ? '녹음 중지!' : '녹음을 테스트 해보세요!'}
-          </button>
-        </div>
-      </div>
-      <div className={styles.btn_container}>
-        <div className={styles.btn_wrapper}>
-          <PrimaryBtn text="이전으로" onClick={() => onChangeStatus('stacks')} />
-        </div>
-        <div className={styles.btn_wrapper}>
-          <PrimaryBtn
-            text="시작"
-            onClick={() => {
-              SpeechRecognition.stopListening();
-              resetTranscript();
-              setCurrentScript('');
-              setTimeout(() => {
-                onChangeStatus('interviewing');
-              }, 1000);
-            }}
-          />
         </div>
         <Flex flexDirection="column" gap="20px">
           <ReadyInfoCard />
@@ -94,6 +73,7 @@ export const Ready = ({ onChangeStatus }: Props) => {
           </Flex>
         </Flex>
       </div>
+
       <Button onClick={() => onChangeStatus('stacks')} variant="arrowLeft">
         <SlArrowLeft />
       </Button>
