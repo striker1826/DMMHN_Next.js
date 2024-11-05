@@ -1,15 +1,10 @@
 'use client';
 
-import { useCallback, useState } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Stack } from '@/shared/types/stack';
-import { InterviewStatus } from '@/app/interview/InterviewContainer';
-import styles from './Stacks.module.scss';
-import PrimaryBtn from '@/shared/components/Button/PrimaryBtn/PrimaryBtn';
-import { Button } from '@chakra-ui/react';
 import { SlArrowRight } from 'react-icons/sl';
-
-export type stack_type = '공통' | 'FE' | 'BE';
+import { Button } from '@chakra-ui/react';
+import { Stack } from '@/shared/types/stack';
+import { InterviewStatus } from '@/shared/types/interview';
+import styles from './Stacks.module.scss';
 
 interface Props {
   stacks: Stack[];
