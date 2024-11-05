@@ -9,6 +9,7 @@ import { RiMicFill, RiMicOffFill } from 'react-icons/ri';
 import styles from './Ready.module.scss';
 import ReadyInfoCard from '@/components/interview/ReadyInfoCard';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import PrimaryBtn from '@/shared/components/Button/PrimaryBtn/PrimaryBtn';
 
 interface Props {
   onChangeStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
@@ -21,26 +22,22 @@ export const Ready = ({ onChangeStatus }: Props) => {
 
   useVideoHandler(videoRef);
 
-  const { transcript: sttText, listening, resetTranscript } = useSpeechRecognition();
+  const { transcript, resetTranscript } = useSpeechRecognition();
 
   const handleAudio = async () => {
-    console.log('listening', listening);
     if (isListening) {
-      setIsListening(false);
-      resetTranscript();
       SpeechRecognition.stopListening();
-      setCurrentScript('');
+      setIsListening(false);
+      setCurrentScript(transcript);
       return;
     } else {
       setIsListening(true);
+      resetTranscript();
+      setCurrentScript('');
       SpeechRecognition.startListening({ continuous: true, language: 'ko' });
       return;
     }
   };
-
-  useEffect(() => {
-    setCurrentScript(sttText);
-  }, [sttText]);
 
   const sliceTranscript = (transcript: string) => {
     if (transcript.length > 15) {
@@ -55,7 +52,28 @@ export const Ready = ({ onChangeStatus }: Props) => {
       <h1>준비 단계입니다! 마이크와 카메라를 확인해 주세요.</h1>
       <div className={styles.content_layout}>
         <div className={styles.video_wrap}>
-          <video ref={videoRef} autoPlay playsInline muted />
+          <video ref={videoRef} autoPlay muted />
+          <button className={styles.recording} onClick={handleAudio}>
+            {isListening ? '녹음 중지!' : '녹음을 테스트 해보세요!'}
+          </button>
+        </div>
+      </div>
+      <div className={styles.btn_container}>
+        <div className={styles.btn_wrapper}>
+          <PrimaryBtn text="이전으로" onClick={() => onChangeStatus('stacks')} />
+        </div>
+        <div className={styles.btn_wrapper}>
+          <PrimaryBtn
+            text="시작"
+            onClick={() => {
+              SpeechRecognition.stopListening();
+              resetTranscript();
+              setCurrentScript('');
+              setTimeout(() => {
+                onChangeStatus('interviewing');
+              }, 1000);
+            }}
+          />
         </div>
         <Flex flexDirection="column" gap="20px">
           <ReadyInfoCard />

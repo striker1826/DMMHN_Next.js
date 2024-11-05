@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+ 
+Host: https://dmmhn-next-js.vercel.app
+Sitemap: https://dmmhn-next-js.vercel.app/sitemap.xml
