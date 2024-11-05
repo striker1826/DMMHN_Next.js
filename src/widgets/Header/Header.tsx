@@ -12,11 +12,11 @@ const Header = () => {
   return (
     <header className={styles.layout}>
       <nav className={styles.nav}>
-        <Link href="/">
-          <div className={styles.logo}>
-            <Image src="/Logo.png" width={70} height={70} alt="logo" />
-            <p>떨면뭐하니</p>
+        <Link href={accessToken ? '/interview' : '/'} className={styles.logo_container}>
+          <div className={styles.logo_image}>
+            <Image fill src="/Logo.png" alt="logo" />
           </div>
+          <p className={styles.logo_text}>떨면뭐하니</p>
         </Link>
         {profileImg && accessToken && <UserProfileHamburger profileImg={profileImg} />}
       </nav>

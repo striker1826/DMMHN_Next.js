@@ -7,6 +7,7 @@ import ChattingList from '@/component_list/chattingList/ChattingList';
 import { useHandleChat } from '@/models/chat/useHandleChat';
 import { QuestionResponse } from '@/shared/types/question';
 import INTERVIER_PROFILE_IMG from '../../../public/Logo.png';
+import { Button } from '@chakra-ui/react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 interface Props {
@@ -107,7 +108,7 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
 
   return (
     <div className={styles.layout}>
-      <div className={styles.chat} ref={chatContainerRef}>
+      <div className={styles.chat_container} ref={chatContainerRef}>
         <ChattingList
           content={chatInfoList}
           recordingBox={recordingBox}
@@ -116,10 +117,14 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
           onChangeRecordingBoxState={handleChangeRecordingBox}
         />
       </div>
-      <button
-        className={isAnswering && !isSubmit ? styles.button : styles.not_active_btn}
+      <Button
         onClick={() => handleDelayStopListening()}
         disabled={!isAnswering || isSubmit}
+        colorScheme="green"
+        variant="solid"
+        size="lg"
+        paddingY="10px"
+        borderRadius="lg"
       >
         {isSubmit
           ? '답변을 제출 중입니다...'
@@ -128,7 +133,7 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
           : isAnswering
           ? '답변을 마쳤어요!'
           : '문제를 출제중입니다...'}
-      </button>
+      </Button>
     </div>
   );
 };
