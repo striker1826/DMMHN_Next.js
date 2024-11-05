@@ -1,32 +1,36 @@
 .layout {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   gap: 20px;
   width: 100%;
   height: 100%;
 }
 
-.video_area {
-  width: 100%;
-  height: 100%;
-  flex: 2;
-}
-
-.recoding_display {
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-  transform: scaleX(-1);
-  object-fit: fill;
-  aspect-ratio: 16 / 9;
-}
-
-.chat_area {
+.content_layout {
   display: flex;
-  flex: 1;
-}
+  gap: 20px;
+  width: 100%;
+  height: 100%;
 
-@media (max-width: 1020px) {
-  .video_area {
-    flex: 1;
+  .video_wrap {
+    flex: 3;
+    border-radius: 12px;
+    background-color: black;
+    height: 100%;
+    flex-shrink: 1;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+
+    video {
+      transform: scaleX(-1);
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .chat_layout {
+    flex: 2;
   }
 }

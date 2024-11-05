@@ -1,5 +1,5 @@
 .layout {
-  position: absolute;
+  position: fixed;
   top: 0;
   display: flex;
   justify-content: space-between;
@@ -15,17 +15,22 @@
   align-items: center;
 }
 
-.logo {
+.logo_container {
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin-right: 20px;
+}
 
-  p {
-    color: #ffffff;
-    font-size: 28px;
-    font-weight: 800;
-  }
+.logo_image {
+  position: relative;
+  object-fit: contain;
+  width: 70px;
+  height: 70px;
+}
+
+.logo_text {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 800;
 }
 
 .profile {
