@@ -12,7 +12,7 @@ const Header = () => {
   return (
     <header className={styles.layout}>
       <nav className={styles.nav}>
-        <Link href={accessToken ? '/interview' : '/'} className={styles.logo_container}>
+        <Link href="/" className={styles.logo_container} replace>
           <div className={styles.logo_image}>
             <Image fill src="/Logo.png" alt="logo" />
           </div>
