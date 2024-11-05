@@ -10,16 +10,10 @@ import { RxReset } from 'react-icons/rx';
 interface Props {
   interviewResult: { question: string; answer: string }[];
   accessToken?: string;
-  handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
-  handleResetStack: () => void;
+  handleClickReset: () => void;
 }
 
-export const Feedback = ({
-  interviewResult,
-  accessToken,
-  handleInterviewStatus,
-  handleResetStack,
-}: Props) => {
+export const Feedback = ({ interviewResult, accessToken, handleClickReset }: Props) => {
   const [feedbacks, setFeedbacks] = useState<{ good: string; bad: string }[]>([]);
   const [totalFeedback, setTotalFeedback] = useState<string>('');
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -166,7 +160,7 @@ export const Feedback = ({
       </Flex>
 
       {isLastPage && (
-        <Button onClick={() => handleInterviewStatus('stacks')} variant="arrowRight">
+        <Button onClick={() => handleClickReset()} variant="arrowRight">
           <RxReset />
         </Button>
       )}
