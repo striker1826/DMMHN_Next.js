@@ -6,6 +6,8 @@ import { Stack } from '@/shared/types/stack';
 import { InterviewStatus } from '@/app/interview/InterviewContainer';
 import styles from './Stacks.module.scss';
 import PrimaryBtn from '@/shared/components/Button/PrimaryBtn/PrimaryBtn';
+import { Button } from '@chakra-ui/react';
+import { SlArrowRight } from 'react-icons/sl';
 
 export type stack_type = '공통' | 'FE' | 'BE';
 
@@ -32,27 +34,29 @@ export const Stacks = ({ stacks, selectedStacks, onChangeStatus, handleSelectSta
         <h1>사용할 기술 스택을 선택해주세요!</h1>
         <p>최대 3개까지 선택 가능합니다.</p>
       </div>
-      <ul className={styles.stack_name_wrapper}>
-        {stacks.map(({ questionTypeId, type }) => (
-          <li key={questionTypeId}>
-            <button
-              type="button"
-              name={type}
-              onClick={() => handleSelectStack(String(questionTypeId))}
-              className={
-                selectedStacks.includes(String(questionTypeId))
-                  ? styles.selected_stack_name_btn
-                  : styles.stack_name_btn
-              }
-            >
-              {type}
-            </button>
-          </li>
-        ))}
-      </ul>
-      <div className={styles.next_btn_wrapper}>
-        <PrimaryBtn text="다음으로" onClick={() => applySelectedStacks(selectedStacks)} />
+      <div className={styles.stack_layout}>
+        <ul className={styles.stack_name_wrapper}>
+          {stacks.map(({ questionTypeId, type }) => (
+            <li key={questionTypeId}>
+              <button
+                type="button"
+                name={type}
+                onClick={() => handleSelectStack(String(questionTypeId))}
+                className={
+                  selectedStacks.includes(String(questionTypeId))
+                    ? styles.selected_stack_name_btn
+                    : styles.stack_name_btn
+                }
+              >
+                {type}
+              </button>
+            </li>
+          ))}
+        </ul>
       </div>
+      <Button onClick={() => applySelectedStacks(selectedStacks)} variant="arrowRight">
+        <SlArrowRight />
+      </Button>
     </>
   );
 };

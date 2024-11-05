@@ -26,7 +26,7 @@ export default function FeedbackCard({ heading, body, cardType }: Props) {
   return (
     <>
       <Card
-        width="100%"
+        maxW="lg"
         minHeight="100%"
         height="100%"
         boxShadow="lg"

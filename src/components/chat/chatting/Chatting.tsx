@@ -72,10 +72,9 @@ const Chatting = ({
         <Image
           src={profileImg}
           width={30}
-          height={40}
+          height={30}
           alt="profile_img"
           className={styles.profile_img}
-          objectFit="cover"
         />
         <p className={type === 'other' ? styles.name : styles.none_name}>{name}</p>
       </div>
