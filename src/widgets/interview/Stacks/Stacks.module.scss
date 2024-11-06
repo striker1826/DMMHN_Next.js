@@ -24,14 +24,8 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  max-width: fit-content;
-  max-height: fit-content;
-  gap: 0;
-  transition: gap 0.3s ease-in-out;
-}
-
-.stack_name_wrapper:hover {
-  gap: 10px;
+  width: 100%;
+  gap: 20px;
 }
 
 .stack_name_btn {
@@ -40,13 +34,14 @@
   border-radius: 80px;
   background-color: #ffffff;
   border: 2px solid #058841;
+  transition: all 0.2s ease-in-out;
   cursor: pointer;
 }
 
 .stack_name_btn:hover {
   background-color: #058841;
   color: #fff;
-  transition: background-color 0.2s ease-in-out;
+  padding: 16px 36px;
 }
 
 .selected_stack_name_btn {
@@ -54,7 +49,7 @@
   padding: 12px 32px;
   border-radius: 80px;
   background-color: #058841;
-  transition: background-color 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   border: 2px solid rgba(0, 0, 0, 0.1);
   color: #fff;
   cursor: pointer;

@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
-      <body className={noto_sans.className} style={{ height: 'calc(100vh - 88px)' }}>
+      <body className={noto_sans.className}>
         <Providers>
           <Header />
           {children}
