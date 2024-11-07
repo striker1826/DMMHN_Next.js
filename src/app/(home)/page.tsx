@@ -1,6 +1,6 @@
 import styles from './page.module.scss';
 import MovePageBtn from '@/shared/components/Button/MovePageBtn/MovePageBtn';
-import LoginModal from '@/components/auth/LoginModal/LoginModal';
+import LoginModal from '@/components/auth/LoginModal';
 
 export default function Home() {
   return (
