@@ -4,9 +4,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './Chatting.module.scss';
 import { ScaleLoader } from 'react-spinners';
 import Image, { StaticImageData } from 'next/image';
-import { getCookie } from '@/shared/utils/cookies';
-import { profile } from 'console';
-import { useSTT } from '@/models/audio/useSTT';
+import SpeechRecognition from 'react-speech-recognition';
 
 interface Props {
   type: 'other' | 'mine' | 'recording' | 'exit';
@@ -15,7 +13,6 @@ interface Props {
   profileImg: StaticImageData;
   questionIsLoading: boolean;
   recordingBox: boolean;
-  onRecAudio: () => void;
   handleToExitChat: () => void;
   onChangeIsAnswering: (state: boolean) => void;
   onChangeRecordingBoxState: (state: boolean) => void;
@@ -32,11 +29,8 @@ const Chatting = ({
   handleToExitChat,
   onChangeIsAnswering,
   onChangeRecordingBoxState,
-  onRecAudio,
 }: Props) => {
   const [count, setCount] = useState(DEFAULT_READY_RECORDING_SECOND);
-
-  const { handleRecAudio } = useSTT();
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -68,9 +62,9 @@ const Chatting = ({
 
   useEffect(() => {
     if (recordingBox) {
-      handleRecAudio();
+      SpeechRecognition.startListening({ continuous: true, language: 'ko' });
     }
-  }, [recordingBox, handleRecAudio]);
+  }, [recordingBox]);
 
   return (
     <div className={type === 'other' ? styles.other_container : styles.mine_container}>
@@ -78,10 +72,9 @@ const Chatting = ({
         <Image
           src={profileImg}
           width={30}
-          height={40}
+          height={30}
           alt="profile_img"
           className={styles.profile_img}
-          objectFit="cover"
         />
         <p className={type === 'other' ? styles.name : styles.none_name}>{name}</p>
       </div>

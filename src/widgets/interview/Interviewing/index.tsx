@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef } from 'react';
 import { useVideoHandler } from '@/models/simulation/video';
 import { useHandleInterview } from '@/models/simulation/useHandleInterview';
@@ -5,7 +7,6 @@ import styles from './Interviewing.module.scss';
 import Chat from '@/widgets/chat/Chat';
 
 interface Props {
-  transcript: string;
   selectedStacks: string[];
   handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
   handleChangeInterviewChatResult: (
@@ -14,7 +15,6 @@ interface Props {
 }
 
 export const Interviewing = ({
-  transcript,
   selectedStacks,
   handleInterviewStatus,
   handleChangeInterviewChatResult,
@@ -30,16 +30,17 @@ export const Interviewing = ({
 
   return (
     <div className={styles.layout}>
-      <div className={styles.video_area}>
-        <video className={styles.recoding_display} ref={videoRef} autoPlay muted />
-      </div>
-      <div className={styles.chat_area}>
-        <Chat
-          transcript={transcript}
-          questionList={questionList}
-          handleInterviewStatus={handleInterviewStatus}
-          handleChangeInterviewChatResult={handleChangeInterviewChatResult}
-        />
+      <div className={styles.content_layout}>
+        <div className={styles.video_wrap}>
+          <video ref={videoRef} autoPlay playsInline muted />
+        </div>
+        <div className={styles.chat_layout}>
+          <Chat
+            questionList={questionList}
+            handleInterviewStatus={handleInterviewStatus}
+            handleChangeInterviewChatResult={handleChangeInterviewChatResult}
+          />
+        </div>
       </div>
     </div>
   );

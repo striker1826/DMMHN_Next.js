@@ -4,14 +4,13 @@ import 'regenerator-runtime/runtime';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './Chat.module.scss';
 import ChattingList from '@/component_list/chattingList/ChattingList';
-import { useSTT } from '@/models/audio/useSTT';
 import { useHandleChat } from '@/models/chat/useHandleChat';
 import { QuestionResponse } from '@/shared/types/question';
 import INTERVIER_PROFILE_IMG from '../../../public/Logo.png';
+import { Button } from '@chakra-ui/react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import { timeSleep } from '@/shared/utils/sleep';
+
 interface Props {
-  transcript: string;
   questionList: QuestionResponse[];
   handleChangeInterviewChatResult: (
     interviewChatResult: { question: string; answer: string }[],
@@ -19,12 +18,7 @@ interface Props {
   handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
 }
 
-const Chat = ({
-  // transcript,
-  questionList,
-  handleInterviewStatus,
-  handleChangeInterviewChatResult,
-}: Props) => {
+const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatResult }: Props) => {
   const { transcript: sttText, listening, resetTranscript } = useSpeechRecognition();
   const [isSubmit, setIsSubmit] = useState(false);
   const {
@@ -114,25 +108,23 @@ const Chat = ({
 
   return (
     <div className={styles.layout}>
-      <div className={styles.chat} ref={chatContainerRef}>
+      <div className={styles.chat_container} ref={chatContainerRef}>
         <ChattingList
           content={chatInfoList}
           recordingBox={recordingBox}
           handleToExitChat={handleToExitChat}
-          onRecAudio={() =>
-            SpeechRecognition.startListening({
-              continuous: true,
-              language: 'ko',
-            })
-          }
           onChangeIsAnswering={handleChangeIsAnswering}
           onChangeRecordingBoxState={handleChangeRecordingBox}
         />
       </div>
-      <button
-        className={isAnswering && !isSubmit ? styles.button : styles.not_active_btn}
+      <Button
         onClick={() => handleDelayStopListening()}
         disabled={!isAnswering || isSubmit}
+        colorScheme="green"
+        variant="solid"
+        size="lg"
+        paddingY="10px"
+        borderRadius="lg"
       >
         {isSubmit
           ? '답변을 제출 중입니다...'
@@ -141,7 +133,7 @@ const Chat = ({
           : isAnswering
           ? '답변을 마쳤어요!'
           : '문제를 출제중입니다...'}
-      </button>
+      </Button>
     </div>
   );
 };

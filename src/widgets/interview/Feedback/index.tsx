@@ -5,20 +5,15 @@ import { postFeedback, postTotalFeedback } from '@/queries/feedback';
 import { extractStrings } from '@/shared/utils/extractStrings';
 import { Button, Flex, Heading, HStack, Spinner } from '@chakra-ui/react';
 import FeedbackCard from '@/components/feedback/FeedbackCard';
+import { RxReset } from 'react-icons/rx';
 
 interface Props {
   interviewResult: { question: string; answer: string }[];
   accessToken?: string;
-  handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
-  handleResetStack: () => void;
+  handleClickReset: () => void;
 }
 
-export const Feedback = ({
-  interviewResult,
-  accessToken,
-  handleInterviewStatus,
-  handleResetStack,
-}: Props) => {
+export const Feedback = ({ interviewResult, accessToken, handleClickReset }: Props) => {
   const [feedbacks, setFeedbacks] = useState<{ good: string; bad: string }[]>([]);
   const [totalFeedback, setTotalFeedback] = useState<string>('');
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -72,7 +67,7 @@ export const Feedback = ({
   const isLastPage = currentIndex === feedbacks.length;
 
   return (
-    <Flex direction="column" justify="center" align="center" boxSize="100%" gap="30px">
+    <Flex direction="column" justify="space-around" align="center" boxSize="100%" gap="20px">
       {/* 현재 피드백 받을 문제 */}
       <Flex width="100%" padding="10px" boxShadow="lg" borderRadius="xl" align="center">
         {!isLastPage && (
@@ -122,31 +117,6 @@ export const Feedback = ({
         ) : (
           <FeedbackCard heading="정리하자면..." body={totalFeedback} cardType="totalFeedback" />
         )}
-
-        {isLastPage && (
-          <Flex
-            flexDirection="column"
-            width="330px"
-            height="440px"
-            align="center"
-            justify="center"
-            gap="30px"
-          >
-            <Button
-              onClick={() => {
-                handleInterviewStatus('stacks');
-                handleResetStack();
-              }}
-              colorScheme="green"
-              fontSize="24px"
-              fontWeight="600"
-              color="green.50"
-              padding="10px 20px"
-            >
-              처음으로
-            </Button>
-          </Flex>
-        )}
       </Flex>
 
       {/* 페이지네이션 컨트롤 */}
@@ -188,6 +158,12 @@ export const Feedback = ({
           다음
         </Button>
       </Flex>
+
+      {isLastPage && (
+        <Button onClick={() => handleClickReset()} variant="arrowRight">
+          <RxReset />
+        </Button>
+      )}
     </Flex>
   );
 };
