@@ -19,7 +19,9 @@ const LoginModal = () => {
     <Modal isOpen={isOpen && key === 'login'} onClose={closeModal} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>로그인</ModalHeader>
+        <ModalHeader textAlign="center" fontSize="2xl" fontWeight="700">
+          떨면뭐하니 로그인
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody padding="30px">
           <Flex flexDirection="column" width="full" alignItems="center">
