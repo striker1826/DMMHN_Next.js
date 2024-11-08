@@ -1,5 +1,5 @@
-import Policy from '@/components/auth/Policy';
 import { Flex } from '@chakra-ui/react';
+import AuthContainer from '@/widgets/AuthContainer';
 
 export default function Page() {
   return (
@@ -10,7 +10,7 @@ export default function Page() {
       justifyContent="center"
       background="linear-gradient(150deg, #004922 0%, #02632f 40%, #058841 70%)"
     >
-      <Policy />
+      <AuthContainer />
     </Flex>
   );
 }
