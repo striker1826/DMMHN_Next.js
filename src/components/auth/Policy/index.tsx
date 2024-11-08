@@ -48,9 +48,9 @@ const Policy = ({ setIsAccepted }: Props) => {
   };
 
   return (
-    <Flex flexDirection="column" backgroundColor="white">
+    <Flex width="full" flexDirection="column" backgroundColor="white">
       <CheckboxGroup colorScheme="green">
-        <Flex width="270px">
+        <Flex width="full">
           <Checkbox
             border="1px gray"
             mr="10px"
@@ -63,7 +63,7 @@ const Policy = ({ setIsAccepted }: Props) => {
         <Divider borderColor="gray.400" my="10px" />
         <Stack spacing={2}>
           {POLICY_MAP.map(({ text, href }, index) => (
-            <Flex key={text} alignItems="center" justifyContent="space-between" width="270px">
+            <Flex key={text} alignItems="center" justifyContent="space-between" width="full">
               <Flex>
                 <Checkbox
                   border="1px gray"
