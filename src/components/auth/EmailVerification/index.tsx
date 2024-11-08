@@ -10,18 +10,24 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Text,
 } from '@chakra-ui/react';
 import { verifyEmail } from '@/mutation/verifyEmail';
+import VerificationModal from '../VerificationModal';
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
 
-export default function EmailVerification() {
+interface Props {
+  setIsVerified: (value: boolean) => void;
+}
+
+export default function EmailVerification({ setIsVerified }: Props) {
   const [email, setEmail] = useState<string>('');
   const [isError, setIsError] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [timer, setTimer] = useState<number | null>(null);
   const [timeLeft, setTimeLeft] = useState<number>(180);
+  const [isPending, startTransition] = useTransition();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
@@ -40,20 +46,19 @@ export default function EmailVerification() {
   };
 
   const handleSubmit = async (formData: FormData) => {
-    setIsLoading(true);
-    try {
-      const isVerified = await verifyEmail(formData);
-      if (isVerified) {
-        startTimer();
-      } else {
+    startTransition(async () => {
+      try {
+        const isVerified = await verifyEmail(formData);
+        if (isVerified) {
+          startTimer();
+        } else {
+          setIsError(true);
+        }
+      } catch (error) {
+        console.error('인증 실패:', error);
         setIsError(true);
       }
-    } catch (error) {
-      console.error('인증 실패:', error);
-      setIsError(true);
-    } finally {
-      setIsLoading(false);
-    }
+    });
   };
 
   useEffect(() => {
@@ -71,21 +76,21 @@ export default function EmailVerification() {
   };
 
   return (
-    <Flex width="full" mt="10px" mb="20px">
+    <Flex flexDirection="column" gap="5px" width="full" mt="10px" mb="20px">
       <FormControl>
         <form action={formData => handleSubmit(formData)}>
-          <FormLabel fontSize="lg" fontWeight="semibold" mb="15px">
+          <FormLabel fontSize="lg" fontWeight="semibold">
             조금만 더 진행해 주세요! <br />
             간편 로그인 후 처음 한 번만 이메일 인증이 필요합니다. :{')'}
           </FormLabel>
           <InputGroup>
             <Input
               type="email"
+              name="email"
+              value={email}
               placeholder="이메일 주소를 입력해 주세요."
               isInvalid={isError}
               isDisabled={!!timer}
-              value={email}
-              name="email"
               onChange={handleInputChange}
               variant="flushed"
               borderColor="gray.400"
@@ -99,24 +104,22 @@ export default function EmailVerification() {
               ) : (
                 <Button
                   type="submit"
-                  isLoading={isLoading}
+                  isLoading={isPending}
                   isDisabled={isError || email === '' || !!timer}
                   colorScheme="green"
                   size="sm"
                 >
-                  {timer
-                    ? `${String(Math.floor(timeLeft / 60)).padStart(2, '0')}:${String(
-                        timeLeft % 60,
-                      ).padStart(2, '0')}`
-                    : '인증하기'}
+                  인증하기
                 </Button>
               )}
             </InputRightElement>
           </InputGroup>
-          <FormHelperText textColor="gray.500">
-            입력하신 이메일은 인증 목적으로만 사용되며, 다른 용도로는 절대 활용되지 않습니다.
-            안심하고 입력해 주세요!
-          </FormHelperText>
+          {!timer && (
+            <FormHelperText textColor="gray.500">
+              입력하신 이메일은 인증 목적으로만 사용되며, 다른 용도로는 절대 활용되지 않습니다.
+              안심하고 입력해 주세요!
+            </FormHelperText>
+          )}
         </form>
       </FormControl>
     </Flex>
