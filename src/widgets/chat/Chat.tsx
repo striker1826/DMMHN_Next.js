@@ -1,26 +1,35 @@
 'use client';
 
 import 'regenerator-runtime/runtime';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './Chat.module.scss';
 import ChattingList from '@/component_list/chattingList/ChattingList';
 import { useHandleChat } from '@/models/chat/useHandleChat';
 import { QuestionResponse } from '@/shared/types/question';
 import INTERVIER_PROFILE_IMG from '../../../public/Logo.png';
-import { Button } from '@chakra-ui/react';
+import { Button, Divider, Flex, Progress } from '@chakra-ui/react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import { formattingData } from '@/models/chat/formatChatData';
 
 interface Props {
   questionList: QuestionResponse[];
-  handleChangeInterviewChatResult: (
-    interviewChatResult: { question: string; answer: string }[],
-  ) => void;
+  handleChangeInterviewChatResult: (interviewChatResult: {
+    question: string;
+    answer: string;
+  }) => void;
   handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
 }
 
 const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatResult }: Props) => {
+  const [progress, setProgress] = useState(0);
+
   const { transcript: sttText, listening, resetTranscript } = useSpeechRecognition();
   const [isSubmit, setIsSubmit] = useState(false);
+
+  const addProgressPercentage = useCallback((percentage: number) => {
+    setProgress(prev => prev + percentage);
+  }, []);
+
   const {
     chatInfoList,
     recordingBox,
@@ -29,6 +38,7 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
     handleChangeIsAnswering,
     handleAddChatInfoList,
     addRecordingBox,
+
     submitAnswer,
   } = useHandleChat({
     questionList,
@@ -38,25 +48,6 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
   });
 
   const handleToExitChat = () => {
-    const questionAndAnswer = chatInfoList.slice(1, -3);
-
-    // 데이터를 question과 answer로 매핑
-    const formattedData = questionAndAnswer.reduce<{ question: string; answer: string }[]>(
-      (acc, curr, index, array) => {
-        if (curr.type === 'other') {
-          acc.push({ question: curr.message, answer: '' });
-        } else if (curr.type === 'mine') {
-          const lastItem = acc[acc.length - 1];
-          if (lastItem) {
-            lastItem.answer = curr.message;
-          }
-        }
-        return acc;
-      },
-      [],
-    );
-
-    handleChangeInterviewChatResult(formattedData);
     handleInterviewStatus('feedback');
   };
 
@@ -93,7 +84,8 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
       SpeechRecognition.stopListening();
 
       if (!sttText && listening) {
-        submitAnswer(sttText, resetTranscript);
+        submitAnswer(sttText, chatInfoList, resetTranscript, handleChangeInterviewChatResult);
+        addProgressPercentage(20);
       }
       setIsSubmit(false);
     }, 1500);
@@ -101,13 +93,46 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
 
   useEffect(() => {
     if (sttText && !listening) {
-      submitAnswer(sttText, resetTranscript);
+      submitAnswer(sttText, chatInfoList, resetTranscript, handleChangeInterviewChatResult);
+      addProgressPercentage(20);
       setIsSubmit(false);
     }
-  }, [listening, submitAnswer, sttText, resetTranscript]);
+  }, [
+    chatInfoList,
+    listening,
+    submitAnswer,
+    sttText,
+    resetTranscript,
+    addProgressPercentage,
+    handleChangeInterviewChatResult,
+  ]);
 
   return (
     <div className={styles.layout}>
+      <Flex gap="12px" borderBottom="1px" borderColor={'gray.400'} paddingBottom="8px">
+        <Progress
+          borderRadius="8px"
+          value={progress}
+          width="100%"
+          height="20px"
+          hasStripe
+          isAnimated
+          minHeight="20px"
+          colorScheme="green"
+          min={0}
+          max={100}
+        />
+        <Button
+          onClick={() => handleInterviewStatus('feedback')}
+          colorScheme="green"
+          borderRadius="8px"
+          opacity="0.5"
+          size="xs"
+          _hover={{ opacity: '1' }}
+        >
+          과정 초기화
+        </Button>
+      </Flex>
       <div className={styles.chat_container} ref={chatContainerRef}>
         <ChattingList
           content={chatInfoList}
@@ -117,23 +142,28 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
           onChangeRecordingBoxState={handleChangeRecordingBox}
         />
       </div>
-      <Button
-        onClick={() => handleDelayStopListening()}
-        disabled={!isAnswering || isSubmit}
-        colorScheme="green"
-        variant="solid"
-        size="lg"
-        paddingY="10px"
-        borderRadius="lg"
-      >
-        {isSubmit
-          ? '답변을 제출 중입니다...'
-          : chatInfoList[chatInfoList.length - 1].type === 'exit'
-          ? '면접이 끝났어요!'
-          : isAnswering
-          ? '답변을 마쳤어요!'
-          : '문제를 출제중입니다...'}
-      </Button>
+      <Flex borderTop="1px" borderColor="gray.400" w={'full'}>
+        <Button
+          onClick={() => handleDelayStopListening()}
+          disabled={!isAnswering || isSubmit}
+          colorScheme="green"
+          variant="solid"
+          size="lg"
+          paddingY="10px"
+          borderRadius="lg"
+          borderTop="1px"
+          marginTop="8px"
+          w={'full'}
+        >
+          {isSubmit
+            ? '답변을 제출 중입니다...'
+            : chatInfoList[chatInfoList.length - 1].type === 'exit'
+            ? '면접이 끝났어요!'
+            : isAnswering
+            ? '답변을 마쳤어요!'
+            : '문제를 출제중입니다...'}
+        </Button>
+      </Flex>
     </div>
   );
 };

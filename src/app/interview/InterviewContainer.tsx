@@ -27,6 +27,10 @@ const Simulation = ({ stacks, accessToken }: Props) => {
     setSelectedStacks([]);
   };
 
+  useEffect(() => {
+    console.log('interviewChatResult', interviewChatResult);
+  }, [interviewChatResult]);
+
   const handleSelectStack = (stack: string) => {
     setSelectedStacks(prev => {
       if (prev.includes(stack)) {
@@ -40,10 +44,11 @@ const Simulation = ({ stacks, accessToken }: Props) => {
     });
   };
 
-  const handleChangeInterviewChatResult = (
-    interviewChatResult: { question: string; answer: string }[],
-  ) => {
-    setInterviewChatResult(prev => [...prev, ...interviewChatResult]);
+  const handleChangeInterviewChatResult = (interviewChatResult: {
+    question: string;
+    answer: string;
+  }) => {
+    setInterviewChatResult(prev => [...prev, interviewChatResult]);
   };
 
   const handleClickReset = () => {
