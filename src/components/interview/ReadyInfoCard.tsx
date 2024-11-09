@@ -11,7 +11,14 @@ import { RiErrorWarningFill } from 'react-icons/ri';
 
 export default function ReadyInfoCard() {
   return (
-    <Card variant="outline" border="1px" borderColor="blackAlpha.300" borderRadius="xl" maxW="md">
+    <Card
+      variant="outline"
+      border="1px"
+      borderColor="blackAlpha.300"
+      borderRadius="xl"
+      width="100%"
+      height="100%"
+    >
       <CardHeader borderBottom="1px" borderColor="blackAlpha.300" padding="20px">
         <Flex alignItems="center" gap="5px">
           <RiErrorWarningFill fontSize="24px" />
