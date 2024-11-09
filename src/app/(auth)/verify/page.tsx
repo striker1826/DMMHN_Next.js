@@ -8,7 +8,6 @@ export default function Page() {
       height="100vh"
       alignItems="center"
       justifyContent="center"
-      paddingTop="100px"
       background="linear-gradient(150deg, #004922 0%, #02632f 40%, #058841 70%)"
     >
       <AuthContainer />
