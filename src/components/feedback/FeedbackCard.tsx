@@ -3,6 +3,7 @@ import {
   CardBody,
   CardHeader,
   Divider,
+  Flex,
   Heading,
   Modal,
   ModalBody,
@@ -62,9 +63,12 @@ export default function FeedbackCard({ heading, body, cardType }: Props) {
           </Heading>
         </CardHeader>
         <CardBody padding="2.5px 10px 10px 10px" overflow="hidden">
-          <Text
+          <Flex
             width="100%"
             height="100%"
+            padding="5px 15px"
+            borderRadius="xl"
+            borderTopRadius="sm"
             bgColor={
               cardType === 'totalFeedback'
                 ? 'green.100'
@@ -74,18 +78,22 @@ export default function FeedbackCard({ heading, body, cardType }: Props) {
                 ? 'red.100'
                 : ''
             }
-            padding="5px 15px"
-            borderRadius="xl"
-            borderTopRadius="sm"
-            fontSize="xl"
-            fontWeight="600"
-            color="green.900"
-            lineHeight="1.8"
-            overflow="hidden"
-            noOfLines={7}
           >
-            {body}
-          </Text>
+            <Text
+              width="100%"
+              maxHeight="165px"
+              height="165px"
+              fontSize="xl"
+              fontWeight="600"
+              color="green.900"
+              lineHeight="2.0"
+              overflow="hidden"
+              noOfLines={4} // 4줄까지만 표시
+              textOverflow="ellipsis" // 끊어질 때 '...'으로 표시
+            >
+              {body}
+            </Text>
+          </Flex>
         </CardBody>
       </Card>
       <Modal isOpen={isOpen} onClose={onClose} size="lg" isCentered>
