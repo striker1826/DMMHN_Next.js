@@ -2,8 +2,19 @@
 
 import { ChangeEvent, useEffect, useState } from 'react';
 import NextLink from 'next/link';
-import { Checkbox, CheckboxGroup, Divider, Flex, Link, Stack, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Checkbox,
+  CheckboxGroup,
+  Divider,
+  Flex,
+  Link,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
 import { GoArrowRight } from 'react-icons/go';
+import { useRouter } from 'next/navigation';
 
 const POLICY_MAP = [
   {
@@ -20,21 +31,14 @@ const POLICY_MAP = [
   },
 ];
 
-interface Props {
-  setIsAccepted: (value: boolean) => void;
-}
-
-const Policy = ({ setIsAccepted }: Props) => {
+const Policy = () => {
+  const router = useRouter();
   const [checkedItems, setCheckedItems] = useState<boolean[]>(
     new Array(POLICY_MAP.length).fill(false),
   );
 
   const allChecked = checkedItems.every(Boolean);
   const isIndeterminate = checkedItems.some(Boolean) && !allChecked;
-
-  useEffect(() => {
-    setIsAccepted(allChecked);
-  }, [allChecked, setIsAccepted]);
 
   const handleIndividualChange = (index: number) => (e: ChangeEvent<HTMLInputElement>) => {
     const updatedCheckedItems = [...checkedItems];
@@ -48,38 +52,59 @@ const Policy = ({ setIsAccepted }: Props) => {
   };
 
   return (
-    <Flex width="full" flexDirection="column" backgroundColor="white">
-      <CheckboxGroup colorScheme="green">
-        <Flex width="full">
-          <Checkbox
-            border="1px gray"
-            mr="10px"
-            isChecked={allChecked}
-            isIndeterminate={isIndeterminate}
-            onChange={handleAllChange}
-          />
-          <Text>약관 전체동의</Text>
-        </Flex>
-        <Divider borderColor="gray.400" my="10px" />
-        <Stack spacing={2}>
-          {POLICY_MAP.map(({ text, href }, index) => (
-            <Flex key={text} alignItems="center" justifyContent="space-between" width="full">
-              <Flex>
-                <Checkbox
-                  border="1px gray"
-                  mr="10px"
-                  isChecked={checkedItems[index]}
-                  onChange={handleIndividualChange(index)}
-                />
-                <Text>{text}</Text>
+    <Flex
+      width="full"
+      height="full"
+      justifyContent="space-between"
+      flexDirection="column"
+      backgroundColor="white"
+      mt="10px"
+    >
+      <Box>
+        <Text fontSize="xl" fontWeight="bold" mb="20px">
+          정말 수고하셨습니다. <br />
+          벌써 마지막 단계입니다!
+        </Text>
+        <CheckboxGroup colorScheme="green">
+          <Flex width="full">
+            <Checkbox
+              border="1px gray"
+              mr="10px"
+              isChecked={allChecked}
+              isIndeterminate={isIndeterminate}
+              onChange={handleAllChange}
+            />
+            <Text>약관 전체동의</Text>
+          </Flex>
+          <Divider borderColor="gray.400" my="10px" />
+          <Stack spacing={2}>
+            {POLICY_MAP.map(({ text, href }, index) => (
+              <Flex key={text} alignItems="center" justifyContent="space-between" width="full">
+                <Flex>
+                  <Checkbox
+                    border="1px gray"
+                    mr="10px"
+                    isChecked={checkedItems[index]}
+                    onChange={handleIndividualChange(index)}
+                  />
+                  <Text>{text}</Text>
+                </Flex>
+                <Link as={NextLink} href={href} isExternal _hover={{ color: 'blue.500' }}>
+                  <GoArrowRight />
+                </Link>
               </Flex>
-              <Link as={NextLink} href={href} isExternal _hover={{ color: 'blue.500' }}>
-                <GoArrowRight />
-              </Link>
-            </Flex>
-          ))}
-        </Stack>
-      </CheckboxGroup>
+            ))}
+          </Stack>
+        </CheckboxGroup>
+      </Box>
+      <Button
+        onClick={() => router.replace('/interview')}
+        isDisabled={!allChecked}
+        colorScheme="green"
+        size="lg"
+      >
+        시작!
+      </Button>
     </Flex>
   );
 };

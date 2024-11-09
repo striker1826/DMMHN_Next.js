@@ -18,9 +18,10 @@ import { send, verify } from '@/mutation/verifyEmail';
 
 interface Props {
   setActiveStep: (step: number) => void;
+  activeStep: number;
 }
 
-export default function VerifyForm({ setActiveStep }: Props) {
+export default function VerifyForm({ setActiveStep, activeStep }: Props) {
   const { email } = useVerifyStore();
   const [verifyCode, setVerifyCode] = useState<string>('');
   const [isError, setIsError] = useState<boolean>(false);
@@ -36,27 +37,29 @@ export default function VerifyForm({ setActiveStep }: Props) {
   };
 
   const handleResendVerifyCode = async () => {
-    try {
-      const isVerifyCode = await send(email);
-      if (isVerifyCode) {
-        if (timer) {
-          clearInterval(timer);
-          setTimer(null);
+    startTransition(async () => {
+      try {
+        const isVerifyCode = await send(email);
+        if (isVerifyCode) {
+          if (timer) {
+            clearInterval(timer);
+            setTimer(null);
+          }
+          startTimer();
+          toast({
+            title: '인증 코드가 재전송되었습니다.',
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+          });
+        } else {
+          setIsError(true);
         }
-        startTimer();
-        toast({
-          title: '인증 코드가 재전송되었습니다.',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        });
-      } else {
+      } catch (error) {
+        console.error('인증 실패:', error);
         setIsError(true);
       }
-    } catch (error) {
-      console.error('인증 실패:', error);
-      setIsError(true);
-    }
+    });
   };
 
   const handleVerify = async (formdata: FormData) => {
@@ -67,7 +70,7 @@ export default function VerifyForm({ setActiveStep }: Props) {
         if (!email || !code) return;
         const isVerifyCode = await verify({ email: email.toString(), code: code.toString() });
         if (isVerifyCode) {
-          setActiveStep(+1);
+          setActiveStep(activeStep + 1);
         } else {
           setIsError(true);
         }
@@ -121,6 +124,7 @@ export default function VerifyForm({ setActiveStep }: Props) {
               type="text"
               name="code"
               value={verifyCode}
+              isInvalid={isError}
               placeholder="인증 코드를 입력해 주세요."
               variant="flushed"
               maxLength={6}
@@ -142,6 +146,7 @@ export default function VerifyForm({ setActiveStep }: Props) {
                 onClick={handleResendVerifyCode}
                 variant="none"
                 padding="none"
+                isLoading={isPending}
                 size="sm"
                 fontSize="sm"
                 mt="1px"

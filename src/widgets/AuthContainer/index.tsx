@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   Box,
   Button,
@@ -32,7 +31,6 @@ export default function AuthContainer() {
     index: 0,
     count: steps.length,
   });
-  const [isAccepted, setIsAccepted] = useState<boolean>(false);
 
   return (
     <Flex
@@ -49,7 +47,7 @@ export default function AuthContainer() {
     >
       <Stepper size="md" colorScheme="green" index={activeStep} width="300px">
         {steps.map((step, index) => (
-          <Step key={index} onClick={() => setActiveStep(index)}>
+          <Step key={index}>
             <StepIndicator border="1px" borderColor="gray.300">
               <StepStatus
                 complete={<StepIcon />}
@@ -68,9 +66,11 @@ export default function AuthContainer() {
         ))}
       </Stepper>
       <Flex height="full">
-        {activeStep === 0 && <EmailVerification setActiveStep={setActiveStep} />}
-        {activeStep === 1 && <VerifyForm setActiveStep={setActiveStep} />}
-        {activeStep === 2 && <Policy setIsAccepted={setIsAccepted} />}
+        {activeStep === 0 && (
+          <EmailVerification setActiveStep={setActiveStep} activeStep={activeStep} />
+        )}
+        {activeStep === 1 && <VerifyForm setActiveStep={setActiveStep} activeStep={activeStep} />}
+        {activeStep === 2 && <Policy />}
       </Flex>
       <Button
         variant="ghost"

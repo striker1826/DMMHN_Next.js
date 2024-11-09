@@ -18,9 +18,10 @@ const EMAIL_REGEX =
 
 interface Props {
   setActiveStep: (step: number) => void;
+  activeStep: number;
 }
 
-export default function EmailVerification({ setActiveStep }: Props) {
+export default function EmailVerification({ setActiveStep, activeStep }: Props) {
   const { email, setEmail } = useVerifyStore();
   const [isError, setIsError] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
@@ -40,7 +41,7 @@ export default function EmailVerification({ setActiveStep }: Props) {
         if (!email) return;
         const isVerifyCode = await send(email.toString());
         if (isVerifyCode) {
-          setActiveStep(+1);
+          setActiveStep(activeStep + 1);
         } else {
           setIsError(true);
         }
@@ -64,7 +65,7 @@ export default function EmailVerification({ setActiveStep }: Props) {
       >
         <FormControl>
           <FormLabel fontSize="xl" fontWeight="bold">
-            간편 로그인 후 처음 한 번만 이메일 인증이 필요합니다. :{')'}
+            간편 로그인 후 처음 한 번만 이메일 인증이 필요합니다 :{')'}
           </FormLabel>
           <InputGroup>
             <Input
