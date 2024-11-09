@@ -1,17 +1,19 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useVideoHandler } from '@/models/simulation/video';
 import { useHandleInterview } from '@/models/simulation/useHandleInterview';
 import styles from './Interviewing.module.scss';
 import Chat from '@/widgets/chat/Chat';
+import { Button, Flex, Progress } from '@chakra-ui/react';
 
 interface Props {
   selectedStacks: string[];
   handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
-  handleChangeInterviewChatResult: (
-    interviewChatResult: { question: string; answer: string }[],
-  ) => void;
+  handleChangeInterviewChatResult: (interviewChatResult: {
+    question: string;
+    answer: string;
+  }) => void;
 }
 
 export const Interviewing = ({

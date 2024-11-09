@@ -130,7 +130,12 @@ export const useHandleChat = ({
    *
    */
   const submitAnswer = useCallback(
-    (transcript: string, resetTranscript: () => void) => {
+    (
+      transcript: string,
+      chatInfoList: ChatInfo[],
+      resetTranscript: () => void,
+      updateInterviewHistory: (chatContent: { question: string; answer: string }) => void,
+    ) => {
       setIsAnswering(false);
 
       setChatInfoList(prev => {
@@ -140,8 +145,12 @@ export const useHandleChat = ({
       });
 
       setRecordingBox(false);
+      const question = chatInfoList[chatInfoList.length - 2].message;
+      const answer = transcript ? transcript : '잘 모르겠습니다.';
+      updateInterviewHistory({ answer, question });
       resetTranscript();
 
+      console.log('currentQuestionNumber', currentQuestionNumber);
       if (questionLength > currentQuestionNumber) {
         handleLoadNextQuestion();
       } else {
