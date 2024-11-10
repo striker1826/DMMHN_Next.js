@@ -15,6 +15,8 @@ import {
 } from '@chakra-ui/react';
 import { GoArrowRight } from 'react-icons/go';
 import { useRouter } from 'next/navigation';
+import { updateEmail } from '@/mutation/user/updateEmail';
+import { useVerifyStore } from '@/shared/store/verifyStore';
 
 const POLICY_MAP = [
   {
@@ -33,6 +35,7 @@ const POLICY_MAP = [
 
 const Policy = () => {
   const router = useRouter();
+  const { email, code } = useVerifyStore();
   const [checkedItems, setCheckedItems] = useState<boolean[]>(
     new Array(POLICY_MAP.length).fill(false),
   );
@@ -98,7 +101,10 @@ const Policy = () => {
         </CheckboxGroup>
       </Box>
       <Button
-        onClick={() => router.replace('/interview')}
+        onClick={() => {
+          updateEmail(email, code);
+          router.replace('/interview');
+        }}
         isDisabled={!allChecked}
         colorScheme="green"
         size="lg"
