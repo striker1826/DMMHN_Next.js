@@ -8,6 +8,9 @@ import { Metadata } from 'next';
 const noto_sans = Noto_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
+  verification: {
+    google: 'TCu5dG-Ufa45UAJRXOcei_NUpv_ItHgjBkkx_HGAr2E',
+  },
   title: '떨면뭐하니에 오신 것을 환영합니다! | 떨면뭐하니',
   description: '떨면뭐하니 랜딩페이지',
   openGraph: {
