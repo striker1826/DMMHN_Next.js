@@ -22,12 +22,19 @@ export async function middleware(req: NextRequest) {
       const response: unknown = await apiInstance.post('/auth/v2/kakao', {
         code: kakao_code,
       });
-      const { access_token, user } = response as {
+      const { access_token, user, isEmail } = response as {
         access_token: string;
         user: { profileImg: string };
+        isEmail: boolean;
       };
 
-      const res = NextResponse.redirect(new URL('/interview', req.url));
+      let res;
+      if (!isEmail) {
+        res = NextResponse.redirect(new URL('/verify', req.url));
+      } else {
+        res = NextResponse.redirect(new URL('/interview', req.url));
+      }
+
       res.cookies.set('accessToken', access_token, {
         maxAge: ONE_DAY_PER_SEC,
       });

@@ -22,7 +22,7 @@ interface Props {
 }
 
 export default function VerifyForm({ setActiveStep, activeStep }: Props) {
-  const { email } = useVerifyStore();
+  const { email, setCode } = useVerifyStore();
   const [verifyCode, setVerifyCode] = useState<string>('');
   const [isError, setIsError] = useState<boolean>(false);
   const [timer, setTimer] = useState<number | null>(null);
@@ -70,6 +70,7 @@ export default function VerifyForm({ setActiveStep, activeStep }: Props) {
         if (!email || !code) return;
         const isVerifyCode = await verify({ email: email.toString(), code: code.toString() });
         if (isVerifyCode) {
+          setCode(code.toString());
           setActiveStep(activeStep + 1);
         } else {
           setIsError(true);
