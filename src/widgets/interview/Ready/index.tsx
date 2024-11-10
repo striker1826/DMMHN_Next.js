@@ -3,13 +3,14 @@
 import 'regenerator-runtime/runtime';
 import { useRef, useState } from 'react';
 import { useVideoHandler } from '@/models/simulation/video';
-import { Button, Flex } from '@chakra-ui/react';
+import { Button, Center, color, Flex } from '@chakra-ui/react';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 import { RiMicFill, RiMicOffFill } from 'react-icons/ri';
 import styles from './Ready.module.scss';
 import ReadyInfoCard from '@/components/interview/ReadyInfoCard';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import PrimaryBtn from '@/shared/components/Button/PrimaryBtn/PrimaryBtn';
+import Video from '@/components/video/Video';
 
 interface Props {
   onChangeStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
@@ -18,9 +19,6 @@ interface Props {
 export const Ready = ({ onChangeStatus }: Props) => {
   const [currentScript, setCurrentScript] = useState('');
   const [isListening, setIsListening] = useState(false);
-  const videoRef = useRef(null);
-
-  useVideoHandler(videoRef);
 
   const { transcript, resetTranscript } = useSpeechRecognition();
 
@@ -50,14 +48,49 @@ export const Ready = ({ onChangeStatus }: Props) => {
   return (
     <div className={styles.container}>
       <div className={styles.widget_wrapper}>
-        <h1>준비 단계입니다! 마이크와 카메라를 확인해 주세요.</h1>
-        <div className={styles.content_wrapper}>
-          <div className={styles.video_wrap}>
-            <video ref={videoRef} autoPlay muted />
-          </div>
-          <Flex flexDirection="column" gap="20px">
-            <ReadyInfoCard />
+        <Flex w="100%" h="100%" gap={'20px'}>
+          <Flex flex={1} flexDirection="column">
             <Flex
+              borderRadius="xl"
+              position="relative"
+              backgroundColor="#111"
+              w="100%"
+              h="100%"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Video />
+            </Flex>
+          </Flex>
+          <Flex flex={1} flexDirection="column" gap="20px">
+            <ReadyInfoCard />
+            <Button
+              onClick={handleAudio}
+              width="100%"
+              height="100%"
+              variant="ghost"
+              size="xs"
+              fontSize="md"
+              border="1px"
+              borderColor="#D6D6D6"
+            >
+              <Flex gap="12px" alignItems="center" justifyContent="center">
+                {isListening ? <RiMicOffFill /> : <RiMicFill />}
+                {currentScript
+                  ? sliceTranscript(currentScript)
+                  : '녹음된 음성이 Text로 표시됩니다!'}
+              </Flex>
+            </Button>
+          </Flex>
+          {/* <Flex width="100%" height="100%"> */}
+          {/* <div className={styles.video_wrap}> */}
+          {/* <Flex w="80%" h="80%"> */}
+          {/* </Flex> */}
+          {/* </div> */}
+          {/* </Flex> */}
+          {/* <Flex flexDirection="column" gap="20px" flex={1}> */}
+          {/* <ReadyInfoCard /> */}
+          {/* <Flex
               alignItems="center"
               gap="5px"
               padding="12px 8px"
@@ -66,14 +99,14 @@ export const Ready = ({ onChangeStatus }: Props) => {
               fontWeight="md"
               border="1px"
               borderColor="blackAlpha.300"
-            >
-              <Button onClick={handleAudio} flexShrink="1" variant="ghost" size="xs" fontSize="md">
-                {isListening ? <RiMicOffFill /> : <RiMicFill />}
-              </Button>
-              {currentScript ? sliceTranscript(currentScript) : '녹음된 음성이 Text로 표시됩니다!'}
-            </Flex>
-          </Flex>
-        </div>
+            > */}
+          {/* <Button onClick={handleAudio} flexShrink="1" variant="ghost" size="xs" fontSize="md">
+          {isListening ? <RiMicOffFill /> : <RiMicFill />}
+          </Button> */}
+          {/* {currentScript ? sliceTranscript(currentScript) : '녹음된 음성이 Text로 표시됩니다!'} */}
+          {/* </Flex> */}
+          {/* </Flex> */}
+        </Flex>
       </div>
 
       <Button onClick={() => onChangeStatus('stacks')} variant="arrowLeft">
