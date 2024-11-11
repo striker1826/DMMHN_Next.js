@@ -16,7 +16,6 @@ export async function updateEmail(email: string, code: string) {
   });
 
   if (!response.ok) {
-    console.log('response.status', response.status);
     throw new Error(`${response.status} ${response.statusText}`);
   }
 

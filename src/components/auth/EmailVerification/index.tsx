@@ -9,6 +9,8 @@ import {
   FormLabel,
   Input,
   InputGroup,
+  Text,
+  useToast,
 } from '@chakra-ui/react';
 import { send } from '@/mutation/verifyEmail';
 import { useVerifyStore } from '@/shared/store/verifyStore';
@@ -25,29 +27,37 @@ export default function EmailVerification({ setActiveStep, activeStep }: Props) 
   const { email, setEmail } = useVerifyStore();
   const [isError, setIsError] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
+  const toast = useToast();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
 
-    setEmail(email);
     setIsError(!EMAIL_REGEX.test(email));
+    setEmail(email);
   };
 
   const handleSubmit = async (formData: FormData) => {
-    const email = formData.get('email');
+    const email = formData.get('email')?.toString();
 
     startTransition(async () => {
-      try {
-        if (!email) return;
-        const isVerifyCode = await send(email.toString());
-        if (isVerifyCode) {
-          setActiveStep(activeStep + 1);
-        } else {
-          setIsError(true);
-        }
-      } catch (error) {
-        console.error('인증 실패:', error);
-        setIsError(true);
+      if (!email) return;
+      const isVerifyCode = await send(email);
+      if (!isVerifyCode) {
+        toast({
+          title: '인증 코드를 전송하는데 실패했습니다! 다시 한 번 시도해 주세요.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        setActiveStep(activeStep + 1);
+        toast({
+          title: '인증 코드가 전송되었습니다.',
+          status: 'success',
+          colorScheme: 'blue',
+          duration: 3000,
+          isClosable: true,
+        });
       }
     });
   };
@@ -80,6 +90,11 @@ export default function EmailVerification({ setActiveStep, activeStep }: Props) 
               pr="70px"
             />
           </InputGroup>
+          {isError && (
+            <Text fontSize="sm" color="red.500">
+              올바른 형식의 이메일로 작성해 주세요.
+            </Text>
+          )}
           <FormHelperText textColor="gray.500">
             입력하신 이메일은 인증 목적으로만 사용되며, 다른 용도로는 절대 활용되지 않습니다.
             안심하고 입력해 주세요!
