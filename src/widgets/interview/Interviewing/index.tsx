@@ -6,6 +6,7 @@ import { useHandleInterview } from '@/models/simulation/useHandleInterview';
 import styles from './Interviewing.module.scss';
 import Chat from '@/widgets/chat/Chat';
 import { Button, Flex, Progress } from '@chakra-ui/react';
+import Video from '@/components/video/Video';
 
 interface Props {
   selectedStacks: string[];
@@ -34,7 +35,7 @@ export const Interviewing = ({
     <div className={styles.layout}>
       <div className={styles.content_layout}>
         <div className={styles.video_wrap}>
-          <video ref={videoRef} autoPlay playsInline muted />
+          <Video />
         </div>
         <div className={styles.chat_layout}>
           <Chat

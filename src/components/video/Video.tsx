@@ -7,12 +7,13 @@ const Video = () => {
   useVideoHandler(videoRef);
 
   return (
-    <Flex w="80%" h="100%" justifyContent="center" alignItems="center">
+    <Flex w="100%" h="100%" justifyContent="center" alignItems="center" borderRadius="xl">
       <video
         ref={videoRef}
         autoPlay
         muted
         style={{
+          borderRadius: '0.375rem',
           width: '100%',
           height: '100%',
           aspectRatio: '16 / 9',

@@ -130,7 +130,7 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
           size="xs"
           _hover={{ opacity: '1' }}
         >
-          과정 초기화
+          면접 종료
         </Button>
       </Flex>
       <div className={styles.chat_container} ref={chatContainerRef}>

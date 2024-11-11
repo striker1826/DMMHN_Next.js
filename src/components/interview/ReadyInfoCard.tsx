@@ -15,7 +15,7 @@ export default function ReadyInfoCard() {
       variant="outline"
       border="1px"
       borderColor="blackAlpha.300"
-      borderRadius="xl"
+      borderRadius="md"
       width="100%"
       height="100%"
     >
