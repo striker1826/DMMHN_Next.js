@@ -11,6 +11,7 @@ import Video from '@/components/video/Video';
 interface Props {
   selectedStacks: string[];
   handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
+  interviewChatResult: { question: string; answer: string }[];
   handleChangeInterviewChatResult: (interviewChatResult: {
     question: string;
     answer: string;
@@ -19,6 +20,7 @@ interface Props {
 
 export const Interviewing = ({
   selectedStacks,
+  interviewChatResult,
   handleInterviewStatus,
   handleChangeInterviewChatResult,
 }: Props) => {
@@ -39,6 +41,7 @@ export const Interviewing = ({
         </div>
         <div className={styles.chat_layout}>
           <Chat
+            interviewChatResult={interviewChatResult}
             questionList={questionList}
             handleInterviewStatus={handleInterviewStatus}
             handleChangeInterviewChatResult={handleChangeInterviewChatResult}

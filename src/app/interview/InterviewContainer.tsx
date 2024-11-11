@@ -76,6 +76,7 @@ const Simulation = ({ stacks, accessToken }: Props) => {
       {status === 'interviewing' && (
         <Interviewing
           selectedStacks={selectedStacks}
+          interviewChatResult={interviewChatResult}
           handleInterviewStatus={setStatus}
           handleChangeInterviewChatResult={handleChangeInterviewChatResult}
         />

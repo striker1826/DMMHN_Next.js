@@ -13,6 +13,7 @@ import { formattingData } from '@/models/chat/formatChatData';
 
 interface Props {
   questionList: QuestionResponse[];
+  interviewChatResult: { question: string; answer: string }[];
   handleChangeInterviewChatResult: (interviewChatResult: {
     question: string;
     answer: string;
@@ -20,7 +21,12 @@ interface Props {
   handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
 }
 
-const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatResult }: Props) => {
+const Chat = ({
+  questionList,
+  interviewChatResult,
+  handleInterviewStatus,
+  handleChangeInterviewChatResult,
+}: Props) => {
   const [progress, setProgress] = useState(0);
 
   const { transcript: sttText, listening, resetTranscript } = useSpeechRecognition();
@@ -48,6 +54,10 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
   });
 
   const handleToExitChat = () => {
+    if (!interviewChatResult.length) {
+      alert('질문에 대한 대답이 최소 한 개 이상 필요합니다!');
+      return;
+    }
     handleInterviewStatus('feedback');
   };
 
@@ -123,7 +133,7 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
           max={100}
         />
         <Button
-          onClick={() => handleInterviewStatus('feedback')}
+          onClick={handleToExitChat}
           colorScheme="green"
           borderRadius="8px"
           opacity="0.5"
