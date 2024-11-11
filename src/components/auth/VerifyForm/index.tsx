@@ -24,7 +24,6 @@ interface Props {
 export default function VerifyForm({ setActiveStep, activeStep }: Props) {
   const { email, setCode } = useVerifyStore();
   const [verifyCode, setVerifyCode] = useState<string>('');
-  const [isError, setIsError] = useState<boolean>(false);
   const [timer, setTimer] = useState<number | null>(null);
   const [timeLeft, setTimeLeft] = useState<number>(180);
   const [isPending, startTransition] = useTransition();
@@ -38,46 +37,55 @@ export default function VerifyForm({ setActiveStep, activeStep }: Props) {
 
   const handleResendVerifyCode = async () => {
     startTransition(async () => {
-      try {
-        const isVerifyCode = await send(email);
-        if (isVerifyCode) {
-          if (timer) {
-            clearInterval(timer);
-            setTimer(null);
-          }
-          startTimer();
-          toast({
-            title: '인증 코드가 재전송되었습니다.',
-            status: 'success',
-            duration: 3000,
-            isClosable: true,
-          });
-        } else {
-          setIsError(true);
-        }
-      } catch (error) {
-        console.error('인증 실패:', error);
-        setIsError(true);
+      const isVerifyCode = await send(email);
+      if (!isVerifyCode) {
+        toast({
+          title: '인증 코드를 재전송하는데 실패했습니다! 다시 한 번 시도해 주세요.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
       }
+
+      if (timer) {
+        clearInterval(timer);
+        setTimer(null);
+      }
+
+      startTimer();
+      toast({
+        title: '인증 코드가 재전송되었습니다.',
+        status: 'success',
+        colorScheme: 'blue',
+        duration: 3000,
+        isClosable: true,
+      });
     });
   };
 
   const handleVerify = async (formdata: FormData) => {
-    const code = formdata.get('code');
+    const code = formdata.get('code')?.toString();
 
     startTransition(async () => {
-      try {
-        if (!email || !code) return;
-        const isVerifyCode = await verify({ email: email.toString(), code: code.toString() });
-        if (isVerifyCode) {
-          setCode(code.toString());
-          setActiveStep(activeStep + 1);
-        } else {
-          setIsError(true);
-        }
-      } catch (error) {
-        console.error('인증 실패:', error);
-        setIsError(true);
+      if (!email || !code) return;
+      const isVerifyCode = await verify({ email, code });
+      if (!isVerifyCode) {
+        toast({
+          title: '인증에 실패하였습니다.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        setCode(code);
+        toast({
+          title: '인증에 성공하였습니다.',
+          status: 'success',
+          colorScheme: 'blue',
+          duration: 3000,
+          isClosable: true,
+        });
+        setActiveStep(activeStep + 1);
       }
     });
   };
@@ -125,7 +133,6 @@ export default function VerifyForm({ setActiveStep, activeStep }: Props) {
               type="text"
               name="code"
               value={verifyCode}
-              isInvalid={isError}
               placeholder="인증 코드를 입력해 주세요."
               variant="flushed"
               maxLength={6}
