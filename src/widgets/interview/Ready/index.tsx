@@ -51,7 +51,7 @@ export const Ready = ({ onChangeStatus }: Props) => {
         <Flex w="100%" h="100%" gap={'20px'}>
           <Flex flex={1} flexDirection="column">
             <Flex
-              borderRadius="xl"
+              borderRadius="md"
               position="relative"
               backgroundColor="#111"
               w="100%"
@@ -82,30 +82,6 @@ export const Ready = ({ onChangeStatus }: Props) => {
               </Flex>
             </Button>
           </Flex>
-          {/* <Flex width="100%" height="100%"> */}
-          {/* <div className={styles.video_wrap}> */}
-          {/* <Flex w="80%" h="80%"> */}
-          {/* </Flex> */}
-          {/* </div> */}
-          {/* </Flex> */}
-          {/* <Flex flexDirection="column" gap="20px" flex={1}> */}
-          {/* <ReadyInfoCard /> */}
-          {/* <Flex
-              alignItems="center"
-              gap="5px"
-              padding="12px 8px"
-              borderRadius="xl"
-              fontSize="md"
-              fontWeight="md"
-              border="1px"
-              borderColor="blackAlpha.300"
-            > */}
-          {/* <Button onClick={handleAudio} flexShrink="1" variant="ghost" size="xs" fontSize="md">
-          {isListening ? <RiMicOffFill /> : <RiMicFill />}
-          </Button> */}
-          {/* {currentScript ? sliceTranscript(currentScript) : '녹음된 음성이 Text로 표시됩니다!'} */}
-          {/* </Flex> */}
-          {/* </Flex> */}
         </Flex>
       </div>
 
