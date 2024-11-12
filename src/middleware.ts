@@ -24,6 +24,7 @@ export async function middleware(req: NextRequest) {
     try {
       const response: unknown = await apiInstance.post('/auth/v2/kakao', {
         code: kakao_code,
+        context: process.env.KAKAO_REDIRECT_URI,
       });
       const { access_token, user, isEmail } = response as {
         access_token: string;
