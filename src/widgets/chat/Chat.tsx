@@ -7,7 +7,7 @@ import ChattingList from '@/component_list/chattingList/ChattingList';
 import { useHandleChat } from '@/models/chat/useHandleChat';
 import { QuestionResponse } from '@/shared/types/question';
 import INTERVIER_PROFILE_IMG from '../../../public/Logo.png';
-import { Button, Divider, Flex, Progress } from '@chakra-ui/react';
+import { Button, Divider, Flex, Progress, useToast } from '@chakra-ui/react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { formattingData } from '@/models/chat/formatChatData';
 
@@ -27,6 +27,7 @@ const Chat = ({
   handleInterviewStatus,
   handleChangeInterviewChatResult,
 }: Props) => {
+  const toast = useToast();
   const [progress, setProgress] = useState(0);
 
   const { transcript: sttText, listening, resetTranscript } = useSpeechRecognition();
@@ -55,7 +56,12 @@ const Chat = ({
 
   const handleToExitChat = () => {
     if (!interviewChatResult.length) {
-      alert('질문에 대한 대답이 최소 한 개 이상 필요합니다!');
+      toast({
+        title: '한 개 이상의 질문에 답이 필요합니다',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
       return;
     }
     handleInterviewStatus('feedback');
