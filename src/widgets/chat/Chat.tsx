@@ -7,12 +7,13 @@ import ChattingList from '@/component_list/chattingList/ChattingList';
 import { useHandleChat } from '@/models/chat/useHandleChat';
 import { QuestionResponse } from '@/shared/types/question';
 import INTERVIER_PROFILE_IMG from '../../../public/Logo.png';
-import { Button, Divider, Flex, Progress } from '@chakra-ui/react';
+import { Button, Divider, Flex, Progress, useToast } from '@chakra-ui/react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { formattingData } from '@/models/chat/formatChatData';
 
 interface Props {
   questionList: QuestionResponse[];
+  interviewChatResult: { question: string; answer: string }[];
   handleChangeInterviewChatResult: (interviewChatResult: {
     question: string;
     answer: string;
@@ -20,7 +21,13 @@ interface Props {
   handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
 }
 
-const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatResult }: Props) => {
+const Chat = ({
+  questionList,
+  interviewChatResult,
+  handleInterviewStatus,
+  handleChangeInterviewChatResult,
+}: Props) => {
+  const toast = useToast();
   const [progress, setProgress] = useState(0);
 
   const { transcript: sttText, listening, resetTranscript } = useSpeechRecognition();
@@ -48,6 +55,15 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
   });
 
   const handleToExitChat = () => {
+    if (!interviewChatResult.length) {
+      toast({
+        title: '한 개 이상의 질문에 답이 필요합니다',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
     handleInterviewStatus('feedback');
   };
 
@@ -123,14 +139,14 @@ const Chat = ({ questionList, handleInterviewStatus, handleChangeInterviewChatRe
           max={100}
         />
         <Button
-          onClick={() => handleInterviewStatus('feedback')}
+          onClick={handleToExitChat}
           colorScheme="green"
           borderRadius="8px"
           opacity="0.5"
           size="xs"
           _hover={{ opacity: '1' }}
         >
-          면접 종료!
+          면접 종료
         </Button>
       </Flex>
       <div className={styles.chat_container} ref={chatContainerRef}>

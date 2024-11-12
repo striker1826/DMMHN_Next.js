@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState, useTransition } from 'react';
 import NextLink from 'next/link';
 import {
   Box,
@@ -12,6 +12,7 @@ import {
   Link,
   Stack,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 import { GoArrowRight } from 'react-icons/go';
 import { useRouter } from 'next/navigation';
@@ -39,6 +40,8 @@ const Policy = () => {
   const [checkedItems, setCheckedItems] = useState<boolean[]>(
     new Array(POLICY_MAP.length).fill(false),
   );
+  const [isPending, startTransition] = useTransition();
+  const toast = useToast();
 
   const allChecked = checkedItems.every(Boolean);
   const isIndeterminate = checkedItems.some(Boolean) && !allChecked;
@@ -52,6 +55,29 @@ const Policy = () => {
   const handleAllChange = (e: ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
     setCheckedItems(new Array(POLICY_MAP.length).fill(checked));
+  };
+
+  const handleClickVerify = () => {
+    startTransition(async () => {
+      const isAccept = await updateEmail(email, code);
+      if (!isAccept) {
+        toast({
+          title: '문제가 발생했습니다! 다시 한 번 시도해 주세요.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: '수고하셨습니다! 떨면 뭐하니에 오신 것을 환영합니다.',
+          status: 'success',
+          colorScheme: 'blue',
+          duration: 3000,
+          isClosable: true,
+        });
+        router.replace('/interview');
+      }
+    });
   };
 
   return (
@@ -101,10 +127,8 @@ const Policy = () => {
         </CheckboxGroup>
       </Box>
       <Button
-        onClick={() => {
-          updateEmail(email, code);
-          router.replace('/interview');
-        }}
+        onClick={handleClickVerify}
+        isLoading={isPending}
         isDisabled={!allChecked}
         colorScheme="green"
         size="lg"
