@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: '떨면뭐하니',
     description: '개발자 기술 면접이 걱정되신다면? 떨면뭐하니에서 연습해 보세요!',
     type: 'website',
-    url: 'https://dmmhn-next-js.vercel.app',
+    url: 'https://www.genius-interview.com',
     siteName: '떨면뭐하니',
     locale: 'ko_KR',
     images: [
