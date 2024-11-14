@@ -1,5 +1,5 @@
 User-Agent: *
 Allow: /
  
-Host: https://dmmhn-next-js.vercel.app
-Sitemap: https://dmmhn-next-js.vercel.app/sitemap.xml
+Host: https://www.genius-interview.com/
+Sitemap: https://www.genius-interview.com/sitemap.xml
