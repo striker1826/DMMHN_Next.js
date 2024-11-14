@@ -5,8 +5,10 @@ import { Feedback, Interviewing, Ready, Stacks } from '@/widgets/interview';
 import { Stack } from '@/shared/types/stack';
 import { Button, Flex } from '@chakra-ui/react';
 import styles from './InterviewContainer.module.scss';
+import InterviewType from '@/widgets/interview/InterviewType/InterviewType';
+import { TInterviewType } from '@/shared/types/interviewType';
 
-export type InterviewStatus = 'stacks' | 'ready' | 'interviewing' | 'feedback';
+export type InterviewStatus = 'interviewType' | 'stacks' | 'ready' | 'interviewing' | 'feedback';
 
 interface Props {
   stacks: Stack[];
@@ -15,21 +17,14 @@ interface Props {
 
 const Simulation = ({ stacks, accessToken }: Props) => {
   const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
-  const [status, setStatus] = useState<InterviewStatus>('stacks');
+  const [interviewType, setInterviewType] = useState<TInterviewType>('normal');
+  const [status, setStatus] = useState<InterviewStatus>('interviewType');
   const [interviewChatResult, setInterviewChatResult] = useState<
     {
       question: string;
       answer: string;
     }[]
   >([]);
-
-  const handleResetStack = () => {
-    setSelectedStacks([]);
-  };
-
-  useEffect(() => {
-    console.log('interviewChatResult', interviewChatResult);
-  }, [interviewChatResult]);
 
   const handleSelectStack = (stack: string) => {
     setSelectedStacks(prev => {
@@ -58,12 +53,20 @@ const Simulation = ({ stacks, accessToken }: Props) => {
     if (confirmReset) {
       setInterviewChatResult([]);
       setSelectedStacks([]);
-      setStatus('stacks');
+      setInterviewType('normal');
+      setStatus('interviewType');
     }
   };
 
   return (
     <main className={styles.container}>
+      {status === 'interviewType' && (
+        <InterviewType
+          selectedType={interviewType}
+          selectInterviewType={setInterviewType}
+          handleChangeStatus={setStatus}
+        />
+      )}
       {status === 'stacks' && (
         <Stacks
           stacks={stacks}
@@ -73,13 +76,16 @@ const Simulation = ({ stacks, accessToken }: Props) => {
         />
       )}
       {status === 'ready' && <Ready onChangeStatus={setStatus} />}
-      {status === 'interviewing' && (
+      {status === 'interviewing' && interviewType === 'normal' && (
         <Interviewing
           selectedStacks={selectedStacks}
           interviewChatResult={interviewChatResult}
           handleInterviewStatus={setStatus}
           handleChangeInterviewChatResult={handleChangeInterviewChatResult}
         />
+      )}
+      {status === 'interviewing' && interviewType === 'follow' && (
+        <div>여기에 div 태그 대신 꼬리질문 면접을 넣으시면 됩니다.</div>
       )}
       {status === 'feedback' && (
         <Feedback
