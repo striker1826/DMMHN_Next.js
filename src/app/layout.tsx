@@ -9,7 +9,7 @@ const noto_sans = Noto_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   verification: {
-    google: 'TCu5dG-Ufa45UAJRXOcei_NUpv_ItHgjBkkx_HGAr2E',
+    google: 'Ya7ZnVh0xkzVkVOP7YentAb0Z_1FbJ2E_qD3iqrUH0E',
   },
   title: '떨면뭐하니에 오신 것을 환영합니다! | 떨면뭐하니',
   description: '떨면뭐하니 랜딩페이지',
