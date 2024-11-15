@@ -16,7 +16,7 @@ interface Props {
   }) => void;
 }
 
-export const Interviewing = ({
+export const NormalInterviewing = ({
   selectedStacks,
   interviewChatResult,
   handleInterviewStatus,
