@@ -1,6 +1,6 @@
 import React from 'react';
 import { StaticImageData } from 'next/image';
-import { Chatting } from '@/components/chat';
+import { ChattingItem } from '@/components/chat';
 
 interface Props {
   content: {
@@ -24,7 +24,7 @@ const ChattingList = ({
 }: Props) => {
   return content.map((chatInfo, index) => (
     <div key={index} className={chatInfo.type === 'other' ? 'other' : 'mine'}>
-      <Chatting
+      <ChattingItem
         type={chatInfo.type}
         name={chatInfo.name}
         message={chatInfo.message}
