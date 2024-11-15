@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useVideoHandler } from '@/models/simulation/video';
 import { useHandleInterview } from '@/models/simulation/useHandleInterview';
 import { InterviewingWithVideoView } from '@/components/interview';
-import Chat from '@/widgets/chat/Chat';
+import { NormalChat } from '@/widgets/chat';
 
 interface Props {
   selectedStacks: string[];
@@ -33,7 +33,7 @@ export const NormalInterviewing = ({
 
   return (
     <InterviewingWithVideoView>
-      <Chat
+      <NormalChat
         questionList={questionList}
         interviewChatResult={interviewChatResult}
         handleChangeInterviewChatResult={handleChangeInterviewChatResult}

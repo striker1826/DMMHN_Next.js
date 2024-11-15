@@ -1,15 +1,15 @@
 'use client';
 
 import 'regenerator-runtime/runtime';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styles from './Chat.module.scss';
-import ChattingList from '@/component_list/chattingList/ChattingList';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import { Button, Flex, useToast } from '@chakra-ui/react';
 import { useHandleChat } from '@/models/chat/useHandleChat';
 import { QuestionResponse } from '@/shared/types/question';
-import INTERVIER_PROFILE_IMG from '../../../public/Logo.png';
-import { Button, Divider, Flex, Progress, useToast } from '@chakra-ui/react';
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import { formattingData } from '@/models/chat/formatChatData';
+import { ProgressHeader } from '@/components/chat';
+import ChattingList from '@/component_list/chattingList/ChattingList';
+import INTERVIER_PROFILE_IMG from '../../../../public/Logo.png';
+import styles from './Chat.module.scss';
 
 interface Props {
   questionList: QuestionResponse[];
@@ -21,7 +21,7 @@ interface Props {
   handleInterviewStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
 }
 
-const Chat = ({
+export const NormalChat = ({
   questionList,
   interviewChatResult,
   handleInterviewStatus,
@@ -125,30 +125,7 @@ const Chat = ({
 
   return (
     <div className={styles.layout}>
-      <Flex gap="12px" borderBottom="1px" borderColor={'gray.400'} paddingBottom="8px">
-        <Progress
-          borderRadius="8px"
-          value={progress}
-          width="100%"
-          height="20px"
-          hasStripe
-          isAnimated
-          minHeight="20px"
-          colorScheme="green"
-          min={0}
-          max={100}
-        />
-        <Button
-          onClick={handleToExitChat}
-          colorScheme="green"
-          borderRadius="8px"
-          opacity="0.5"
-          size="xs"
-          _hover={{ opacity: '1' }}
-        >
-          면접 종료
-        </Button>
-      </Flex>
+      <ProgressHeader progress={progress} handleToExitChat={handleToExitChat} />
       <div className={styles.chat_container} ref={chatContainerRef}>
         <ChattingList
           content={chatInfoList}
@@ -183,5 +160,3 @@ const Chat = ({
     </div>
   );
 };
-
-export default Chat;
