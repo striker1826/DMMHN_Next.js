@@ -12,7 +12,7 @@ interface Props {
   ) => void;
 }
 
-const InterviewType = ({ selectedType, selectInterviewType, handleChangeStatus }: Props) => {
+export const InterviewType = ({ selectedType, selectInterviewType, handleChangeStatus }: Props) => {
   const applySelectedInterviewType = () => {
     handleChangeStatus('stacks');
   };
@@ -32,5 +32,3 @@ const InterviewType = ({ selectedType, selectInterviewType, handleChangeStatus }
     </Flex>
   );
 };
-
-export default InterviewType;

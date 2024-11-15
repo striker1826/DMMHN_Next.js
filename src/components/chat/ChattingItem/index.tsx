@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import styles from './Chatting.module.scss';
-import { ScaleLoader } from 'react-spinners';
 import Image, { StaticImageData } from 'next/image';
+import { ScaleLoader } from 'react-spinners';
 import SpeechRecognition from 'react-speech-recognition';
+import styles from './ChattingItem.module.scss';
 
 interface Props {
   type: 'other' | 'mine' | 'recording' | 'exit';
@@ -20,7 +20,7 @@ interface Props {
 
 const DEFAULT_READY_RECORDING_SECOND = 3;
 
-const Chatting = ({
+export const ChattingItem = ({
   type,
   name,
   message,
@@ -97,5 +97,3 @@ const Chatting = ({
     </div>
   );
 };
-
-export default Chatting;

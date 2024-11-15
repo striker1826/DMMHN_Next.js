@@ -1,1 +1,1 @@
-export type TInterviewType = 'normal' | 'follow';
+export type TInterviewType = 'normal' | 'advanced';

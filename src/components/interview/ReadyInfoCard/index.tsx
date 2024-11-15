@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { RiErrorWarningFill } from 'react-icons/ri';
 
-export default function ReadyInfoCard() {
+export function ReadyInfoCard() {
   return (
     <Card
       variant="outline"

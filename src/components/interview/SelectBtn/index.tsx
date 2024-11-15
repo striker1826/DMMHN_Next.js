@@ -10,15 +10,14 @@ interface Props {
 
 enum InterviewTypeEnum {
   normal = '기본 면접',
-  follow = '꼬리질문 면접',
+  advanced = '꼬리질문 면접',
 }
 
-const SelectBtn = ({ type, selectedType, handleClickBtn }: Props) => {
+export function SelectBtn({ type, selectedType, handleClickBtn }: Props) {
   return (
     <>
       {type === selectedType ? (
         <Button
-          onClick={() => console.log('aa')}
           height="none"
           fontSize="36px"
           padding="12px 32px"
@@ -52,6 +51,4 @@ const SelectBtn = ({ type, selectedType, handleClickBtn }: Props) => {
       )}
     </>
   );
-};
-
-export default SelectBtn;
+}

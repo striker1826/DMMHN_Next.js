@@ -1,12 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Feedback, Interviewing, Ready, Stacks } from '@/widgets/interview';
+import { useState } from 'react';
+import {
+  InterviewType,
+  Stacks,
+  Ready,
+  NormalInterviewing,
+  Feedback,
+  AdvancedInterviewing,
+} from '@/widgets/interview';
 import { Stack } from '@/shared/types/stack';
 import { Button, Flex } from '@chakra-ui/react';
-import styles from './InterviewContainer.module.scss';
-import InterviewType from '@/widgets/interview/InterviewType/InterviewType';
 import { TInterviewType } from '@/shared/types/interviewType';
+import styles from './InterviewContainer.module.scss';
 
 export type InterviewStatus = 'interviewType' | 'stacks' | 'ready' | 'interviewing' | 'feedback';
 
@@ -15,7 +21,7 @@ interface Props {
   accessToken?: string;
 }
 
-const Simulation = ({ stacks, accessToken }: Props) => {
+const InterviewContainer = ({ stacks, accessToken }: Props) => {
   const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
   const [interviewType, setInterviewType] = useState<TInterviewType>('normal');
   const [status, setStatus] = useState<InterviewStatus>('interviewType');
@@ -76,17 +82,17 @@ const Simulation = ({ stacks, accessToken }: Props) => {
         />
       )}
       {status === 'ready' && <Ready onChangeStatus={setStatus} />}
-      {status === 'interviewing' && interviewType === 'normal' && (
-        <Interviewing
-          selectedStacks={selectedStacks}
-          interviewChatResult={interviewChatResult}
-          handleInterviewStatus={setStatus}
-          handleChangeInterviewChatResult={handleChangeInterviewChatResult}
-        />
-      )}
-      {status === 'interviewing' && interviewType === 'follow' && (
-        <div>여기에 div 태그 대신 꼬리질문 면접을 넣으시면 됩니다.</div>
-      )}
+      {status === 'interviewing' &&
+        (interviewType === 'normal' ? (
+          <NormalInterviewing
+            selectedStacks={selectedStacks}
+            interviewChatResult={interviewChatResult}
+            handleInterviewStatus={setStatus}
+            handleChangeInterviewChatResult={handleChangeInterviewChatResult}
+          />
+        ) : interviewType === 'advanced' ? (
+          <AdvancedInterviewing />
+        ) : null)}
       {status === 'feedback' && (
         <Feedback
           interviewResult={interviewChatResult}
@@ -110,4 +116,4 @@ const Simulation = ({ stacks, accessToken }: Props) => {
   );
 };
 
-export default Simulation;
+export default InterviewContainer;
