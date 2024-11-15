@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Feedback, Interviewing, Ready, Stacks } from '@/widgets/interview';
 import { Stack } from '@/shared/types/stack';
 import { Button, Flex } from '@chakra-ui/react';
-import styles from './InterviewContainer.module.scss';
 import InterviewType from '@/widgets/interview/InterviewType/InterviewType';
 import { TInterviewType } from '@/shared/types/interviewType';
+import styles from './InterviewContainer.module.scss';
 
 export type InterviewStatus = 'interviewType' | 'stacks' | 'ready' | 'interviewing' | 'feedback';
 
@@ -15,7 +15,7 @@ interface Props {
   accessToken?: string;
 }
 
-const Simulation = ({ stacks, accessToken }: Props) => {
+const InterviewContainer = ({ stacks, accessToken }: Props) => {
   const [selectedStacks, setSelectedStacks] = useState<string[]>([]);
   const [interviewType, setInterviewType] = useState<TInterviewType>('normal');
   const [status, setStatus] = useState<InterviewStatus>('interviewType');
@@ -110,4 +110,4 @@ const Simulation = ({ stacks, accessToken }: Props) => {
   );
 };
 
-export default Simulation;
+export default InterviewContainer;
