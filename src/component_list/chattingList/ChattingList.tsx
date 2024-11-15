@@ -1,6 +1,6 @@
 import React from 'react';
-import Chatting from '@/components/chat/chatting/Chatting';
 import { StaticImageData } from 'next/image';
+import { Chatting } from '@/components/chat';
 
 interface Props {
   content: {

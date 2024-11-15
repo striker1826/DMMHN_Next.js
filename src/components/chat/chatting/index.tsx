@@ -20,7 +20,7 @@ interface Props {
 
 const DEFAULT_READY_RECORDING_SECOND = 3;
 
-const Chatting = ({
+export const Chatting = ({
   type,
   name,
   message,
@@ -97,5 +97,3 @@ const Chatting = ({
     </div>
   );
 };
-
-export default Chatting;
