@@ -13,7 +13,7 @@ enum InterviewTypeEnum {
   follow = '꼬리질문 면접',
 }
 
-const SelectBtn = ({ type, selectedType, handleClickBtn }: Props) => {
+export function SelectBtn({ type, selectedType, handleClickBtn }: Props) {
   return (
     <>
       {type === selectedType ? (
@@ -52,6 +52,4 @@ const SelectBtn = ({ type, selectedType, handleClickBtn }: Props) => {
       )}
     </>
   );
-};
-
-export default SelectBtn;
+}

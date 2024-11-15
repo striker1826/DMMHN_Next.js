@@ -1,6 +1,5 @@
-import SelectBtn from '@/components/interview/SelectBtn';
+import { SelectBtn } from '@/components/interview';
 import { TInterviewType } from '@/shared/types/interviewType';
-import { Button } from '@chakra-ui/react';
 
 interface Props {
   selectList: TInterviewType[];
@@ -11,7 +10,7 @@ interface Props {
 const SelectBtnList = ({ selectList, selectedType, handleClickBtn }: Props) => {
   return (
     <>
-      {selectList.map((type: TInterviewType, index: number) => {
+      {selectList.map((type: TInterviewType) => {
         return (
           <SelectBtn
             type={type}

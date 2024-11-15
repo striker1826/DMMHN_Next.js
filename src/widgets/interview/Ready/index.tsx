@@ -1,16 +1,14 @@
 'use client';
 
 import 'regenerator-runtime/runtime';
-import { useRef, useState } from 'react';
-import { useVideoHandler } from '@/models/simulation/video';
-import { Button, Center, color, Flex } from '@chakra-ui/react';
+import { useState } from 'react';
+import { Button, Flex } from '@chakra-ui/react';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 import { RiMicFill, RiMicOffFill } from 'react-icons/ri';
-import styles from './Ready.module.scss';
-import ReadyInfoCard from '@/components/interview/ReadyInfoCard';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import PrimaryBtn from '@/shared/components/Button/PrimaryBtn/PrimaryBtn';
 import Video from '@/components/video/Video';
+import { ReadyInfoCard } from '@/components/interview';
+import styles from './Ready.module.scss';
 
 interface Props {
   onChangeStatus: (status: 'stacks' | 'ready' | 'interviewing' | 'feedback') => void;
