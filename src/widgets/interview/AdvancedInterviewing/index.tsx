@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import { useVideoHandler } from '@/models/simulation/video';
 import { InterviewingWithVideoView } from '@/components/interview';
+import { AdvancedChat } from '@/widgets/chat';
 
 interface Props {}
 
@@ -12,7 +13,7 @@ export const AdvancedInterviewing = ({}: Props) => {
 
   return (
     <InterviewingWithVideoView>
-      <div>ss</div>
+      <AdvancedChat />
     </InterviewingWithVideoView>
   );
 };
