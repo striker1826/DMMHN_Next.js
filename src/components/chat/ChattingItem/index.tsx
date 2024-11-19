@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
-import { ScaleLoader } from 'react-spinners';
 import SpeechRecognition from 'react-speech-recognition';
-import styles from './ChattingItem.module.scss';
-import { Button, Flex } from '@chakra-ui/react';
+import { ScaleLoader } from 'react-spinners';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import { useChatStore } from '@/shared/store/chatStore';
+import styles from './ChattingItem.module.scss';
 
 interface Props {
   type: 'other' | 'mine' | 'recording' | 'exit';
@@ -103,6 +103,7 @@ export const ChattingItem = ({
                   borderRadius="2xl"
                   boxShadow="xl"
                 >
+                  <Box width="10px" height="10px" rounded="full" bgColor="red.500" mr="5px" />
                   <ScaleLoader height={12} />
                 </Button>
                 <Button
