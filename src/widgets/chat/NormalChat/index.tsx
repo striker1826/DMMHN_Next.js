@@ -10,6 +10,7 @@ import { ProgressHeader } from '@/components/chat';
 import ChattingList from '@/component_list/chattingList/ChattingList';
 import INTERVIER_PROFILE_IMG from '../../../../public/Logo.png';
 import styles from './Chat.module.scss';
+import { useChatStore } from '@/shared/store/chatStore';
 
 interface Props {
   questionList: QuestionResponse[];
@@ -31,7 +32,7 @@ export const NormalChat = ({
   const [progress, setProgress] = useState(0);
 
   const { transcript: sttText, listening, resetTranscript } = useSpeechRecognition();
-  const [isSubmit, setIsSubmit] = useState(false);
+  const { setIsSubmit } = useChatStore();
 
   const addProgressPercentage = useCallback((percentage: number) => {
     setProgress(prev => prev + percentage);
@@ -125,6 +126,7 @@ export const NormalChat = ({
     resetTranscript,
     addProgressPercentage,
     handleChangeInterviewChatResult,
+    setIsSubmit,
   ]);
 
   return (
@@ -140,28 +142,6 @@ export const NormalChat = ({
           onDelayStopListening={handleDelayStopListening}
         />
       </div>
-      <Flex borderTop="1px" borderColor="gray.400" w={'full'}>
-        <Button
-          onClick={() => handleDelayStopListening()}
-          disabled={!isAnswering || isSubmit}
-          colorScheme="green"
-          variant="solid"
-          size="lg"
-          paddingY="10px"
-          borderRadius="lg"
-          borderTop="1px"
-          marginTop="8px"
-          w={'full'}
-        >
-          {isSubmit
-            ? '답변을 제출 중입니다...'
-            : chatInfoList[chatInfoList.length - 1].type === 'exit'
-            ? '면접이 끝났어요!'
-            : isAnswering
-            ? '답변을 마쳤어요!'
-            : '문제를 출제중입니다...'}
-        </Button>
-      </Flex>
     </div>
   );
 };

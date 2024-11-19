@@ -6,6 +6,7 @@ import { ScaleLoader } from 'react-spinners';
 import SpeechRecognition from 'react-speech-recognition';
 import styles from './ChattingItem.module.scss';
 import { Button, Flex } from '@chakra-ui/react';
+import { useChatStore } from '@/shared/store/chatStore';
 
 interface Props {
   type: 'other' | 'mine' | 'recording' | 'exit';
@@ -34,6 +35,7 @@ export const ChattingItem = ({
   onDelayStopListening,
 }: Props) => {
   const [count, setCount] = useState(DEFAULT_READY_RECORDING_SECOND);
+  const { isSubmit } = useChatStore();
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -95,6 +97,8 @@ export const ChattingItem = ({
               <Flex flexDirection="column" gap="5px">
                 <Button
                   onClick={() => onDelayStopListening()}
+                  isDisabled={isSubmit}
+                  isLoading={isSubmit}
                   backgroundColor="white"
                   borderRadius="2xl"
                   boxShadow="xl"
@@ -103,6 +107,8 @@ export const ChattingItem = ({
                 </Button>
                 <Button
                   onClick={() => onDelayStopListening('잘 모르겠습니다.')}
+                  isDisabled={isSubmit}
+                  isLoading={isSubmit}
                   backgroundColor="white"
                   borderRadius="2xl"
                   boxShadow="xl"
