@@ -45,7 +45,6 @@ export const NormalChat = ({
     handleChangeIsAnswering,
     handleAddChatInfoList,
     addRecordingBox,
-
     submitAnswer,
   } = useHandleChat({
     questionList,
@@ -94,13 +93,18 @@ export const NormalChat = ({
     }
   }, [chatInfoList]);
 
-  const handleDelayStopListening = () => {
+  const handleDelayStopListening = (noAnswer?: string) => {
     setIsSubmit(true);
     setTimeout(() => {
       SpeechRecognition.stopListening();
 
       if (!sttText && listening) {
-        submitAnswer(sttText, chatInfoList, resetTranscript, handleChangeInterviewChatResult);
+        submitAnswer(
+          noAnswer ? '잘 모르겠습니다.' : sttText,
+          chatInfoList,
+          resetTranscript,
+          handleChangeInterviewChatResult,
+        );
         addProgressPercentage(20);
       }
       setIsSubmit(false);
@@ -133,6 +137,7 @@ export const NormalChat = ({
           handleToExitChat={handleToExitChat}
           onChangeIsAnswering={handleChangeIsAnswering}
           onChangeRecordingBoxState={handleChangeRecordingBox}
+          onDelayStopListening={handleDelayStopListening}
         />
       </div>
       <Flex borderTop="1px" borderColor="gray.400" w={'full'}>
