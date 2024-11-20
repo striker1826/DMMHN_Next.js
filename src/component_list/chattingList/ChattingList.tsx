@@ -13,6 +13,7 @@ interface Props {
   onChangeRecordingBoxState: (state: boolean) => void;
   onChangeIsAnswering: (state: boolean) => void;
   handleToExitChat: () => void;
+  onDelayStopListening: (noAnswer?: string) => void;
 }
 
 const ChattingList = ({
@@ -21,6 +22,7 @@ const ChattingList = ({
   onChangeIsAnswering,
   onChangeRecordingBoxState,
   handleToExitChat,
+  onDelayStopListening,
 }: Props) => {
   return content.map((chatInfo, index) => (
     <div key={index} className={chatInfo.type === 'other' ? 'other' : 'mine'}>
@@ -34,6 +36,7 @@ const ChattingList = ({
         handleToExitChat={handleToExitChat}
         onChangeIsAnswering={onChangeIsAnswering}
         onChangeRecordingBoxState={onChangeRecordingBoxState}
+        onDelayStopListening={onDelayStopListening}
       />
     </div>
   ));
