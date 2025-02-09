@@ -6,7 +6,7 @@ const cookies = new Cookies();
 export const getQuestionListApi = async (stacksId: string): Promise<QuestionResponse[]> => {
   const accessToken = cookies.get('accessToken');
 
-  const response = await fetch('/api/proxy', {
+  const response = await fetch('/api/server', {
     method: 'POST',
     body: JSON.stringify({
       path: `/question?stacks=${stacksId}`,

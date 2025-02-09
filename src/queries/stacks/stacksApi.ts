@@ -1,5 +1,5 @@
 export const getStacks = async (accessToken?: string) => {
-  const response = await fetch('/api/proxy', {
+  const response = await fetch('http://localhost:3000/api/server', {
     method: 'POST',
     body: JSON.stringify({
       path: '/stack/list',
@@ -12,6 +12,6 @@ export const getStacks = async (accessToken?: string) => {
   if (!response.ok) {
     throw new Error(`${response.status} ${response.statusText}`);
   }
-
-  return response.json();
+  const result = await response.json();
+  return result;
 };

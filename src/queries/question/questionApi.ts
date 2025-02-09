@@ -5,7 +5,7 @@ export const getFirstQuestionForGPT = async ({
   stacks?: string;
   accessToken?: string;
 }) => {
-  const response = await fetch('/api/proxy', {
+  const response = await fetch('/api/server', {
     method: 'POST',
     body: JSON.stringify({
       path: `/question/ai/first?stacks=${stacks}`,

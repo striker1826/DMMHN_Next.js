@@ -5,11 +5,11 @@ export async function postFeedback({
   accessToken?: string;
   QnAList: { question: string; answer: string }[];
 }) {
-  const response = await fetch('/api/proxy', {
+  const response = await fetch('/api/server', {
     method: 'POST',
     body: JSON.stringify({
       path: '/grading/evaluation',
-      body: QnAList,
+      data: QnAList,
       accessToken,
     }),
     headers: { 'Content-Type': 'application/json' },
@@ -35,11 +35,11 @@ export async function postTotalFeedback({
   accessToken?: string;
   totalFeedback: { evaluation: string }[];
 }) {
-  const response = await fetch('/api/proxy', {
+  const response = await fetch('/api/server', {
     method: 'POST',
     body: JSON.stringify({
       path: '/grading/evaluation/overall',
-      body: totalFeedback,
+      data: totalFeedback,
       accessToken,
     }),
     headers: { 'Content-Type': 'application/json' },
