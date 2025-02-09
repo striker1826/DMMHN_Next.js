@@ -5,7 +5,7 @@ export async function postFeedback({
   accessToken?: string;
   QnAList: { question: string; answer: string }[];
 }) {
-  const response = await fetch('/api/server', {
+  const response = await fetch(process.env.NEXT_PUBLIC_APP_URL + '/api/server', {
     method: 'POST',
     body: JSON.stringify({
       path: '/grading/evaluation',
@@ -35,7 +35,7 @@ export async function postTotalFeedback({
   accessToken?: string;
   totalFeedback: { evaluation: string }[];
 }) {
-  const response = await fetch('/api/server', {
+  const response = await fetch(process.env.NEXT_PUBLIC_APP_URL + '/api/server', {
     method: 'POST',
     body: JSON.stringify({
       path: '/grading/evaluation/overall',

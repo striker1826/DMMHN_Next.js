@@ -6,7 +6,7 @@ import styles from './page.module.scss';
 const Page = async () => {
   const cookieStore = cookies();
   const accessToken = cookieStore.get('accessToken')?.value;
-  const response = await fetch('http://localhost:3000/api/server', {
+  const response = await fetch(process.env.NEXT_PUBLIC_APP_URL + '/api/server', {
     method: 'POST',
     body: JSON.stringify({
       path: '/stack/list',
