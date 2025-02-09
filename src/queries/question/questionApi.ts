@@ -1,18 +1,3 @@
-import { Question } from '@/shared/types/question';
-import { apiInstance } from '@/shared/utils/axios';
-import { queryOptions, useQuery } from '@tanstack/react-query';
-
-const key = {
-  question: () => ['/question'],
-};
-
-export const useQuestion = () => {
-  return useQuery<Question[]>({
-    queryKey: key.question(),
-    queryFn: () => apiInstance.get('/question/all/2'),
-  });
-};
-
 export const getFirstQuestionForGPT = async ({
   stacks,
   accessToken,
@@ -20,17 +5,19 @@ export const getFirstQuestionForGPT = async ({
   stacks?: string;
   accessToken?: string;
 }) => {
-  const response = await fetch(`${process.env.BASE_URL}/question/ai/first?stacks=${stacks}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+  const response = await fetch('/api/proxy', {
+    method: 'POST',
+    body: JSON.stringify({
+      path: `/question/ai/first?stacks=${stacks}`,
+      method: 'GET',
+      accessToken,
+    }),
+    headers: { 'Content-Type': 'application/json' },
   });
 
   if (!response.ok) {
     throw new Error(`${response.status} ${response.statusText}`);
   }
 
-  const data = await response.json();
-
-  return data;
+  return response.json();
 };

@@ -1,16 +1,17 @@
-import { useRouter } from 'next/navigation';
-
 export const getStacks = async (accessToken?: string) => {
-  const response = await fetch(`${process.env.BASE_URL}/stack/list`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+  const response = await fetch('/api/proxy', {
+    method: 'POST',
+    body: JSON.stringify({
+      path: '/stack/list',
+      method: 'GET',
+      accessToken,
+    }),
+    headers: { 'Content-Type': 'application/json' },
   });
 
   if (!response.ok) {
+    throw new Error(`${response.status} ${response.statusText}`);
   }
 
-  const data = await response.json();
-
-  return data;
+  return response.json();
 };
