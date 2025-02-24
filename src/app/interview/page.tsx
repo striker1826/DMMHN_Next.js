@@ -16,7 +16,6 @@ const Page = async () => {
     headers: { 'Content-Type': 'application/json' },
   });
   const stacksData = await response.json();
-  console.log(stacksData);
 
   return (
     <div className={styles.wrap}>

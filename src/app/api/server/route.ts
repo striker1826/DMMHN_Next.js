@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
+  console.log({ req });
   try {
     const { path, data, accessToken, method = 'POST' } = await req.json();
 
@@ -9,7 +10,7 @@ export async function POST(req: Request) {
     // data가 있을 경우에만 body에 포함
     const body = data ? JSON.stringify(data) : undefined;
 
-    const response = await fetch(`http://dmmhn.shop${path}`, {
+    const response = await fetch(`http://api.dmmhn.shop${path}`, {
       method,
       body: method === 'GET' ? undefined : body, // method가 GET이면 body는 전달하지 않음
       headers: {
