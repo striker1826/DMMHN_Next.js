@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     google: 'Ya7ZnVh0xkzVkVOP7YentAb0Z_1FbJ2E_qD3iqrUH0E',
   },
   title: '떨면뭐하니에 오신 것을 환영합니다! | 떨면뭐하니',
-  description: '떨면뭐하니 랜딩페이지',
+  description: '개발자 기술 면접이 걱정되신다면? 떨면뭐하니에서 연습해 보세요!',
   openGraph: {
     title: '떨면뭐하니',
     description: '개발자 기술 면접이 걱정되신다면? 떨면뭐하니에서 연습해 보세요!',
