@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import styles from './MovePageBtn.module.scss';
 import { useRouter } from 'next/navigation';
 import { getCookie } from '@/shared/utils/cookies';
 import { modalStore } from '@/shared/store/modalStore';
@@ -25,7 +24,10 @@ const MovePageBtn = ({ route }: Props) => {
   };
 
   return (
-    <button className={styles.interviewBtn} onClick={() => handleMovePage(route)}>
+    <button
+      className={`py-[18px] w-full rounded-[42.5px] bg-[#fff9c1] text-[#025729] text-[24px] r-lg:text-[40px] font-[700] hover:bg-[#d3ce9f] transition-colors duration-100 ease-in-out`}
+      onClick={() => handleMovePage(route)}
+    >
       시작하기
     </button>
   );

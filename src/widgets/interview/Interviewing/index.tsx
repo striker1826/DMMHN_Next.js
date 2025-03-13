@@ -1,12 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { useVideoHandler } from '@/models/simulation/video';
+import { useEffect } from 'react';
 import { useHandleInterview } from '@/models/simulation/useHandleInterview';
 import styles from './Interviewing.module.scss';
 import Chat from '@/widgets/chat/Chat';
-import { Button, Flex, Progress } from '@chakra-ui/react';
-import Video from '@/components/video/Video';
 
 interface Props {
   selectedStacks: string[];
@@ -24,9 +21,6 @@ export const Interviewing = ({
   handleInterviewStatus,
   handleChangeInterviewChatResult,
 }: Props) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  useVideoHandler(videoRef);
-
   const { questionList, handleLoadQuestionList } = useHandleInterview();
 
   useEffect(() => {
@@ -36,9 +30,13 @@ export const Interviewing = ({
   return (
     <div className={styles.layout}>
       <div className={styles.content_layout}>
-        <div className={styles.video_wrap}>
-          <Video />
-        </div>
+        {/* <div className="hidden r-lg:block">
+          <div
+            className={`flex-3 rounded-md bg-black h-full shrink aspect-[15/16] overflow-hidden`}
+          >
+            <Video />
+          </div>
+        </div> */}
         <div className={styles.chat_layout}>
           <Chat
             interviewChatResult={interviewChatResult}

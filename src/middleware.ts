@@ -53,9 +53,9 @@ export async function middleware(req: NextRequest) {
   }
 
   // 모바일로 접근 시 안내 페이지로 리다이렉트합니다.
-  if (isMobile) {
-    return NextResponse.redirect(new URL('/mobile-page', req.url));
-  }
+  // if (isMobile) {
+  //   return NextResponse.redirect(new URL('/mobile-page', req.url));
+  // }
 
   // 크롬이 아닌 브라우저로 접근 시 안내 페이지로 리다이렉트합니다.
   // if (!isChrome) {

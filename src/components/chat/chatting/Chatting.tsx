@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import styles from './Chatting.module.scss';
 import { ScaleLoader } from 'react-spinners';
 import Image, { StaticImageData } from 'next/image';
-import SpeechRecognition from 'react-speech-recognition';
 
 interface Props {
   type: 'other' | 'mine' | 'recording' | 'exit';
@@ -60,12 +59,6 @@ const Chatting = ({
     };
   }, [count, type, onChangeRecordingBoxState, onChangeIsAnswering]);
 
-  useEffect(() => {
-    if (recordingBox) {
-      SpeechRecognition.startListening({ continuous: true, language: 'ko' });
-    }
-  }, [recordingBox]);
-
   return (
     <div className={type === 'other' ? styles.other_container : styles.mine_container}>
       <div className={styles.name_container}>
@@ -88,7 +81,7 @@ const Chatting = ({
       >
         {type === 'recording' ? (
           <div>
-            {recordingBox ? <ScaleLoader height={12} /> : <p>{count}초 후 녹음이 시작됩니다</p>}
+            {recordingBox ? <ScaleLoader height={12} /> : <p>{count}초 후 답변을 시작해주세요.</p>}
           </div>
         ) : (
           <p>{message}</p>

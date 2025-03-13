@@ -1,5 +1,4 @@
-'use client';
-
+// Chat.tsx
 import 'regenerator-runtime/runtime';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './Chat.module.scss';
@@ -7,9 +6,7 @@ import ChattingList from '@/component_list/chattingList/ChattingList';
 import { useHandleChat } from '@/models/chat/useHandleChat';
 import { QuestionResponse } from '@/shared/types/question';
 import INTERVIER_PROFILE_IMG from '../../../public/Logo.png';
-import { Button, Divider, Flex, Progress, useToast } from '@chakra-ui/react';
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import { formattingData } from '@/models/chat/formatChatData';
+import { Flex, Progress, useToast, useBreakpointValue } from '@chakra-ui/react';
 
 interface Props {
   questionList: QuestionResponse[];
@@ -29,8 +26,8 @@ const Chat = ({
 }: Props) => {
   const toast = useToast();
   const [progress, setProgress] = useState(0);
+  const [userAnswer, setUserAnswer] = useState('');
 
-  const { transcript: sttText, listening, resetTranscript } = useSpeechRecognition();
   const [isSubmit, setIsSubmit] = useState(false);
 
   const addProgressPercentage = useCallback((percentage: number) => {
@@ -45,12 +42,9 @@ const Chat = ({
     handleChangeIsAnswering,
     handleAddChatInfoList,
     addRecordingBox,
-
     submitAnswer,
   } = useHandleChat({
     questionList,
-    transcript: sttText,
-    stopListening: SpeechRecognition.stopListening,
     handleInterviewStatus,
   });
 
@@ -94,34 +88,18 @@ const Chat = ({
     }
   }, [chatInfoList]);
 
-  const handleDelayStopListening = () => {
+  const handleSubmitAnswer = () => {
     setIsSubmit(true);
     setTimeout(() => {
-      SpeechRecognition.stopListening();
-
-      if (!sttText && listening) {
-        submitAnswer(sttText, chatInfoList, resetTranscript, handleChangeInterviewChatResult);
-        addProgressPercentage(20);
-      }
+      submitAnswer(userAnswer, chatInfoList, handleChangeInterviewChatResult);
+      addProgressPercentage(20);
       setIsSubmit(false);
+      setUserAnswer('');
     }, 1500);
   };
 
-  useEffect(() => {
-    if (sttText && !listening) {
-      submitAnswer(sttText, chatInfoList, resetTranscript, handleChangeInterviewChatResult);
-      addProgressPercentage(20);
-      setIsSubmit(false);
-    }
-  }, [
-    chatInfoList,
-    listening,
-    submitAnswer,
-    sttText,
-    resetTranscript,
-    addProgressPercentage,
-    handleChangeInterviewChatResult,
-  ]);
+  const screenHeight = innerHeight;
+  const nextBtnHeight = useBreakpointValue({ base: screenHeight * 0.07, md: '100px' });
 
   return (
     <div className={styles.layout}>
@@ -135,19 +113,17 @@ const Chat = ({
           isAnimated
           minHeight="20px"
           colorScheme="green"
+          h={'full'}
           min={0}
           max={100}
+          flex={3}
         />
-        <Button
+        <button
+          className="bg-[#38A169] rounded-[8px] opacity-[0.5] hover:opacity-[1] text-[#fff] flex-[1] py-[4px]"
           onClick={handleToExitChat}
-          colorScheme="green"
-          borderRadius="8px"
-          opacity="0.5"
-          size="xs"
-          _hover={{ opacity: '1' }}
         >
-          면접 종료
-        </Button>
+          종료
+        </button>
       </Flex>
       <div className={styles.chat_container} ref={chatContainerRef}>
         <ChattingList
@@ -158,27 +134,31 @@ const Chat = ({
           onChangeRecordingBoxState={handleChangeRecordingBox}
         />
       </div>
-      <Flex borderTop="1px" borderColor="gray.400" w={'full'}>
-        <Button
-          onClick={() => handleDelayStopListening()}
+      <Flex
+        borderTop="1px"
+        borderColor="gray.400"
+        w={'full'}
+        alignItems={'center'}
+        gap={'16px'}
+        pt={'8px'}
+        height={nextBtnHeight}
+      >
+        <textarea
+          className="rounded-[0.5rem] border-[2px] w-full h-full flex-[2]"
+          placeholder="답변을 입력하세요..."
+          value={userAnswer}
+          onChange={e => setUserAnswer(e.target.value)}
           disabled={!isAnswering || isSubmit}
-          colorScheme="green"
-          variant="solid"
-          size="lg"
-          paddingY="10px"
-          borderRadius="lg"
-          borderTop="1px"
-          marginTop="8px"
-          w={'full'}
+        />
+        <button
+          onClick={handleSubmitAnswer}
+          disabled={!isAnswering || isSubmit}
+          className={`w-full h-full bg-[#38A169] px-[8px] text-[12px] text-[#fff] rounded-[0.5rem] flex-[1] ${
+            !isAnswering || (isSubmit && 'opacity-[0.5]')
+          }`}
         >
-          {isSubmit
-            ? '답변을 제출 중입니다...'
-            : chatInfoList[chatInfoList.length - 1].type === 'exit'
-            ? '면접이 끝났어요!'
-            : isAnswering
-            ? '답변을 마쳤어요!'
-            : '문제를 출제중입니다...'}
-        </Button>
+          {isSubmit ? '답변을 제출 중입니다...' : '답변 제출'}
+        </button>
       </Flex>
     </div>
   );

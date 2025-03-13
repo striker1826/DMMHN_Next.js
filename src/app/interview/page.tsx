@@ -18,7 +18,9 @@ const Page = async () => {
   const stacksData = await response.json();
 
   return (
-    <div className={styles.wrap}>
+    <div
+      className={`flex flex-col r-lg:px-[160px] h-[calc(100vh-90px)] justify-start items-center gap-[20px] bg-gradient-to-br from-[#004922] via-[#02632f] to-[#058841] w-full p-[44px] pt-[80px]`}
+    >
       <Suspense>
         <InterviewContainer stacks={stacksData} accessToken={accessToken} />
       </Suspense>

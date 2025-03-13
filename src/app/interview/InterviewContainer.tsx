@@ -3,8 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Feedback, Interviewing, Ready, Stacks } from '@/widgets/interview';
 import { Stack } from '@/shared/types/stack';
-import { Button, Flex } from '@chakra-ui/react';
-import styles from './InterviewContainer.module.scss';
+import { Button, Flex, useBreakpointValue } from '@chakra-ui/react';
 
 export type InterviewStatus = 'stacks' | 'ready' | 'interviewing' | 'feedback';
 
@@ -22,14 +21,6 @@ const Simulation = ({ stacks, accessToken }: Props) => {
       answer: string;
     }[]
   >([]);
-
-  const handleResetStack = () => {
-    setSelectedStacks([]);
-  };
-
-  useEffect(() => {
-    console.log('interviewChatResult', interviewChatResult);
-  }, [interviewChatResult]);
 
   const handleSelectStack = (stack: string) => {
     setSelectedStacks(prev => {
@@ -62,8 +53,36 @@ const Simulation = ({ stacks, accessToken }: Props) => {
     }
   };
 
+  const screenHeight = innerHeight;
+
+  const heightCalculator = () => {
+    if (status === 'feedback') {
+      return '100%';
+    }
+
+    if (status === 'interviewing') {
+      return screenHeight * 0.7;
+    } else {
+      return screenHeight * 0.5;
+    }
+  };
+  const padding = useBreakpointValue({ base: '20px', md: '40px' });
+  const height = useBreakpointValue({
+    base: heightCalculator(),
+    md: '620px',
+  });
+
   return (
-    <main className={styles.container}>
+    <Flex
+      direction={'column'}
+      background={'#fff'}
+      borderRadius={'12px'}
+      position={'relative'}
+      padding={padding}
+      w={'100%'}
+      h={height}
+      // marginTop={'20px'}
+    >
       {status === 'stacks' && (
         <Stacks
           stacks={stacks}
@@ -88,7 +107,7 @@ const Simulation = ({ stacks, accessToken }: Props) => {
           handleClickReset={handleClickReset}
         />
       )}
-      <Flex position="absolute" left="0" top="-8">
+      <Flex position="absolute" right="0" top="-8">
         <Button
           onClick={handleClickReset}
           colorScheme="red"
@@ -97,10 +116,10 @@ const Simulation = ({ stacks, accessToken }: Props) => {
           size="xs"
           _hover={{ opacity: '1' }}
         >
-          과정 초기화
+          처음으로
         </Button>
       </Flex>
-    </main>
+    </Flex>
   );
 };
 

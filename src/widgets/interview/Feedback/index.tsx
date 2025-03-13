@@ -15,24 +15,24 @@ interface Props {
 
 export const Feedback = ({ interviewResult, accessToken, handleClickReset }: Props) => {
   const [feedbacks, setFeedbacks] = useState<{ good: string; bad: string }[]>([]);
-  const [totalFeedback, setTotalFeedback] = useState<string>('');
+  // const [totalFeedback, setTotalFeedback] = useState<string>('');
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
+  console.log(interviewResult);
   const handleFeedback = useCallback(async () => {
     try {
       const feedback = await postFeedback({ accessToken, QnAList: interviewResult });
       setFeedbacks(feedback);
 
-      const feedbackStrArr = extractStrings(feedback);
-      const feedbackObj = feedbackStrArr.map(string => ({ evaluation: string }));
+      // const feedbackStrArr = extractStrings(feedback);
+      // const feedbackObj = feedbackStrArr.map(string => ({ evaluation: string }));
 
-      const total = await postTotalFeedback({
-        accessToken,
-        totalFeedback: feedbackObj,
-      });
+      // const total = await postTotalFeedback({
+      //   accessToken,
+      //   totalFeedback: feedbackObj,
+      // });
 
-      setTotalFeedback(total);
+      // setTotalFeedback(total);
     } catch (error) {
       console.error('피드백 로딩 중 오류 발생:', error);
     } finally {
@@ -64,7 +64,7 @@ export const Feedback = ({ interviewResult, accessToken, handleClickReset }: Pro
     );
   }
 
-  const isLastPage = currentIndex === feedbacks.length;
+  const isLastPage = currentIndex === feedbacks.length - 1;
 
   return (
     <Flex direction="column" justify="space-around" align="center" boxSize="100%" gap="20px">
@@ -85,23 +85,16 @@ export const Feedback = ({ interviewResult, accessToken, handleClickReset }: Pro
             Q{currentIndex + 1}
           </Flex>
         )}
-        <Heading
-          textAlign="left"
-          width="100%"
-          fontSize="28px"
-          paddingY="10px"
-          marginLeft="10px"
-          color="green.900"
-        >
-          {isLastPage
-            ? '마지막으로 요약을 제공해 드립니다.'
-            : `${interviewResult[currentIndex].question}`}
-        </Heading>
+
+        <div className="text-left w-full text-[16px] font-[600]">
+          {interviewResult[currentIndex].question}
+        </div>
       </Flex>
 
       {/* 피드백 카드 */}
-      <Flex width="100%" align="center" height="345px" justify="center" gap="30px">
-        {!isLastPage ? (
+      {/* Desktop */}
+      <div className="hidden r-lg:block">
+        <Flex width="100%" align="center" height="345px" justify="center" gap="30px">
           <>
             <FeedbackCard
               heading="잘하셨어요!"
@@ -114,10 +107,41 @@ export const Feedback = ({ interviewResult, accessToken, handleClickReset }: Pro
               cardType="bad"
             />
           </>
-        ) : (
-          <FeedbackCard heading="정리하자면..." body={totalFeedback} cardType="totalFeedback" />
-        )}
-      </Flex>
+        </Flex>
+      </div>
+
+      {/* Mobile */}
+      <div className="block r-lg:hidden">
+        <Flex width="100%" align="center" direction={'column'} justify="center" gap="30px">
+          <>
+            <div className="hidden r-lg:block">
+              <FeedbackCard
+                heading="잘하셨어요!"
+                body={feedbacks[currentIndex].good}
+                cardType="good"
+              />
+              <FeedbackCard
+                heading="아쉬운 점은..."
+                body={feedbacks[currentIndex].bad}
+                cardType="bad"
+              />
+            </div>
+
+            <div className="block r-lg:hidden flex flex-col items-center gap-[16px] border border-[2px] p-4">
+              <FeedbackCard
+                heading="잘한점을 보려면 클릭!"
+                body={feedbacks[currentIndex].good}
+                cardType="good"
+              />
+              <FeedbackCard
+                heading="아쉬운 점을 보려면 클릭!"
+                body={feedbacks[currentIndex].bad}
+                cardType="bad"
+              />
+            </div>
+          </>
+        </Flex>
+      </div>
 
       {/* 페이지네이션 컨트롤 */}
       <Flex justify="space-between" align="center" width="100%">
@@ -135,7 +159,7 @@ export const Feedback = ({ interviewResult, accessToken, handleClickReset }: Pro
           이전
         </Button>
         <HStack>
-          {Array.from({ length: feedbacks.length + 1 }).map((_, index) => (
+          {Array.from({ length: feedbacks.length }).map((_, index) => (
             <Button
               key={index}
               onClick={() => goToCurrentIndex(index)}
@@ -160,9 +184,16 @@ export const Feedback = ({ interviewResult, accessToken, handleClickReset }: Pro
       </Flex>
 
       {isLastPage && (
-        <Button onClick={() => handleClickReset()} variant="arrowRight">
-          <RxReset />
-        </Button>
+        <>
+          <Button
+            className="hidden r-lg:block"
+            onClick={() => handleClickReset()}
+            variant="arrowRight"
+          >
+            <RxReset />
+          </Button>
+          {/* <button className="mt-[20px]">면접 다시보기</button> */}
+        </>
       )}
     </Flex>
   );

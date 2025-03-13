@@ -27,9 +27,10 @@ export default function FeedbackCard({ heading, body, cardType }: Props) {
   return (
     <>
       <Card
-        maxW="lg"
+        maxW="100%"
+        width={'100%'}
         minHeight="100%"
-        height="100%"
+        // height="100%"
         boxShadow="lg"
         borderRadius="xl"
         overflow="hidden"
@@ -41,60 +42,67 @@ export default function FeedbackCard({ heading, body, cardType }: Props) {
           boxShadow: 'xl',
         }}
       >
-        <CardHeader padding="10px 10px 2.5px 10px">
-          <Heading
-            bgColor={
-              cardType === 'totalFeedback'
-                ? 'green.600'
-                : cardType === 'good'
-                ? 'blue.300'
-                : cardType === 'bad'
-                ? 'red.300'
-                : ''
-            }
-            color="green.50"
-            width="100%"
-            padding="15px"
-            borderRadius="xl"
-            borderBottomRadius="sm"
-            size="lg"
-          >
-            {heading}
-          </Heading>
-        </CardHeader>
-        <CardBody padding="2.5px 10px 10px 10px" overflow="hidden">
-          <Flex
-            width="100%"
-            height="100%"
-            padding="5px 15px"
-            borderRadius="xl"
-            borderTopRadius="sm"
-            bgColor={
-              cardType === 'totalFeedback'
-                ? 'green.100'
-                : cardType === 'good'
-                ? 'blue.100'
-                : cardType === 'bad'
-                ? 'red.100'
-                : ''
-            }
-          >
-            <Text
+        <div className="block r-lg:hidden">{heading}</div>
+        <div className="hidden r-lg:block">
+          <CardHeader padding="10px 10px 2.5px 10px">
+            <Heading
+              bgColor={
+                cardType === 'totalFeedback'
+                  ? 'green.600'
+                  : cardType === 'good'
+                  ? 'blue.300'
+                  : cardType === 'bad'
+                  ? 'red.300'
+                  : ''
+              }
+              color="green.50"
               width="100%"
-              maxHeight="165px"
-              height="165px"
-              fontSize="xl"
-              fontWeight="600"
-              color="green.900"
-              lineHeight="2.0"
-              overflow="hidden"
-              noOfLines={4} // 4줄까지만 표시
-              textOverflow="ellipsis" // 끊어질 때 '...'으로 표시
+              padding="15px"
+              borderRadius="xl"
+              borderBottomRadius="sm"
+              size="lg"
             >
-              {body}
-            </Text>
-          </Flex>
-        </CardBody>
+              {heading}
+            </Heading>
+          </CardHeader>
+          <CardBody padding="2.5px 10px 10px 10px" overflow="hidden">
+            <div>
+              <Flex
+                width="100%"
+                height="100%"
+                padding="5px 15px"
+                borderRadius="xl"
+                borderTopRadius="sm"
+                bgColor={
+                  cardType === 'totalFeedback'
+                    ? 'green.100'
+                    : cardType === 'good'
+                    ? 'blue.100'
+                    : cardType === 'bad'
+                    ? 'red.100'
+                    : ''
+                }
+              >
+                <div className="hidden r-lg:block">
+                  <Text
+                    width="100%"
+                    maxHeight="165px"
+                    height="165px"
+                    fontSize="xl"
+                    fontWeight="600"
+                    color="green.900"
+                    lineHeight="2.0"
+                    overflow="hidden"
+                    noOfLines={4} // 4줄까지만 표시
+                    textOverflow="ellipsis" // 끊어질 때 '...'으로 표시
+                  >
+                    {body}
+                  </Text>
+                </div>
+              </Flex>
+            </div>
+          </CardBody>
+        </div>
       </Card>
       <Modal isOpen={isOpen} onClose={onClose} size="lg" isCentered>
         <ModalOverlay />

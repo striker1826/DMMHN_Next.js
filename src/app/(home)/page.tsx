@@ -1,7 +1,7 @@
-import styles from './page.module.scss';
 import MovePageBtn from '@/shared/components/Button/MovePageBtn/MovePageBtn';
 import LoginModal from '@/components/auth/LoginModal';
 import { Metadata } from 'next';
+import { modalStore } from '@/shared/store/modalStore';
 
 export const metadata: Metadata = {
   title: '모의면접 | 떨면뭐하니',
@@ -26,18 +26,27 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <section className={styles.introduce}>
-        <p className={styles.heading}>
+    <div className="w-screen bg-gradient-to-r from-green-900 via-green-800 to-green-500 flex flex-col justify-center items-center gap-12">
+      <section className={`w-full flex-col justify-center items-center px-[20px] gap-10`}>
+        <p
+          className={`text-center text-[#fff] text-[20px] font-[700] leading-[1.3] r-lg:text-[52px]`}
+        >
           연습을 통해 면접을 대비해보세요.
           <br />
-          <span>떨면 뭐하니</span>가 도와드립니다.
+          <span className="text-[#fff9c1] text-[24px] r-lg:text-[60px] font-[700]">
+            떨면 뭐하니
+          </span>
+          가 도와드립니다.
         </p>
-        <p className={styles.description}>
+        <p
+          className={`text-[#fff] text-[16px] r-lg:text-[20px] font-[300] mt-5 text-center leading-[1.3]`}
+        >
           떨면뭐하니의 모의 면접을 이용하여 당신의 꿈을 이뤄줄 면접을 대비해보세요.
         </p>
       </section>
-      <section className={styles.interviewBtnWrapper}>
+      <section
+        className={`w-full flex px-[40px] r-lg:w-[600px] mt-[32px] r-lg:mt-[0px] justify-center items-center`}
+      >
         <MovePageBtn route="/interview" />
       </section>
 
