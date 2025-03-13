@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="w-screen bg-gradient-to-r from-green-900 via-green-800 to-green-500 flex flex-col justify-center items-center gap-12">
+    <div className="w-screen bg-gradient-to-r from-green-900 via-green-800 to-green-500 min-h-screen flex flex-col justify-center items-center gap-12">
       <section className={`w-full flex-col justify-center items-center px-[20px] gap-10`}>
         <p
           className={`text-center text-[#fff] text-[20px] font-[700] leading-[1.3] r-lg:text-[52px]`}
